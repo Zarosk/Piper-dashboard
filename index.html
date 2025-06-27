@@ -202,9 +202,57 @@
             margin-top: 2px;
         }
         
-        .aircraft-id {
+        .aircraft-id-input {
+            border: none;
+            background: transparent;
+            font-size: 13px;
             font-weight: bold;
             color: #2a5298;
+            padding: 4px 8px;
+            border-radius: 4px;
+            width: 80px;
+        }
+        
+        .aircraft-id-input:hover {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+        }
+        
+        .aircraft-id-input:focus {
+            outline: none;
+            background-color: white;
+            border: 2px solid #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+        
+        .notes-input {
+            border: none;
+            background: transparent;
+            font-size: 11px;
+            color: #666;
+            padding: 2px 4px;
+            border-radius: 3px;
+            width: 100%;
+            min-height: 40px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        .notes-input:hover {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+        }
+        
+        .notes-input:focus {
+            outline: none;
+            background-color: white;
+            border: 2px solid #007bff;
+            box-shadow: 0 0 0 0.1rem rgba(0,123,255,.15);
+        }
+        
+        .notes-input::placeholder {
+            color: #999;
+            font-style: italic;
         }
         
         .model-input {
@@ -427,23 +475,23 @@
     
     <div class="summary-cards">
         <div class="summary-card card-operational">
-            <div class="card-number" style="color: #28a745;" id="prod-ready-count">6</div>
+            <div class="card-number" style="color: #28a745;" id="prod-ready-count">1</div>
             <div class="card-label">Production Ready</div>
         </div>
         <div class="summary-card card-maintenance">
-            <div class="card-number" style="color: #ffc107;" id="in-progress-count">4</div>
+            <div class="card-number" style="color: #ffc107;" id="in-progress-count">1</div>
             <div class="card-label">In Progress</div>
         </div>
         <div class="summary-card card-grounded">
-            <div class="card-number" style="color: #dc3545;" id="on-hold-count">3</div>
+            <div class="card-number" style="color: #dc3545;" id="on-hold-count">1</div>
             <div class="card-label">On Hold</div>
         </div>
         <div class="summary-card card-inspection">
-            <div class="card-number" style="color: #17a2b8;" id="quality-check-count">2</div>
+            <div class="card-number" style="color: #17a2b8;" id="quality-check-count">1</div>
             <div class="card-label">Quality Check</div>
         </div>
         <div class="summary-card card-total">
-            <div class="card-number" style="color: #6c757d;" id="total-count">15</div>
+            <div class="card-number" style="color: #6c757d;" id="total-count">5</div>
             <div class="card-label">Total Units</div>
         </div>
     </div>
@@ -472,138 +520,138 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="aircraft-id">AC-001</td>
-                    <td><input type="text" class="model-input" value="PA-28-181 DX" /></td>
+                    <td><input type="text" class="aircraft-id-input" value="" placeholder="AC-001" /></td>
+                    <td><input type="text" class="model-input" value="" placeholder="Select Model" /></td>
                     <td><span class="status-badge status-operational">Production Ready</span></td>
-                    <td class="operation-column"><span class="operation-badge" style="background-color: #28a745; color: white;">✓</span></td>
-                    <td class="operation-column"><span class="operation-badge" style="background-color: #28a745; color: white;">✓</span></td>
-                    <td class="operation-column"><span class="operation-badge" style="background-color: #28a745; color: white;">✓</span></td>
-                    <td class="operation-column"><span class="operation-badge" style="background-color: #28a745; color: white;">✓</span></td>
-                    <td class="operation-column"><span class="operation-badge" style="background-color: #28a745; color: white;">✓</span></td>
-                    <td>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 100%;"></div>
-                        </div>
-                    </td>
-                    <td><span class="priority-badge priority-high">High</span></td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">Pre-Flight</div>
-                            <div class="note-text">Final assembly complete. Systems integration verified</div>
-                        </div>
-                    </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">Pre-Cert</div>
-                            <div class="note-text">Production certificate approved. Ready for delivery</div>
-                        </div>
-                    </td>
-                    <td>06/27/2025 08:30</td>
-                    <td>07/01/2025</td>
-                    <td>Team Alpha</td>
-                    <td>98</td>
-                </tr>
-                <tr>
-                    <td class="aircraft-id">AC-002</td>
-                    <td><input type="text" class="model-input" value="PA-44-180" /></td>
-                    <td><span class="status-badge status-maintenance">In Progress</span></td>
-                    <td class="operation-column"><span class="operation-badge" style="background-color: #28a745; color: white;">✓</span></td>
-                    <td class="operation-column"><span class="operation-badge" style="background-color: #28a745; color: white;">✓</span></td>
-                    <td class="operation-column"><span class="operation-badge" style="background-color: #ffc107; color: #000;">⚠</span></td>
+                    <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
+                    <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
+                    <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
                     <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
                     <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
                     <td>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 40%;"></div>
+                            <div class="progress-fill" style="width: 0%;"></div>
                         </div>
                     </td>
                     <td><span class="priority-badge priority-medium">Medium</span></td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Flight</div>
-                            <div class="note-text">Engine mount installation in progress</div>
+                            <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
                         </div>
                     </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Cert</div>
-                            <div class="note-text">Awaiting propeller installation and rigging</div>
+                            <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
                         </div>
                     </td>
-                    <td>06/26/2025 14:45</td>
-                    <td>07/08/2025</td>
-                    <td>Team Beta</td>
-                    <td>85</td>
+                    <td></td>
+                    <td></td>
+                    <td>Team Alpha</td>
+                    <td></td>
                 </tr>
                 <tr>
-                    <td class="aircraft-id">AC-003</td>
-                    <td><input type="text" class="model-input" value="PA-46-350P" /></td>
-                    <td><span class="status-badge status-operational">Production Ready</span></td>
-                    <td class="operation-column"><span class="operation-badge" style="background-color: #28a745; color: white;">✓</span></td>
-                    <td class="operation-column"><span class="operation-badge" style="background-color: #28a745; color: white;">✓</span></td>
-                    <td class="operation-column"><span class="operation-badge" style="background-color: #28a745; color: white;">✓</span></td>
-                    <td class="operation-column"><span class="operation-badge" style="background-color: #28a745; color: white;">✓</span></td>
-                    <td class="operation-column"><span class="operation-badge" style="background-color: #28a745; color: white;">✓</span></td>
+                    <td><input type="text" class="aircraft-id-input" value="" placeholder="AC-002" /></td>
+                    <td><input type="text" class="model-input" value="" placeholder="Select Model" /></td>
+                    <td><span class="status-badge status-maintenance">In Progress</span></td>
+                    <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
+                    <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
+                    <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
+                    <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
+                    <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
                     <td>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 100%;"></div>
+                            <div class="progress-fill" style="width: 0%;"></div>
+                        </div>
+                    </td>
+                    <td><span class="priority-badge priority-medium">Medium</span></td>
+                    <td class="notes-cell">
+                        <div class="note-section">
+                            <div class="note-label">Pre-Flight</div>
+                            <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
+                        </div>
+                    </td>
+                    <td class="notes-cell">
+                        <div class="note-section">
+                            <div class="note-label">Pre-Cert</div>
+                            <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>Team Beta</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><input type="text" class="aircraft-id-input" value="" placeholder="AC-003" /></td>
+                    <td><input type="text" class="model-input" value="" placeholder="Select Model" /></td>
+                    <td><span class="status-badge status-operational">Production Ready</span></td>
+                    <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
+                    <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
+                    <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
+                    <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
+                    <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%;"></div>
                         </div>
                     </td>
                     <td><span class="priority-badge priority-high">High</span></td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Flight</div>
-                            <div class="note-text">Pressurization system tested. All avionics operational</div>
+                            <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
                         </div>
                     </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Cert</div>
-                            <div class="note-text">Type certificate validation complete</div>
+                            <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
                         </div>
                     </td>
-                    <td>06/27/2025 06:15</td>
-                    <td>06/30/2025</td>
+                    <td></td>
+                    <td></td>
                     <td>Team Gamma</td>
-                    <td>96</td>
+                    <td></td>
                 </tr>
                 <tr>
-                    <td class="aircraft-id">AC-004</td>
-                    <td><input type="text" class="model-input" value="PA-28-181" /></td>
+                    <td><input type="text" class="aircraft-id-input" value="" placeholder="AC-004" /></td>
+                    <td><input type="text" class="model-input" value="" placeholder="Select Model" /></td>
                     <td><span class="status-badge status-inspection">Quality Check</span></td>
-                    <td class="operation-column"><span class="operation-badge" style="background-color: #28a745; color: white;">✓</span></td>
-                    <td class="operation-column"><span class="operation-badge" style="background-color: #17a2b8; color: white;">◐</span></td>
+                    <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
+                    <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
                     <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
                     <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
                     <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
                     <td>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 20%;"></div>
+                            <div class="progress-fill" style="width: 0%;"></div>
                         </div>
                     </td>
                     <td><span class="priority-badge priority-low">Low</span></td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Flight</div>
-                            <div class="note-text">Wing assembly quality control in progress</div>
+                            <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
                         </div>
                     </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Cert</div>
-                            <div class="note-text">Structural inspection underway. ETA: 2 days</div>
+                            <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
                         </div>
                     </td>
-                    <td>06/25/2025 10:20</td>
-                    <td>07/15/2025</td>
+                    <td></td>
+                    <td></td>
                     <td>Team Alpha</td>
-                    <td>78</td>
+                    <td></td>
                 </tr>
                 <tr>
-                    <td class="aircraft-id">AC-005</td>
-                    <td><input type="text" class="model-input" value="PA-44-180" /></td>
+                    <td><input type="text" class="aircraft-id-input" value="" placeholder="AC-005" /></td>
+                    <td><input type="text" class="model-input" value="" placeholder="Select Model" /></td>
                     <td><span class="status-badge status-grounded">On Hold</span></td>
-                    <td class="operation-column"><span class="operation-badge" style="background-color: #dc3545; color: white;">✗</span></td>
+                    <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
                     <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
                     <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
                     <td class="operation-column"><span class="operation-badge" style="background-color: #e9ecef; color: #666;">-</span></td>
@@ -617,19 +665,19 @@
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Flight</div>
-                            <div class="note-text">HOLD - Awaiting revised wiring harness specs</div>
+                            <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
                         </div>
                     </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Cert</div>
-                            <div class="note-text">Engineering change order pending. Est: 5 days</div>
+                            <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
                         </div>
                     </td>
-                    <td>06/24/2025 16:30</td>
-                    <td>07/20/2025</td>
+                    <td></td>
+                    <td></td>
                     <td>Team Beta</td>
-                    <td>65</td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td class="aircraft-id">AC-006</td>
