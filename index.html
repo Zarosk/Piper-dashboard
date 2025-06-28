@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aircraft Production Dashboard</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -34,41 +38,58 @@
             font-size: 14px;
         }
         
-        .export-section {
+        .section {
             background: white;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            text-align: center;
-            position: relative;
-            z-index: 5;
         }
         
-        .export-btn {
-            background: linear-gradient(135deg, #28a745, #20c997);
+        .section h3 {
+            margin-bottom: 15px;
+            color: #495057;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #007bff, #0056b3);
             color: white;
             border: none;
             padding: 12px 24px;
             border-radius: 6px;
             font-weight: 600;
-            margin: 0 10px;
             cursor: pointer;
             font-size: 14px;
             transition: all 0.3s ease;
+            margin: 5px;
         }
         
-        .export-btn:hover {
+        .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(40,167,69,0.3);
+            box-shadow: 0 4px 15px rgba(0,123,255,0.3);
         }
         
-        .export-btn.csv {
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+        
+        .btn-info {
             background: linear-gradient(135deg, #17a2b8, #138496);
         }
         
-        .export-btn.csv:hover {
-            box-shadow: 0 4px 15px rgba(23,162,184,0.3);
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+        }
+        
+        .btn-purple {
+            background: linear-gradient(135deg, #6f42c1, #5a2d91);
         }
         
         .summary-cards {
@@ -106,6 +127,27 @@
             letter-spacing: 1px;
         }
         
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-control {
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 100%;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+        
         .main-table {
             background: white;
             border-radius: 10px;
@@ -113,8 +155,6 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             margin-bottom: 20px;
             overflow-x: auto;
-            position: relative;
-            z-index: 1;
         }
         
         table {
@@ -162,16 +202,6 @@
             box-shadow: 0 0 0 2px rgba(0,123,255,.25);
         }
         
-        .status-select option {
-            background-color: white;
-            color: black;
-            text-transform: none;
-            font-weight: normal;
-            letter-spacing: normal;
-            padding: 8px;
-        }
-        
-        /* Status-specific styling */
         .status-select.production-ready {
             background-color: #d4edda;
             color: #155724;
@@ -190,322 +220,6 @@
         .status-select.quality-check {
             background-color: #d1ecf1;
             color: #0c5460;
-        }
-        
-        .notes-cell {
-            max-width: 200px;
-            font-size: 11px;
-        }
-        
-        .note-section {
-            margin-bottom: 8px;
-            padding: 4px;
-            background-color: #f8f9fa;
-            border-radius: 3px;
-        }
-        
-        .note-label {
-            font-weight: bold;
-            color: #495057;
-            font-size: 10px;
-            text-transform: uppercase;
-        }
-        
-        .aircraft-id-input {
-            border: none;
-            background: transparent;
-            font-size: 13px;
-            font-weight: bold;
-            color: #2a5298;
-            padding: 4px 8px;
-            border-radius: 4px;
-            width: 80px;
-        }
-        
-        .aircraft-id-input:hover {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-        }
-        
-        .aircraft-id-input:focus {
-            outline: none;
-            background-color: white;
-            border: 2px solid #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-        }
-        
-        .model-select {
-            border: none;
-            background: transparent;
-            font-size: 13px;
-            font-weight: 500;
-            color: #495057;
-            padding: 4px 8px;
-            border-radius: 4px;
-            width: 130px;
-            cursor: pointer;
-        }
-        
-        .model-select:hover {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-        }
-        
-        .model-select:focus {
-            outline: none;
-            background-color: white;
-            border: 2px solid #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-        }
-        
-        .notes-input {
-            border: none;
-            background: transparent;
-            font-size: 11px;
-            color: #666;
-            padding: 2px 4px;
-            border-radius: 3px;
-            width: 100%;
-            min-height: 40px;
-            resize: vertical;
-            font-family: inherit;
-        }
-        
-        .notes-input:hover {
-            background-color: #ffffff;
-            border: 1px solid #dee2e6;
-        }
-        
-        .notes-input:focus {
-            outline: none;
-            background-color: white;
-            border: 2px solid #007bff;
-            box-shadow: 0 0 0 0.1rem rgba(0,123,255,.15);
-        }
-        
-        .notes-input::placeholder {
-            color: #999;
-            font-style: italic;
-        }
-        
-        .team-input {
-            border: none;
-            background: transparent;
-            font-size: 13px;
-            color: #495057;
-            padding: 4px 8px;
-            border-radius: 4px;
-            width: 100px;
-        }
-        
-        .team-input:hover {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-        }
-        
-        .team-input:focus {
-            outline: none;
-            background-color: white;
-            border: 2px solid #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-        }
-        
-        .add-aircraft-section {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            text-align: center;
-            position: relative;
-            z-index: 5;
-        }
-        
-        .add-btn {
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            margin: 0 10px;
-        }
-        
-        .add-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,123,255,0.3);
-        }
-        
-        .date-input {
-            border: none;
-            background: transparent;
-            font-size: 13px;
-            color: #495057;
-            padding: 4px 8px;
-            border-radius: 4px;
-            width: 110px;
-        }
-        
-        .date-input:hover {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-        }
-        
-        .date-input:focus {
-            outline: none;
-            background-color: white;
-            border: 2px solid #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-        }
-        
-        .progress-bar {
-            width: 100%;
-            height: 20px;
-            background-color: #e9ecef;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #28a745, #20c997);
-            border-radius: 10px;
-            transition: width 0.3s ease;
-        }
-        
-        .operation-checkbox {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            transform: scale(1.2);
-        }
-        
-        .operation-cell {
-            text-align: center;
-            padding: 8px;
-        }
-        
-        .search-filter-section {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 10;
-        }
-        
-        .search-filter-controls {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 20px;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .search-input {
-            padding: 12px 15px;
-            border: 2px solid #e9ecef;
-            border-radius: 6px;
-            font-size: 14px;
-            width: 100%;
-            box-sizing: border-box;
-            position: relative;
-            z-index: 5;
-        }
-        
-        .search-input:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-            z-index: 15;
-        }
-        
-        .filter-select {
-            padding: 12px 15px;
-            border: 2px solid #e9ecef;
-            border-radius: 6px;
-            font-size: 14px;
-            cursor: pointer;
-            background: white;
-            width: 100%;
-            box-sizing: border-box;
-            position: relative;
-            z-index: 5;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-            background-position: right 12px center;
-            background-repeat: no-repeat;
-            background-size: 16px;
-            padding-right: 40px;
-        }
-        
-        .filter-select:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-            z-index: 15;
-        }
-        
-        .filter-select:hover {
-            border-color: #adb5bd;
-        }
-        
-        .clear-filters-btn {
-            margin-top: 10px;
-            padding: 10px 20px;
-            background: #6c757d;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-        
-        .clear-filters-btn:hover {
-            background: #5a6268;
-        }
-        
-        .metrics-section {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 5;
-        }
-        
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        
-        .metric-card {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            border-left: 4px solid #6c757d;
-        }
-        
-        .metric-value {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #495057;
-        }
-        
-        .metric-label {
-            font-size: 12px;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
         
         .priority-select {
@@ -545,48 +259,83 @@
             color: white;
         }
         
-        .bulk-operations-section {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 5;
-        }
-        
-        .bulk-controls {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 15px;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .bulk-btn {
-            background: linear-gradient(135deg, #6f42c1, #5a2d91);
-            color: white;
+        .table-input {
             border: none;
-            padding: 12px 16px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
+            background: transparent;
             font-size: 13px;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 1;
+            padding: 4px 8px;
+            border-radius: 4px;
+            width: 100%;
         }
         
-        .bulk-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(111,66,193,0.3);
+        .table-input:hover {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
         }
         
-        .bulk-btn:disabled {
-            background: #6c757d;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+        .table-input:focus {
+            outline: none;
+            background-color: white;
+            border: 2px solid #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+        
+        .notes-input {
+            border: none;
+            background: transparent;
+            font-size: 11px;
+            color: #666;
+            padding: 2px 4px;
+            border-radius: 3px;
+            width: 100%;
+            min-height: 40px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        .notes-input:hover {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+        }
+        
+        .notes-input:focus {
+            outline: none;
+            background-color: white;
+            border: 2px solid #007bff;
+            box-shadow: 0 0 0 0.1rem rgba(0,123,255,.15);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        .operation-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            transform: scale(1.2);
+        }
+        
+        .operation-cell {
+            text-align: center;
+            padding: 8px;
+        }
+        
+        .row-checkbox {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
         }
         
         .select-all-checkbox {
@@ -594,12 +343,6 @@
             height: 18px;
             cursor: pointer;
             margin-right: 8px;
-        }
-        
-        .row-checkbox {
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
         }
         
         .selected-row {
@@ -615,18 +358,31 @@
             display: none;
         }
         
-        .last-updated {
-            text-align: center;
-            color: #666;
-            font-size: 12px;
-            margin-top: 20px;
-            padding: 10px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        .drag-handle {
+            cursor: grab;
+            color: #6c757d;
+            padding: 4px;
+            margin-right: 8px;
         }
         
-        /* Context Menu Styles */
+        .drag-handle:hover {
+            color: #007bff;
+        }
+        
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+        
+        .dragging {
+            opacity: 0.5;
+            transform: scale(0.95);
+            background-color: #e3f2fd !important;
+        }
+        
+        .drag-over {
+            border-top: 3px solid #007bff !important;
+        }
+        
         .context-menu {
             position: fixed;
             background: white;
@@ -668,33 +424,6 @@
             margin: 4px 0;
         }
         
-        /* Drag and Drop Styles */
-        .dragging {
-            opacity: 0.5;
-            transform: scale(0.95);
-            background-color: #e3f2fd !important;
-        }
-        
-        .drag-over {
-            border-top: 3px solid #007bff !important;
-        }
-        
-        .drag-handle {
-            cursor: grab;
-            color: #6c757d;
-            padding: 4px;
-            margin-right: 8px;
-        }
-        
-        .drag-handle:hover {
-            color: #007bff;
-        }
-        
-        .drag-handle:active {
-            cursor: grabbing;
-        }
-        
-        /* Keyboard Shortcuts Help */
         .shortcuts-help {
             position: fixed;
             top: 20px;
@@ -727,6 +456,17 @@
             font-family: monospace;
         }
         
+        .last-updated {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-top: 20px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -736,13 +476,12 @@
                 grid-template-columns: repeat(2, 1fr);
             }
             
-            .dashboard-header h1 {
-                font-size: 24px;
+            .controls-grid {
+                grid-template-columns: 1fr;
             }
             
-            .export-btn {
-                margin: 5px;
-                padding: 10px 20px;
+            .dashboard-header h1 {
+                font-size: 24px;
             }
             
             table {
@@ -751,11 +490,6 @@
             
             th, td {
                 padding: 8px 6px;
-            }
-            
-            .search-filter-controls {
-                grid-template-columns: 1fr;
-                gap: 15px;
             }
         }
     </style>
@@ -766,32 +500,32 @@
         <p>Real-time production monitoring and build status overview</p>
     </div>
     
-    <div class="bulk-operations-section">
-        <h3 style="margin-bottom: 15px; color: #495057;">Bulk Operations</h3>
+    <div class="section">
+        <h3>Bulk Operations</h3>
         <div style="margin-bottom: 15px;">
             <span class="selected-count" id="selected-count">0</span> aircraft selected
         </div>
-        <div class="bulk-controls">
-            <button class="bulk-btn" onclick="bulkUpdateStatus()" disabled>Update Status</button>
-            <button class="bulk-btn" onclick="bulkUpdatePriority()" disabled>Update Priority</button>
-            <button class="bulk-btn" onclick="bulkUpdateTeam()" disabled>Assign Team</button>
-            <button class="bulk-btn" onclick="copySelectedAircraft()" disabled>Copy Aircraft</button>
+        <div class="controls-grid">
+            <button class="btn btn-purple" onclick="bulkUpdateStatus()" disabled>Update Status</button>
+            <button class="btn btn-purple" onclick="bulkUpdatePriority()" disabled>Update Priority</button>
+            <button class="btn btn-purple" onclick="bulkUpdateTeam()" disabled>Assign Team</button>
+            <button class="btn btn-purple" onclick="copySelectedAircraft()" disabled>Copy Aircraft</button>
         </div>
     </div>
     
-    <div class="search-filter-section">
-        <h3 style="margin-bottom: 15px; color: #495057;">Search & Filter Aircraft</h3>
-        <div class="search-filter-controls">
-            <input type="text" id="search-input" class="search-input" placeholder="🔍 Search by Aircraft ID or Model">
-            <select id="status-filter" class="filter-select">
+    <div class="section">
+        <h3>Search & Filter Aircraft</h3>
+        <div class="controls-grid">
+            <input type="text" id="search-input" class="form-control" placeholder="🔍 Search by Aircraft ID or Model">
+            <select id="status-filter" class="form-control">
                 <option value="">All Statuses</option>
                 <option value="Production Ready">Production Ready</option>
                 <option value="In Progress">In Progress</option>
                 <option value="On Hold">On Hold</option>
                 <option value="Quality Check">Quality Check</option>
             </select>
-            <input type="text" id="team-filter" class="search-input" placeholder="Filter by Team">
-            <select id="priority-filter" class="filter-select">
+            <input type="text" id="team-filter" class="form-control" placeholder="Filter by Team">
+            <select id="priority-filter" class="form-control">
                 <option value="">All Priorities</option>
                 <option value="Critical">Critical</option>
                 <option value="High">High</option>
@@ -799,53 +533,31 @@
                 <option value="Low">Low</option>
             </select>
         </div>
-        <button onclick="clearFilters()" class="clear-filters-btn">Clear All Filters</button>
+        <button onclick="clearFilters()" class="btn">Clear All Filters</button>
     </div>
     
-    <div class="metrics-section">
-        <h3 style="margin-bottom: 15px; color: #495057;">Production Metrics</h3>
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-value" id="avg-progress">0%</div>
-                <div class="metric-label">Average Progress</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value" id="completion-rate">0%</div>
-                <div class="metric-label">Completion Rate</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value" id="overdue-count">0</div>
-                <div class="metric-label">Overdue Aircraft</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value" id="active-team">None</div>
-                <div class="metric-label">Most Active Team</div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="add-aircraft-section">
-        <h3 style="margin-bottom: 15px; color: #495057;">Add New Aircraft</h3>
-        <button class="add-btn" onclick="addNewAircraft()">➕ Add Aircraft</button>
+    <div class="section">
+        <h3>Add New Aircraft</h3>
+        <button class="btn" onclick="addNewAircraft()">➕ Add Aircraft</button>
         <p style="margin-top: 10px; font-size: 12px; color: #666;">
             Click to add a new aircraft row to the dashboard
         </p>
     </div>
     
-    <div class="export-section">
-        <h3 style="margin-bottom: 15px; color: #495057;">Export Dashboard Data</h3>
-        <button class="export-btn csv" onclick="exportToCSV()">📊 Download CSV</button>
-        <button class="export-btn" onclick="copyTableData()">📋 Copy for Excel/Sheets</button>
+    <div class="section">
+        <h3>Export Dashboard Data</h3>
+        <button class="btn btn-info" onclick="exportToCSV()">📊 Download CSV</button>
+        <button class="btn btn-success" onclick="copyTableData()">📋 Copy for Excel/Sheets</button>
         <p style="margin-top: 10px; font-size: 12px; color: #666;">
             CSV: Direct download • Copy: Paste into Excel/Google Sheets
         </p>
     </div>
     
-    <div class="export-section">
-        <h3 style="margin-bottom: 15px; color: #495057;">Data Management</h3>
-        <button class="export-btn" onclick="exportBackup()">💾 Download Backup</button>
-        <button class="export-btn" onclick="importBackup()">📥 Import Backup</button>
-        <button class="export-btn csv" onclick="clearAllData()" style="background: linear-gradient(135deg, #dc3545, #c82333);">🗑️ Clear All Data</button>
+    <div class="section">
+        <h3>Data Management</h3>
+        <button class="btn btn-success" onclick="exportBackup()">💾 Download Backup</button>
+        <button class="btn btn-success" onclick="importBackup()">📥 Import Backup</button>
+        <button class="btn btn-danger" onclick="clearAllData()">🗑️ Clear All Data</button>
         <p style="margin-top: 10px; font-size: 12px; color: #666;">
             Backup: Save/restore your data • Auto-saves every 30 seconds
         </p>
@@ -853,19 +565,19 @@
     
     <div class="summary-cards">
         <div class="summary-card card-operational">
-            <div class="card-number" style="color: #28a745;" id="prod-ready-count">0</div>
+            <div class="card-number" style="color: #28a745;" id="prod-ready-count">2</div>
             <div class="card-label">Production Ready</div>
         </div>
         <div class="summary-card card-maintenance">
-            <div class="card-number" style="color: #ffc107;" id="in-progress-count">0</div>
+            <div class="card-number" style="color: #ffc107;" id="in-progress-count">1</div>
             <div class="card-label">In Progress</div>
         </div>
         <div class="summary-card card-grounded">
-            <div class="card-number" style="color: #dc3545;" id="on-hold-count">0</div>
+            <div class="card-number" style="color: #dc3545;" id="on-hold-count">1</div>
             <div class="card-label">On Hold</div>
         </div>
         <div class="summary-card card-inspection">
-            <div class="card-number" style="color: #17a2b8;" id="quality-check-count">0</div>
+            <div class="card-number" style="color: #17a2b8;" id="quality-check-count">1</div>
             <div class="card-label">Quality Check</div>
         </div>
         <div class="summary-card card-total">
@@ -878,7 +590,7 @@
         <table>
             <thead>
                 <tr>
-                    <th><span class="drag-handle">⋮⋮</span><input type="checkbox" id="select-all" class="select-all-checkbox" onchange="toggleSelectAll()" /> Select</th>
+                    <th><span class="drag-handle">⋮⋮</span><input type="checkbox" id="select-all" class="select-all-checkbox" /> Select</th>
                     <th>Aircraft ID</th>
                     <th>Model</th>
                     <th>Status</th>
@@ -896,12 +608,12 @@
                     <th>Team</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr draggable="true" oncontextmenu="showContextMenu(event, this); return false;">
-                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
-                    <td><input type="text" class="aircraft-id-input" placeholder="AC-001" onchange="saveDataToStorage()" /></td>
+            <tbody id="aircraft-tbody">
+                <tr draggable="true">
+                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
+                    <td><input type="text" class="table-input" placeholder="AC-001" /></td>
                     <td>
-                        <select class="model-select" onchange="saveDataToStorage()">
+                        <select class="table-input">
                             <option value="">Select Model</option>
                             <option value="PA-28-181">PA-28-181</option>
                             <option value="PA-28-181 DX">PA-28-181 DX</option>
@@ -912,67 +624,42 @@
                         </select>
                     </td>
                     <td>
-                        <select class="status-select production-ready" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics(); saveDataToStorage();">
+                        <select class="status-select production-ready">
                             <option value="Production Ready" selected>Production Ready</option>
                             <option value="In Progress">In Progress</option>
                             <option value="On Hold">On Hold</option>
                             <option value="Quality Check">Quality Check</option>
                         </select>
                     </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                     <td>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: 0%;"></div>
                         </div>
                     </td>
                     <td>
-                        <select class="priority-select medium" onchange="updatePriorityStyle(this); updateMetrics(); saveDataToStorage();">
+                        <select class="priority-select medium">
                             <option value="Critical">Critical</option>
                             <option value="High">High</option>
                             <option value="Medium" selected>Medium</option>
                             <option value="Low">Low</option>
                         </select>
                     </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">Pre-Flight</div>
-                            <textarea class="notes-input" placeholder="Enter pre-flight notes..." onchange="saveDataToStorage()"></textarea>
-                        </div>
-                    </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">Pre-Cert</div>
-                            <textarea class="notes-input" placeholder="Enter pre-cert notes..." onchange="saveDataToStorage()"></textarea>
-                        </div>
-                    </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">NCMR Notes</div>
-                            <textarea class="notes-input" placeholder="Enter non-conformance reports..." onchange="saveDataToStorage()"></textarea>
-                        </div>
-                    </td>
-                    <td><input type="date" class="date-input" onchange="saveDataToStorage()" /></td>
-                    <td><input type="text" class="team-input" placeholder="Team Name" onchange="saveDataToStorage()" /></td>
+                    <td><textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea></td>
+                    <td><textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea></td>
+                    <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
+                    <td><input type="date" class="table-input" /></td>
+                    <td><input type="text" class="table-input" placeholder="Team Name" /></td>
                 </tr>
-                <tr draggable="true" oncontextmenu="showContextMenu(event, this); return false;">
-                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
-                    <td><input type="text" class="aircraft-id-input" placeholder="AC-002" onchange="saveDataToStorage()" /></td>
+                <tr draggable="true">
+                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
+                    <td><input type="text" class="table-input" placeholder="AC-002" /></td>
                     <td>
-                        <select class="model-select" onchange="saveDataToStorage()">
+                        <select class="table-input">
                             <option value="">Select Model</option>
                             <option value="PA-28-181">PA-28-181</option>
                             <option value="PA-28-181 DX">PA-28-181 DX</option>
@@ -983,67 +670,42 @@
                         </select>
                     </td>
                     <td>
-                        <select class="status-select in-progress" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics(); saveDataToStorage();">
+                        <select class="status-select in-progress">
                             <option value="Production Ready">Production Ready</option>
                             <option value="In Progress" selected>In Progress</option>
                             <option value="On Hold">On Hold</option>
                             <option value="Quality Check">Quality Check</option>
                         </select>
                     </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                     <td>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: 0%;"></div>
                         </div>
                     </td>
                     <td>
-                        <select class="priority-select medium" onchange="updatePriorityStyle(this); updateMetrics(); saveDataToStorage();">
+                        <select class="priority-select medium">
                             <option value="Critical">Critical</option>
                             <option value="High">High</option>
                             <option value="Medium" selected>Medium</option>
                             <option value="Low">Low</option>
                         </select>
                     </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">Pre-Flight</div>
-                            <textarea class="notes-input" placeholder="Enter pre-flight notes..." onchange="saveDataToStorage()"></textarea>
-                        </div>
-                    </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">Pre-Cert</div>
-                            <textarea class="notes-input" placeholder="Enter pre-cert notes..." onchange="saveDataToStorage()"></textarea>
-                        </div>
-                    </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">NCMR Notes</div>
-                            <textarea class="notes-input" placeholder="Enter non-conformance reports..." onchange="saveDataToStorage()"></textarea>
-                        </div>
-                    </td>
-                    <td><input type="date" class="date-input" onchange="saveDataToStorage()" /></td>
-                    <td><input type="text" class="team-input" placeholder="Team Name" onchange="saveDataToStorage()" /></td>
+                    <td><textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea></td>
+                    <td><textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea></td>
+                    <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
+                    <td><input type="date" class="table-input" /></td>
+                    <td><input type="text" class="table-input" placeholder="Team Name" /></td>
                 </tr>
-                <tr draggable="true" oncontextmenu="showContextMenu(event, this); return false;">
-                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
-                    <td><input type="text" class="aircraft-id-input" placeholder="AC-003" onchange="saveDataToStorage()" /></td>
+                <tr draggable="true">
+                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
+                    <td><input type="text" class="table-input" placeholder="AC-003" /></td>
                     <td>
-                        <select class="model-select" onchange="saveDataToStorage()">
+                        <select class="table-input">
                             <option value="">Select Model</option>
                             <option value="PA-28-181">PA-28-181</option>
                             <option value="PA-28-181 DX">PA-28-181 DX</option>
@@ -1054,67 +716,42 @@
                         </select>
                     </td>
                     <td>
-                        <select class="status-select production-ready" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics(); saveDataToStorage();">
+                        <select class="status-select production-ready">
                             <option value="Production Ready" selected>Production Ready</option>
                             <option value="In Progress">In Progress</option>
                             <option value="On Hold">On Hold</option>
                             <option value="Quality Check">Quality Check</option>
                         </select>
                     </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                     <td>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: 0%;"></div>
                         </div>
                     </td>
                     <td>
-                        <select class="priority-select high" onchange="updatePriorityStyle(this); updateMetrics(); saveDataToStorage();">
+                        <select class="priority-select high">
                             <option value="Critical">Critical</option>
                             <option value="High" selected>High</option>
                             <option value="Medium">Medium</option>
                             <option value="Low">Low</option>
                         </select>
                     </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">Pre-Flight</div>
-                            <textarea class="notes-input" placeholder="Enter pre-flight notes..." onchange="saveDataToStorage()"></textarea>
-                        </div>
-                    </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">Pre-Cert</div>
-                            <textarea class="notes-input" placeholder="Enter pre-cert notes..." onchange="saveDataToStorage()"></textarea>
-                        </div>
-                    </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">NCMR Notes</div>
-                            <textarea class="notes-input" placeholder="Enter non-conformance reports..." onchange="saveDataToStorage()"></textarea>
-                        </div>
-                    </td>
-                    <td><input type="date" class="date-input" onchange="saveDataToStorage()" /></td>
-                    <td><input type="text" class="team-input" placeholder="Team Name" onchange="saveDataToStorage()" /></td>
+                    <td><textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea></td>
+                    <td><textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea></td>
+                    <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
+                    <td><input type="date" class="table-input" /></td>
+                    <td><input type="text" class="table-input" placeholder="Team Name" /></td>
                 </tr>
-                <tr draggable="true" oncontextmenu="showContextMenu(event, this); return false;">
-                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
-                    <td><input type="text" class="aircraft-id-input" placeholder="AC-004" onchange="saveDataToStorage()" /></td>
+                <tr draggable="true">
+                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
+                    <td><input type="text" class="table-input" placeholder="AC-004" /></td>
                     <td>
-                        <select class="model-select" onchange="saveDataToStorage()">
+                        <select class="table-input">
                             <option value="">Select Model</option>
                             <option value="PA-28-181">PA-28-181</option>
                             <option value="PA-28-181 DX">PA-28-181 DX</option>
@@ -1125,67 +762,42 @@
                         </select>
                     </td>
                     <td>
-                        <select class="status-select quality-check" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics(); saveDataToStorage();">
+                        <select class="status-select quality-check">
                             <option value="Production Ready">Production Ready</option>
                             <option value="In Progress">In Progress</option>
                             <option value="On Hold">On Hold</option>
                             <option value="Quality Check" selected>Quality Check</option>
                         </select>
                     </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                     <td>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: 0%;"></div>
                         </div>
                     </td>
                     <td>
-                        <select class="priority-select low" onchange="updatePriorityStyle(this); updateMetrics(); saveDataToStorage();">
+                        <select class="priority-select low">
                             <option value="Critical">Critical</option>
                             <option value="High">High</option>
                             <option value="Medium">Medium</option>
                             <option value="Low" selected>Low</option>
                         </select>
                     </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">Pre-Flight</div>
-                            <textarea class="notes-input" placeholder="Enter pre-flight notes..." onchange="saveDataToStorage()"></textarea>
-                        </div>
-                    </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">Pre-Cert</div>
-                            <textarea class="notes-input" placeholder="Enter pre-cert notes..." onchange="saveDataToStorage()"></textarea>
-                        </div>
-                    </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">NCMR Notes</div>
-                            <textarea class="notes-input" placeholder="Enter non-conformance reports..." onchange="saveDataToStorage()"></textarea>
-                        </div>
-                    </td>
-                    <td><input type="date" class="date-input" onchange="saveDataToStorage()" /></td>
-                    <td><input type="text" class="team-input" placeholder="Team Name" onchange="saveDataToStorage()" /></td>
+                    <td><textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea></td>
+                    <td><textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea></td>
+                    <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
+                    <td><input type="date" class="table-input" /></td>
+                    <td><input type="text" class="table-input" placeholder="Team Name" /></td>
                 </tr>
-                <tr draggable="true" oncontextmenu="showContextMenu(event, this); return false;">
-                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
-                    <td><input type="text" class="aircraft-id-input" placeholder="AC-005" onchange="saveDataToStorage()" /></td>
+                <tr draggable="true">
+                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
+                    <td><input type="text" class="table-input" placeholder="AC-005" /></td>
                     <td>
-                        <select class="model-select" onchange="saveDataToStorage()">
+                        <select class="table-input">
                             <option value="">Select Model</option>
                             <option value="PA-28-181">PA-28-181</option>
                             <option value="PA-28-181 DX">PA-28-181 DX</option>
@@ -1196,61 +808,36 @@
                         </select>
                     </td>
                     <td>
-                        <select class="status-select on-hold" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics(); saveDataToStorage();">
+                        <select class="status-select on-hold">
                             <option value="Production Ready">Production Ready</option>
                             <option value="In Progress">In Progress</option>
                             <option value="On Hold" selected>On Hold</option>
                             <option value="Quality Check">Quality Check</option>
                         </select>
                     </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                     <td>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: 0%;"></div>
                         </div>
                     </td>
                     <td>
-                        <select class="priority-select critical" onchange="updatePriorityStyle(this); updateMetrics(); saveDataToStorage();">
+                        <select class="priority-select critical">
                             <option value="Critical" selected>Critical</option>
                             <option value="High">High</option>
                             <option value="Medium">Medium</option>
                             <option value="Low">Low</option>
                         </select>
                     </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">Pre-Flight</div>
-                            <textarea class="notes-input" placeholder="Enter pre-flight notes..." onchange="saveDataToStorage()"></textarea>
-                        </div>
-                    </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">Pre-Cert</div>
-                            <textarea class="notes-input" placeholder="Enter pre-cert notes..." onchange="saveDataToStorage()"></textarea>
-                        </div>
-                    </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">NCMR Notes</div>
-                            <textarea class="notes-input" placeholder="Enter non-conformance reports..." onchange="saveDataToStorage()"></textarea>
-                        </div>
-                    </td>
-                    <td><input type="date" class="date-input" onchange="saveDataToStorage()" /></td>
-                    <td><input type="text" class="team-input" placeholder="Team Name" onchange="saveDataToStorage()" /></td>
+                    <td><textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea></td>
+                    <td><textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea></td>
+                    <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
+                    <td><input type="date" class="table-input" /></td>
+                    <td><input type="text" class="table-input" placeholder="Team Name" /></td>
                 </tr>
             </tbody>
         </table>
@@ -1306,17 +893,65 @@
             <span>Show Help</span>
             <span class="shortcut-key">F1</span>
         </div>
-        <div class="shortcut-item">
-            <span>Hide Help</span>
-            <span class="shortcut-key">Escape</span>
-        </div>
     </div>
 
     <script>
-        // Global variable to track the current context menu row
+        // Global variables
         let currentContextRow = null;
         let draggedRow = null;
 
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDashboard();
+            setupEventListeners();
+            loadDataFromStorage();
+            updateSummaryCards();
+            
+            // Auto-save every 30 seconds
+            setInterval(saveDataToStorage, 30000);
+            
+            // Save when leaving page
+            window.addEventListener('beforeunload', saveDataToStorage);
+        });
+
+        function initializeDashboard() {
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                addEventListenersToRow(row);
+                setupDragAndDrop(row);
+            });
+        }
+
+        function setupEventListeners() {
+            // Search and filter
+            document.getElementById('search-input').addEventListener('input', searchAndFilter);
+            document.getElementById('status-filter').addEventListener('change', searchAndFilter);
+            document.getElementById('team-filter').addEventListener('input', searchAndFilter);
+            document.getElementById('priority-filter').addEventListener('change', searchAndFilter);
+            
+            // Select all checkbox
+            document.getElementById('select-all').addEventListener('change', toggleSelectAll);
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', handleKeyboardShortcuts);
+            
+            // Context menu
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('#context-menu')) {
+                    hideContextMenu();
+                }
+            });
+            
+            // Right-click context menu for rows
+            document.querySelectorAll('tbody tr').forEach(row => {
+                row.addEventListener('contextmenu', function(e) {
+                    showContextMenu(e, this);
+                    return false;
+                });
+            });
+        }
+
+        // Export functions
         function exportToCSV() {
             const table = document.querySelector('table');
             const rows = table.querySelectorAll('tr');
@@ -1326,8 +961,26 @@
                 const cols = row.querySelectorAll('th, td');
                 const rowData = [];
                 
-                cols.forEach(col => {
-                    let cellText = col.textContent.trim();
+                cols.forEach((col, index) => {
+                    if (index === 0) return; // Skip drag handle column
+                    
+                    let cellText = '';
+                    const input = col.querySelector('input');
+                    const select = col.querySelector('select');
+                    const textarea = col.querySelector('textarea');
+                    
+                    if (input && input.type !== 'checkbox') {
+                        cellText = input.value;
+                    } else if (select) {
+                        cellText = select.value;
+                    } else if (textarea) {
+                        cellText = textarea.value;
+                    } else if (input && input.type === 'checkbox') {
+                        cellText = input.checked ? 'Yes' : 'No';
+                    } else {
+                        cellText = col.textContent.trim();
+                    }
+                    
                     cellText = cellText.replace(/\s+/g, ' ');
                     if (cellText.includes(',') || cellText.includes('"')) {
                         cellText = '"' + cellText.replace(/"/g, '""') + '"';
@@ -1348,7 +1001,7 @@
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
         }
-        
+
         function copyTableData() {
             const table = document.querySelector('table');
             const rows = table.querySelectorAll('tr');
@@ -1358,8 +1011,26 @@
                 const cols = row.querySelectorAll('th, td');
                 const rowData = [];
                 
-                cols.forEach(col => {
-                    let cellText = col.textContent.trim();
+                cols.forEach((col, index) => {
+                    if (index === 0) return; // Skip drag handle column
+                    
+                    let cellText = '';
+                    const input = col.querySelector('input');
+                    const select = col.querySelector('select');
+                    const textarea = col.querySelector('textarea');
+                    
+                    if (input && input.type !== 'checkbox') {
+                        cellText = input.value;
+                    } else if (select) {
+                        cellText = select.value;
+                    } else if (textarea) {
+                        cellText = textarea.value;
+                    } else if (input && input.type === 'checkbox') {
+                        cellText = input.checked ? 'Yes' : 'No';
+                    } else {
+                        cellText = col.textContent.trim();
+                    }
+                    
                     cellText = cellText.replace(/\s+/g, ' ');
                     rowData.push(cellText);
                 });
@@ -1373,7 +1044,8 @@
                 alert('❌ Copy failed. Please try the CSV export instead.');
             });
         }
-        
+
+        // Selection functions
         function toggleSelectAll() {
             const selectAllCheckbox = document.getElementById('select-all');
             const rowCheckboxes = document.querySelectorAll('.row-checkbox');
@@ -1390,7 +1062,7 @@
             
             updateBulkControls();
         }
-        
+
         function toggleRowSelection(checkbox) {
             const row = checkbox.closest('tr');
             if (checkbox.checked) {
@@ -1411,10 +1083,10 @@
             
             updateBulkControls();
         }
-        
+
         function updateBulkControls() {
             const selectedRows = document.querySelectorAll('.row-checkbox:checked');
-            const bulkButtons = document.querySelectorAll('.bulk-btn');
+            const bulkButtons = document.querySelectorAll('.btn-purple');
             const selectedCount = document.getElementById('selected-count');
             
             selectedCount.textContent = selectedRows.length;
@@ -1425,7 +1097,8 @@
                 bulkButtons.forEach(btn => btn.disabled = true);
             }
         }
-        
+
+        // Bulk operations
         function bulkUpdateStatus() {
             const selectedRows = document.querySelectorAll('.row-checkbox:checked');
             const newStatus = prompt('Enter new status:\n- Production Ready\n- In Progress\n- On Hold\n- Quality Check');
@@ -1439,14 +1112,11 @@
                 });
                 
                 updateSummaryCards();
-                updateMetrics();
                 saveDataToStorage();
                 alert(`Updated ${selectedRows.length} aircraft to "${newStatus}"`);
-            } else if (newStatus) {
-                alert('Invalid status. Please use: Production Ready, In Progress, On Hold, or Quality Check');
             }
         }
-        
+
         function bulkUpdatePriority() {
             const selectedRows = document.querySelectorAll('.row-checkbox:checked');
             const newPriority = prompt('Enter new priority:\n- Critical\n- High\n- Medium\n- Low');
@@ -1459,14 +1129,11 @@
                     updatePriorityStyle(prioritySelect);
                 });
                 
-                updateMetrics();
                 saveDataToStorage();
                 alert(`Updated ${selectedRows.length} aircraft to "${newPriority}" priority`);
-            } else if (newPriority) {
-                alert('Invalid priority. Please use: Critical, High, Medium, or Low');
             }
         }
-        
+
         function bulkUpdateTeam() {
             const selectedRows = document.querySelectorAll('.row-checkbox:checked');
             const newTeam = prompt('Enter team name:');
@@ -1474,60 +1141,54 @@
             if (newTeam) {
                 selectedRows.forEach(checkbox => {
                     const row = checkbox.closest('tr');
-                    const teamInput = row.querySelector('.team-input');
+                    const teamInput = row.querySelectorAll('.table-input')[4]; // Team input is last
                     teamInput.value = newTeam;
                 });
                 
-                updateMetrics();
                 saveDataToStorage();
                 alert(`Assigned ${selectedRows.length} aircraft to team "${newTeam}"`);
             }
         }
-        
+
         function copySelectedAircraft() {
             const selectedRows = document.querySelectorAll('.row-checkbox:checked');
             if (selectedRows.length === 0) return;
             
-            const tbody = document.querySelector('tbody');
+            const tbody = document.getElementById('aircraft-tbody');
             
             selectedRows.forEach(checkbox => {
                 const originalRow = checkbox.closest('tr');
                 const newRow = originalRow.cloneNode(true);
                 
-                const aircraftIdInput = newRow.querySelector('.aircraft-id-input');
-                aircraftIdInput.value = '';
-                aircraftIdInput.placeholder = 'AC-00X (Copy)';
+                // Clear aircraft ID
+                const aircraftInput = newRow.querySelectorAll('.table-input')[0];
+                aircraftInput.value = '';
+                aircraftInput.placeholder = 'AC-00X (Copy)';
                 
-                const rowCheckbox = newRow.querySelector('.row-checkbox');
-                rowCheckbox.checked = false;
-                newRow.classList.remove('selected-row');
-                
-                const checkboxes = newRow.querySelectorAll('.operation-checkbox');
+                // Uncheck all checkboxes
+                const checkboxes = newRow.querySelectorAll('input[type="checkbox"]');
                 checkboxes.forEach(cb => cb.checked = false);
+                
+                // Reset progress
                 const progressFill = newRow.querySelector('.progress-fill');
                 progressFill.style.width = '0%';
                 
-                const dateInputs = newRow.querySelectorAll('.date-input');
-                dateInputs.forEach(input => input.value = '');
+                // Clear date
+                const dateInput = newRow.querySelector('input[type="date"]');
+                dateInput.value = '';
                 
-                addEventListenersToRow(newRow);
+                newRow.classList.remove('selected-row');
                 tbody.appendChild(newRow);
+                addEventListenersToRow(newRow);
+                setupDragAndDrop(newRow);
             });
             
             updateSummaryCards();
-            updateMetrics();
             saveDataToStorage();
             alert(`Copied ${selectedRows.length} aircraft`);
         }
-        
-        function updatePriorityStyle(selectElement) {
-            if (!selectElement) return;
-            
-            selectElement.classList.remove('critical', 'high', 'medium', 'low');
-            const value = selectElement.value.toLowerCase();
-            selectElement.classList.add(value);
-        }
-        
+
+        // Style update functions
         function updateStatusStyle(selectElement) {
             if (!selectElement) return;
             
@@ -1544,7 +1205,16 @@
                 selectElement.classList.add('quality-check');
             }
         }
-        
+
+        function updatePriorityStyle(selectElement) {
+            if (!selectElement) return;
+            
+            selectElement.classList.remove('critical', 'high', 'medium', 'low');
+            const value = selectElement.value.toLowerCase();
+            selectElement.classList.add(value);
+        }
+
+        // Summary cards update
         function updateSummaryCards() {
             const statusCells = document.querySelectorAll('tbody tr:not(.hidden-row) .status-select');
             const counts = {
@@ -1561,45 +1231,40 @@
                 }
             });
             
-            const prodReadyElement = document.getElementById('prod-ready-count');
-            const inProgressElement = document.getElementById('in-progress-count');
-            const onHoldElement = document.getElementById('on-hold-count');
-            const qualityCheckElement = document.getElementById('quality-check-count');
-            const totalElement = document.getElementById('total-count');
-            
-            if (prodReadyElement) prodReadyElement.textContent = counts['Production Ready'];
-            if (inProgressElement) inProgressElement.textContent = counts['In Progress'];
-            if (onHoldElement) onHoldElement.textContent = counts['On Hold'];
-            if (qualityCheckElement) qualityCheckElement.textContent = counts['Quality Check'];
-            if (totalElement) totalElement.textContent = statusCells.length;
+            document.getElementById('prod-ready-count').textContent = counts['Production Ready'];
+            document.getElementById('in-progress-count').textContent = counts['In Progress'];
+            document.getElementById('on-hold-count').textContent = counts['On Hold'];
+            document.getElementById('quality-check-count').textContent = counts['Quality Check'];
+            document.getElementById('total-count').textContent = statusCells.length;
         }
-        
+
+        // Search and filter
         function searchAndFilter() {
             const searchTerm = document.getElementById('search-input').value.toLowerCase();
             const statusFilter = document.getElementById('status-filter').value;
-            const teamFilter = document.getElementById('team-filter').value;
+            const teamFilter = document.getElementById('team-filter').value.toLowerCase();
             const priorityFilter = document.getElementById('priority-filter').value;
             
             const rows = document.querySelectorAll('tbody tr');
             
             rows.forEach(row => {
-                const aircraftId = row.querySelector('.aircraft-id-input');
-                const model = row.querySelector('.model-select');
-                const status = row.querySelector('.status-select');
-                const team = row.querySelector('.team-input');
-                const priority = row.querySelector('.priority-select');
+                const aircraftInput = row.querySelectorAll('.table-input')[0];
+                const modelSelect = row.querySelectorAll('.table-input')[1];
+                const statusSelect = row.querySelector('.status-select');
+                const prioritySelect = row.querySelector('.priority-select');
+                const teamInput = row.querySelectorAll('.table-input')[4];
                 
-                if (!aircraftId || !model || !status || !team || !priority) return;
+                if (!aircraftInput || !modelSelect || !statusSelect || !prioritySelect || !teamInput) return;
                 
-                const aircraftIdValue = aircraftId.value.toLowerCase();
-                const modelValue = model.value.toLowerCase();
-                const statusValue = status.value;
-                const teamValue = team.value.toLowerCase();
-                const priorityValue = priority.value;
+                const aircraftValue = aircraftInput.value.toLowerCase();
+                const modelValue = modelSelect.value.toLowerCase();
+                const statusValue = statusSelect.value;
+                const priorityValue = prioritySelect.value;
+                const teamValue = teamInput.value.toLowerCase();
                 
-                const matchesSearch = aircraftIdValue.includes(searchTerm) || modelValue.includes(searchTerm);
+                const matchesSearch = aircraftValue.includes(searchTerm) || modelValue.includes(searchTerm);
                 const matchesStatus = !statusFilter || statusValue === statusFilter;
-                const matchesTeam = !teamFilter || teamValue.includes(teamFilter.toLowerCase());
+                const matchesTeam = !teamFilter || teamValue.includes(teamFilter);
                 const matchesPriority = !priorityFilter || priorityValue === priorityFilter;
                 
                 if (matchesSearch && matchesStatus && matchesTeam && matchesPriority) {
@@ -1610,9 +1275,8 @@
             });
             
             updateSummaryCards();
-            updateMetrics();
         }
-        
+
         function clearFilters() {
             document.getElementById('search-input').value = '';
             document.getElementById('status-filter').value = '';
@@ -1625,66 +1289,19 @@
             });
             
             updateSummaryCards();
-            updateMetrics();
         }
-        
-        function updateMetrics() {
-            const visibleRows = document.querySelectorAll('tbody tr:not(.hidden-row)');
-            let totalProgress = 0;
-            let completedAircraft = 0;
-            let overdueCount = 0;
-            const teamCounts = {};
-            
-            visibleRows.forEach(row => {
-                const checkboxes = row.querySelectorAll('.operation-checkbox');
-                const checkedBoxes = row.querySelectorAll('.operation-checkbox:checked');
-                const progress = checkboxes.length > 0 ? (checkedBoxes.length / checkboxes.length) : 0;
-                totalProgress += progress;
-                
-                if (progress === 1) completedAircraft++;
-                
-                const deliveryDate = row.querySelector('.date-input').value;
-                if (deliveryDate) {
-                    const delivery = new Date(deliveryDate);
-                    const today = new Date();
-                    if (delivery < today && progress < 1) {
-                        overdueCount++;
-                    }
-                }
-                
-                const team = row.querySelector('.team-input').value || 'Unassigned';
-                teamCounts[team] = (teamCounts[team] || 0) + 1;
-            });
-            
-            const avgProgress = visibleRows.length > 0 ? (totalProgress / visibleRows.length * 100).toFixed(1) : 0;
-            const completionRate = visibleRows.length > 0 ? (completedAircraft / visibleRows.length * 100).toFixed(1) : 0;
-            
-            document.getElementById('avg-progress').textContent = avgProgress + '%';
-            document.getElementById('completion-rate').textContent = completionRate + '%';
-            document.getElementById('overdue-count').textContent = overdueCount;
-            
-            let mostActiveTeam = 'None';
-            let maxCount = 0;
-            for (const [team, count] of Object.entries(teamCounts)) {
-                if (count > maxCount && team !== 'Unassigned') {
-                    maxCount = count;
-                    mostActiveTeam = team;
-                }
-            }
-            document.getElementById('active-team').textContent = mostActiveTeam;
-        }
-        
+
+        // Add new aircraft
         function addNewAircraft() {
-            const tbody = document.querySelector('tbody');
+            const tbody = document.getElementById('aircraft-tbody');
             const newRow = document.createElement('tr');
             newRow.draggable = true;
-            newRow.oncontextmenu = function(e) { showContextMenu(e, this); return false; };
             
             newRow.innerHTML = `
-                <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
-                <td><input type="text" class="aircraft-id-input" placeholder="AC-00X" onchange="saveDataToStorage()" /></td>
+                <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
+                <td><input type="text" class="table-input" placeholder="AC-00X" /></td>
                 <td>
-                    <select class="model-select" onchange="saveDataToStorage()">
+                    <select class="table-input">
                         <option value="">Select Model</option>
                         <option value="PA-28-181">PA-28-181</option>
                         <option value="PA-28-181 DX">PA-28-181 DX</option>
@@ -1695,136 +1312,98 @@
                     </select>
                 </td>
                 <td>
-                    <select class="status-select in-progress" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics(); saveDataToStorage();">
+                    <select class="status-select in-progress">
                         <option value="Production Ready">Production Ready</option>
                         <option value="In Progress" selected>In Progress</option>
                         <option value="On Hold">On Hold</option>
                         <option value="Quality Check">Quality Check</option>
                     </select>
                 </td>
-                <td class="operation-cell">
-                    <input type="checkbox" class="operation-checkbox" />
-                </td>
-                <td class="operation-cell">
-                    <input type="checkbox" class="operation-checkbox" />
-                </td>
-                <td class="operation-cell">
-                    <input type="checkbox" class="operation-checkbox" />
-                </td>
-                <td class="operation-cell">
-                    <input type="checkbox" class="operation-checkbox" />
-                </td>
-                <td class="operation-cell">
-                    <input type="checkbox" class="operation-checkbox" />
-                </td>
+                <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                 <td>
                     <div class="progress-bar">
                         <div class="progress-fill" style="width: 0%;"></div>
                     </div>
                 </td>
                 <td>
-                    <select class="priority-select medium" onchange="updatePriorityStyle(this); updateMetrics(); saveDataToStorage();">
+                    <select class="priority-select medium">
                         <option value="Critical">Critical</option>
                         <option value="High">High</option>
                         <option value="Medium" selected>Medium</option>
                         <option value="Low">Low</option>
                     </select>
                 </td>
-                <td class="notes-cell">
-                    <div class="note-section">
-                        <div class="note-label">Pre-Flight</div>
-                        <textarea class="notes-input" placeholder="Enter pre-flight notes..." onchange="saveDataToStorage()"></textarea>
-                    </div>
-                </td>
-                <td class="notes-cell">
-                    <div class="note-section">
-                        <div class="note-label">Pre-Cert</div>
-                        <textarea class="notes-input" placeholder="Enter pre-cert notes..." onchange="saveDataToStorage()"></textarea>
-                    </div>
-                </td>
-                <td class="notes-cell">
-                    <div class="note-section">
-                        <div class="note-label">NCMR Notes</div>
-                        <textarea class="notes-input" placeholder="Enter non-conformance reports..." onchange="saveDataToStorage()"></textarea>
-                    </div>
-                </td>
-                <td><input type="date" class="date-input" onchange="saveDataToStorage()" /></td>
-                <td><input type="text" class="team-input" placeholder="Team Name" onchange="saveDataToStorage()" /></td>
+                <td><textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea></td>
+                <td><textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea></td>
+                <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
+                <td><input type="date" class="table-input" /></td>
+                <td><input type="text" class="table-input" placeholder="Team Name" /></td>
             `;
             
             tbody.appendChild(newRow);
             addEventListenersToRow(newRow);
             setupDragAndDrop(newRow);
             updateSummaryCards();
-            updateMetrics();
-            updateBulkControls();
             saveDataToStorage();
+            
             newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-        
+
+        // Event listeners for rows
         function addEventListenersToRow(row) {
-            const rowCheckbox = row.querySelector('.row-checkbox');
-            if (rowCheckbox) {
-                rowCheckbox.addEventListener('change', function() {
+            // Checkbox
+            const checkbox = row.querySelector('.row-checkbox');
+            if (checkbox) {
+                checkbox.addEventListener('change', function() {
                     toggleRowSelection(this);
                 });
             }
             
+            // Operation checkboxes
             const operationCheckboxes = row.querySelectorAll('.operation-checkbox');
-            operationCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
+            operationCheckboxes.forEach(cb => {
+                cb.addEventListener('change', function() {
                     updateProgress(row);
-                    updateMetrics();
                     saveDataToStorage();
                 });
             });
             
+            // Status select
             const statusSelect = row.querySelector('.status-select');
             if (statusSelect) {
                 statusSelect.addEventListener('change', function() {
                     updateStatusStyle(this);
                     updateSummaryCards();
-                    updateMetrics();
                     saveDataToStorage();
                 });
             }
             
+            // Priority select
             const prioritySelect = row.querySelector('.priority-select');
             if (prioritySelect) {
                 prioritySelect.addEventListener('change', function() {
                     updatePriorityStyle(this);
-                    updateMetrics();
                     saveDataToStorage();
                 });
             }
             
-            // Add save listeners to all input fields
-            const aircraftInput = row.querySelector('.aircraft-id-input');
-            if (aircraftInput) {
-                aircraftInput.addEventListener('change', saveDataToStorage);
-            }
-            
-            const modelSelect = row.querySelector('.model-select');
-            if (modelSelect) {
-                modelSelect.addEventListener('change', saveDataToStorage);
-            }
-            
-            const notesInputs = row.querySelectorAll('.notes-input');
-            notesInputs.forEach(input => {
+            // All inputs
+            const inputs = row.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
                 input.addEventListener('change', saveDataToStorage);
             });
             
-            const dateInput = row.querySelector('.date-input');
-            if (dateInput) {
-                dateInput.addEventListener('change', saveDataToStorage);
-            }
-            
-            const teamInput = row.querySelector('.team-input');
-            if (teamInput) {
-                teamInput.addEventListener('change', saveDataToStorage);
-            }
+            // Context menu
+            row.addEventListener('contextmenu', function(e) {
+                showContextMenu(e, this);
+                return false;
+            });
         }
-        
+
         function updateProgress(row) {
             const checkboxes = row.querySelectorAll('.operation-checkbox');
             const checkedBoxes = row.querySelectorAll('.operation-checkbox:checked');
@@ -1835,24 +1414,25 @@
                 progressBar.style.width = progressPercent + '%';
             }
         }
-        
+
         // Local Storage Functions
         function saveDataToStorage() {
             const rows = document.querySelectorAll('tbody tr');
             const aircraftData = [];
             
             rows.forEach(row => {
+                const inputs = row.querySelectorAll('input, select, textarea');
                 const rowData = {
-                    aircraftId: row.querySelector('.aircraft-id-input')?.value || '',
-                    model: row.querySelector('.model-select')?.value || '',
+                    aircraftId: row.querySelectorAll('.table-input')[0]?.value || '',
+                    model: row.querySelectorAll('.table-input')[1]?.value || '',
                     status: row.querySelector('.status-select')?.value || 'In Progress',
                     operations: Array.from(row.querySelectorAll('.operation-checkbox')).map(cb => cb.checked),
                     priority: row.querySelector('.priority-select')?.value || 'Medium',
-                    preFlightNotes: row.querySelector('.notes-input')?.value || '',
+                    preFlightNotes: row.querySelectorAll('.notes-input')[0]?.value || '',
                     preCertNotes: row.querySelectorAll('.notes-input')[1]?.value || '',
                     ncmrNotes: row.querySelectorAll('.notes-input')[2]?.value || '',
-                    deliveryDate: row.querySelector('.date-input')?.value || '',
-                    team: row.querySelector('.team-input')?.value || ''
+                    deliveryDate: row.querySelector('input[type="date"]')?.value || '',
+                    team: row.querySelectorAll('.table-input')[4]?.value || ''
                 };
                 aircraftData.push(rowData);
             });
@@ -1865,21 +1445,19 @@
             
             try {
                 localStorage.setItem('aircraftDashboardData', JSON.stringify(dashboardData));
-                console.log('Data saved successfully');
                 updateLastSavedTime();
             } catch (error) {
                 console.error('Failed to save data:', error);
-                alert('Warning: Could not save data to browser storage. Changes may be lost.');
             }
         }
-        
+
         function loadDataFromStorage() {
             try {
                 const savedData = localStorage.getItem('aircraftDashboardData');
                 if (!savedData) return false;
                 
                 const dashboardData = JSON.parse(savedData);
-                const tbody = document.querySelector('tbody');
+                const tbody = document.getElementById('aircraft-tbody');
                 
                 // Clear existing rows
                 tbody.innerHTML = '';
@@ -1889,31 +1467,28 @@
                     const newRow = createAircraftRow(aircraftData);
                     tbody.appendChild(newRow);
                     addEventListenersToRow(newRow);
+                    setupDragAndDrop(newRow);
                 });
                 
                 updateSummaryCards();
-                updateMetrics();
-                updateBulkControls();
                 updateLastSavedTime(dashboardData.lastSaved);
                 
-                console.log('Data loaded successfully');
                 return true;
             } catch (error) {
                 console.error('Failed to load data:', error);
                 return false;
             }
         }
-        
+
         function createAircraftRow(data) {
             const newRow = document.createElement('tr');
             newRow.draggable = true;
-            newRow.oncontextmenu = function(e) { showContextMenu(e, this); return false; };
             
             newRow.innerHTML = `
-                <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
-                <td><input type="text" class="aircraft-id-input" placeholder="AC-00X" value="${data.aircraftId}" /></td>
+                <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
+                <td><input type="text" class="table-input" value="${data.aircraftId}" /></td>
                 <td>
-                    <select class="model-select">
+                    <select class="table-input">
                         <option value="">Select Model</option>
                         <option value="PA-28-181" ${data.model === 'PA-28-181' ? 'selected' : ''}>PA-28-181</option>
                         <option value="PA-28-181 DX" ${data.model === 'PA-28-181 DX' ? 'selected' : ''}>PA-28-181 DX</option>
@@ -1924,67 +1499,41 @@
                     </select>
                 </td>
                 <td>
-                    <select class="status-select ${getStatusClass(data.status)}" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics(); saveDataToStorage();">
+                    <select class="status-select ${getStatusClass(data.status)}">
                         <option value="Production Ready" ${data.status === 'Production Ready' ? 'selected' : ''}>Production Ready</option>
                         <option value="In Progress" ${data.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
                         <option value="On Hold" ${data.status === 'On Hold' ? 'selected' : ''}>On Hold</option>
                         <option value="Quality Check" ${data.status === 'Quality Check' ? 'selected' : ''}>Quality Check</option>
                     </select>
                 </td>
-                <td class="operation-cell">
-                    <input type="checkbox" class="operation-checkbox" ${data.operations[0] ? 'checked' : ''} />
-                </td>
-                <td class="operation-cell">
-                    <input type="checkbox" class="operation-checkbox" ${data.operations[1] ? 'checked' : ''} />
-                </td>
-                <td class="operation-cell">
-                    <input type="checkbox" class="operation-checkbox" ${data.operations[2] ? 'checked' : ''} />
-                </td>
-                <td class="operation-cell">
-                    <input type="checkbox" class="operation-checkbox" ${data.operations[3] ? 'checked' : ''} />
-                </td>
-                <td class="operation-cell">
-                    <input type="checkbox" class="operation-checkbox" ${data.operations[4] ? 'checked' : ''} />
-                </td>
+                <td class="operation-cell"><input type="checkbox" class="operation-checkbox" ${data.operations[0] ? 'checked' : ''} /></td>
+                <td class="operation-cell"><input type="checkbox" class="operation-checkbox" ${data.operations[1] ? 'checked' : ''} /></td>
+                <td class="operation-cell"><input type="checkbox" class="operation-checkbox" ${data.operations[2] ? 'checked' : ''} /></td>
+                <td class="operation-cell"><input type="checkbox" class="operation-checkbox" ${data.operations[3] ? 'checked' : ''} /></td>
+                <td class="operation-cell"><input type="checkbox" class="operation-checkbox" ${data.operations[4] ? 'checked' : ''} /></td>
                 <td>
                     <div class="progress-bar">
                         <div class="progress-fill" style="width: ${calculateProgress(data.operations)}%;"></div>
                     </div>
                 </td>
                 <td>
-                    <select class="priority-select ${data.priority.toLowerCase()}" onchange="updatePriorityStyle(this); updateMetrics(); saveDataToStorage();">
+                    <select class="priority-select ${data.priority.toLowerCase()}">
                         <option value="Critical" ${data.priority === 'Critical' ? 'selected' : ''}>Critical</option>
                         <option value="High" ${data.priority === 'High' ? 'selected' : ''}>High</option>
                         <option value="Medium" ${data.priority === 'Medium' ? 'selected' : ''}>Medium</option>
                         <option value="Low" ${data.priority === 'Low' ? 'selected' : ''}>Low</option>
                     </select>
                 </td>
-                <td class="notes-cell">
-                    <div class="note-section">
-                        <div class="note-label">Pre-Flight</div>
-                        <textarea class="notes-input" placeholder="Enter pre-flight notes..." onchange="saveDataToStorage()">${data.preFlightNotes}</textarea>
-                    </div>
-                </td>
-                <td class="notes-cell">
-                    <div class="note-section">
-                        <div class="note-label">Pre-Cert</div>
-                        <textarea class="notes-input" placeholder="Enter pre-cert notes..." onchange="saveDataToStorage()">${data.preCertNotes}</textarea>
-                    </div>
-                </td>
-                <td class="notes-cell">
-                    <div class="note-section">
-                        <div class="note-label">NCMR Notes</div>
-                        <textarea class="notes-input" placeholder="Enter non-conformance reports..." onchange="saveDataToStorage()">${data.ncmrNotes}</textarea>
-                    </div>
-                </td>
-                <td><input type="date" class="date-input" value="${data.deliveryDate}" onchange="saveDataToStorage()" /></td>
-                <td><input type="text" class="team-input" placeholder="Team Name" value="${data.team}" onchange="saveDataToStorage()" /></td>
+                <td><textarea class="notes-input" placeholder="Enter pre-flight notes...">${data.preFlightNotes}</textarea></td>
+                <td><textarea class="notes-input" placeholder="Enter pre-cert notes...">${data.preCertNotes}</textarea></td>
+                <td><textarea class="notes-input" placeholder="Enter NCMR notes...">${data.ncmrNotes}</textarea></td>
+                <td><input type="date" class="table-input" value="${data.deliveryDate}" /></td>
+                <td><input type="text" class="table-input" value="${data.team}" placeholder="Team Name" /></td>
             `;
             
-            setupDragAndDrop(newRow);
             return newRow;
         }
-        
+
         function getStatusClass(status) {
             switch(status) {
                 case 'Production Ready': return 'production-ready';
@@ -1994,12 +1543,12 @@
                 default: return 'in-progress';
             }
         }
-        
+
         function calculateProgress(operations) {
             const checked = operations.filter(op => op).length;
             return operations.length > 0 ? (checked / operations.length) * 100 : 0;
         }
-        
+
         function updateLastSavedTime(timestamp = null) {
             const lastUpdatedElement = document.getElementById('last-updated');
             if (lastUpdatedElement) {
@@ -2007,14 +1556,15 @@
                 lastUpdatedElement.textContent = `Dashboard Last Saved: ${time.toLocaleDateString()} at ${time.toLocaleTimeString()}`;
             }
         }
-        
+
+        // Data management functions
         function clearAllData() {
             if (confirm('Are you sure you want to clear all aircraft data? This action cannot be undone.')) {
                 localStorage.removeItem('aircraftDashboardData');
                 location.reload();
             }
         }
-        
+
         function exportBackup() {
             const savedData = localStorage.getItem('aircraftDashboardData');
             if (!savedData) {
@@ -2032,7 +1582,7 @@
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
         }
-        
+
         function importBackup() {
             const input = document.createElement('input');
             input.type = 'file';
@@ -2059,7 +1609,7 @@
         // ============================================================================
         // QUICK ACTION TOOLBAR FUNCTIONALITY
         // ============================================================================
-        
+
         // Keyboard Shortcuts Handler
         function handleKeyboardShortcuts(event) {
             // Don't trigger shortcuts when typing in input fields
@@ -2088,7 +1638,7 @@
                 toggleShortcutsHelp();
             }
         }
-        
+
         // Context Menu Functions
         function showContextMenu(event, row) {
             event.preventDefault();
@@ -2108,32 +1658,32 @@
                 contextMenu.style.top = (event.pageY - rect.height) + 'px';
             }
         }
-        
+
         function hideContextMenu() {
             document.getElementById('context-menu').style.display = 'none';
             currentContextRow = null;
         }
-        
+
         // Context Menu Actions
         function contextEditAircraft() {
             if (!currentContextRow) return;
             
-            const aircraftInput = currentContextRow.querySelector('.aircraft-id-input');
+            const aircraftInput = currentContextRow.querySelectorAll('.table-input')[0];
             aircraftInput.focus();
             aircraftInput.select();
             hideContextMenu();
         }
-        
+
         function contextCopyAircraft() {
             if (!currentContextRow) return;
             
-            const tbody = document.querySelector('tbody');
+            const tbody = document.getElementById('aircraft-tbody');
             const newRow = currentContextRow.cloneNode(true);
             
-            // Clear the aircraft ID and mark as copy
-            const aircraftIdInput = newRow.querySelector('.aircraft-id-input');
-            aircraftIdInput.value = '';
-            aircraftIdInput.placeholder = 'AC-00X (Copy)';
+            // Clear the aircraft ID
+            const aircraftInput = newRow.querySelectorAll('.table-input')[0];
+            aircraftInput.value = '';
+            aircraftInput.placeholder = 'AC-00X (Copy)';
             
             // Uncheck all checkboxes
             const checkboxes = newRow.querySelectorAll('input[type="checkbox"]');
@@ -2143,27 +1693,22 @@
             const progressFill = newRow.querySelector('.progress-fill');
             progressFill.style.width = '0%';
             
-            // Clear dates
-            const dateInputs = newRow.querySelectorAll('.date-input');
-            dateInputs.forEach(input => input.value = '');
+            // Clear date
+            const dateInput = newRow.querySelector('input[type="date"]');
+            dateInput.value = '';
             
-            // Setup new row
-            newRow.draggable = true;
-            newRow.oncontextmenu = function(e) { showContextMenu(e, this); return false; };
             newRow.classList.remove('selected-row');
-            
             tbody.appendChild(newRow);
             addEventListenersToRow(newRow);
             setupDragAndDrop(newRow);
             
             updateSummaryCards();
-            updateMetrics();
             saveDataToStorage();
             hideContextMenu();
             
             newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-        
+
         function contextChangeStatus() {
             if (!currentContextRow) return;
             
@@ -2174,12 +1719,11 @@
                 statusSelect.value = newStatus;
                 updateStatusStyle(statusSelect);
                 updateSummaryCards();
-                updateMetrics();
                 saveDataToStorage();
             }
             hideContextMenu();
         }
-        
+
         function contextChangePriority() {
             if (!currentContextRow) return;
             
@@ -2189,12 +1733,11 @@
             if (newPriority && ['Critical', 'High', 'Medium', 'Low'].includes(newPriority)) {
                 prioritySelect.value = newPriority;
                 updatePriorityStyle(prioritySelect);
-                updateMetrics();
                 saveDataToStorage();
             }
             hideContextMenu();
         }
-        
+
         function contextSelectRow() {
             if (!currentContextRow) return;
             
@@ -2203,28 +1746,27 @@
             toggleRowSelection(checkbox);
             hideContextMenu();
         }
-        
+
         function contextDeleteAircraft() {
             if (!currentContextRow) return;
             
-            const aircraftId = currentContextRow.querySelector('.aircraft-id-input').value || 'this aircraft';
+            const aircraftId = currentContextRow.querySelectorAll('.table-input')[0].value || 'this aircraft';
             if (confirm(`Are you sure you want to delete ${aircraftId}?`)) {
                 currentContextRow.remove();
                 updateSummaryCards();
-                updateMetrics();
                 updateBulkControls();
                 saveDataToStorage();
             }
             hideContextMenu();
         }
-        
+
         // Keyboard Shortcut Helper Functions
         function selectAllRows() {
             const selectAllCheckbox = document.getElementById('select-all');
             selectAllCheckbox.checked = true;
             toggleSelectAll();
         }
-        
+
         function clearAllSelections() {
             const selectAllCheckbox = document.getElementById('select-all');
             const rowCheckboxes = document.querySelectorAll('.row-checkbox');
@@ -2238,7 +1780,7 @@
             
             updateBulkControls();
         }
-        
+
         function bulkDeleteSelected() {
             const selectedRows = document.querySelectorAll('.row-checkbox:checked');
             if (selectedRows.length === 0) return;
@@ -2249,21 +1791,20 @@
                 });
                 
                 updateSummaryCards();
-                updateMetrics();
                 updateBulkControls();
                 saveDataToStorage();
             }
         }
-        
+
         function toggleShortcutsHelp() {
             const help = document.getElementById('shortcuts-help');
             help.style.display = help.style.display === 'block' ? 'none' : 'block';
         }
-        
+
         function hideShortcutsHelp() {
             document.getElementById('shortcuts-help').style.display = 'none';
         }
-        
+
         // Drag and Drop Functions
         function setupDragAndDrop(row) {
             row.addEventListener('dragstart', handleDragStart);
@@ -2271,26 +1812,24 @@
             row.addEventListener('drop', handleDrop);
             row.addEventListener('dragend', handleDragEnd);
         }
-        
+
         function handleDragStart(e) {
             draggedRow = this;
             this.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/html', this.outerHTML);
         }
-        
+
         function handleDragOver(e) {
             if (e.preventDefault) {
                 e.preventDefault();
             }
             
             e.dataTransfer.dropEffect = 'move';
-            
-            // Add visual feedback
             this.classList.add('drag-over');
             return false;
         }
-        
+
         function handleDrop(e) {
             if (e.stopPropagation) {
                 e.stopPropagation();
@@ -2312,7 +1851,7 @@
             
             return false;
         }
-        
+
         function handleDragEnd(e) {
             // Clean up
             const rows = document.querySelectorAll('tbody tr');
@@ -2322,56 +1861,6 @@
             
             draggedRow = null;
         }
-
-        // Initialize Dashboard
-        document.addEventListener('DOMContentLoaded', function() {
-            // Try to load saved data first
-            const dataLoaded = loadDataFromStorage();
-            
-            if (!dataLoaded) {
-                // If no saved data, initialize with default rows
-                updateSummaryCards();
-                updateMetrics();
-                updateBulkControls();
-                
-                const existingRows = document.querySelectorAll('tbody tr');
-                existingRows.forEach(row => {
-                    addEventListenersToRow(row);
-                    setupDragAndDrop(row);
-                });
-                
-                // Save initial state
-                saveDataToStorage();
-            }
-            
-            // Add search and filter event listeners
-            document.getElementById('search-input').addEventListener('input', searchAndFilter);
-            document.getElementById('status-filter').addEventListener('change', searchAndFilter);
-            document.getElementById('team-filter').addEventListener('input', searchAndFilter);
-            document.getElementById('priority-filter').addEventListener('change', searchAndFilter);
-            
-            // Setup Quick Action Toolbar
-            document.addEventListener('keydown', handleKeyboardShortcuts);
-            
-            // Hide context menu when clicking elsewhere
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('#context-menu')) {
-                    hideContextMenu();
-                }
-            });
-            
-            // Setup drag and drop for existing rows (if not loaded from storage)
-            if (!dataLoaded) {
-                const existingRows = document.querySelectorAll('tbody tr');
-                existingRows.forEach(setupDragAndDrop);
-            }
-            
-            // Auto-save every 30 seconds
-            setInterval(saveDataToStorage, 30000);
-            
-            // Save data when user leaves the page
-            window.addEventListener('beforeunload', saveDataToStorage);
-        });
     </script>
 </body>
 </html>
