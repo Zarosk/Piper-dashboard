@@ -1313,6 +1313,10 @@
     </div>
 
     <script>
+        // Global variable to track the current context menu row
+        let currentContextRow = null;
+        let draggedRow = null;
+
         function exportToCSV() {
             const table = document.querySelector('table');
             const rows = table.querySelectorAll('tr');
@@ -1819,9 +1823,6 @@
             if (teamInput) {
                 teamInput.addEventListener('change', saveDataToStorage);
             }
-            
-            // Setup drag and drop
-            setupDragAndDrop(row);
         }
         
         function updateProgress(row) {
@@ -1980,6 +1981,7 @@
                 <td><input type="text" class="team-input" placeholder="Team Name" value="${data.team}" onchange="saveDataToStorage()" /></td>
             `;
             
+            setupDragAndDrop(newRow);
             return newRow;
         }
         
@@ -2057,9 +2059,6 @@
         // ============================================================================
         // QUICK ACTION TOOLBAR FUNCTIONALITY
         // ============================================================================
-        
-        // Global variable to track the current context menu row
-        let currentContextRow = null;
         
         // Keyboard Shortcuts Handler
         function handleKeyboardShortcuts(event) {
@@ -2228,4 +2227,151 @@
         
         function clearAllSelections() {
             const selectAllCheckbox = document.getElementById('select-all');
-            selectAllCheckbox.checked = false
+            const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+            
+            selectAllCheckbox.checked = false;
+            rowCheckboxes.forEach(checkbox => {
+                checkbox.checked = false;
+                const row = checkbox.closest('tr');
+                row.classList.remove('selected-row');
+            });
+            
+            updateBulkControls();
+        }
+        
+        function bulkDeleteSelected() {
+            const selectedRows = document.querySelectorAll('.row-checkbox:checked');
+            if (selectedRows.length === 0) return;
+            
+            if (confirm(`Are you sure you want to delete ${selectedRows.length} aircraft?`)) {
+                selectedRows.forEach(checkbox => {
+                    checkbox.closest('tr').remove();
+                });
+                
+                updateSummaryCards();
+                updateMetrics();
+                updateBulkControls();
+                saveDataToStorage();
+            }
+        }
+        
+        function toggleShortcutsHelp() {
+            const help = document.getElementById('shortcuts-help');
+            help.style.display = help.style.display === 'block' ? 'none' : 'block';
+        }
+        
+        function hideShortcutsHelp() {
+            document.getElementById('shortcuts-help').style.display = 'none';
+        }
+        
+        // Drag and Drop Functions
+        function setupDragAndDrop(row) {
+            row.addEventListener('dragstart', handleDragStart);
+            row.addEventListener('dragover', handleDragOver);
+            row.addEventListener('drop', handleDrop);
+            row.addEventListener('dragend', handleDragEnd);
+        }
+        
+        function handleDragStart(e) {
+            draggedRow = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.outerHTML);
+        }
+        
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            
+            e.dataTransfer.dropEffect = 'move';
+            
+            // Add visual feedback
+            this.classList.add('drag-over');
+            return false;
+        }
+        
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            
+            if (draggedRow !== this) {
+                const tbody = this.parentNode;
+                const draggedIndex = Array.from(tbody.children).indexOf(draggedRow);
+                const targetIndex = Array.from(tbody.children).indexOf(this);
+                
+                if (draggedIndex < targetIndex) {
+                    tbody.insertBefore(draggedRow, this.nextSibling);
+                } else {
+                    tbody.insertBefore(draggedRow, this);
+                }
+                
+                saveDataToStorage();
+            }
+            
+            return false;
+        }
+        
+        function handleDragEnd(e) {
+            // Clean up
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                row.classList.remove('dragging', 'drag-over');
+            });
+            
+            draggedRow = null;
+        }
+
+        // Initialize Dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Try to load saved data first
+            const dataLoaded = loadDataFromStorage();
+            
+            if (!dataLoaded) {
+                // If no saved data, initialize with default rows
+                updateSummaryCards();
+                updateMetrics();
+                updateBulkControls();
+                
+                const existingRows = document.querySelectorAll('tbody tr');
+                existingRows.forEach(row => {
+                    addEventListenersToRow(row);
+                    setupDragAndDrop(row);
+                });
+                
+                // Save initial state
+                saveDataToStorage();
+            }
+            
+            // Add search and filter event listeners
+            document.getElementById('search-input').addEventListener('input', searchAndFilter);
+            document.getElementById('status-filter').addEventListener('change', searchAndFilter);
+            document.getElementById('team-filter').addEventListener('input', searchAndFilter);
+            document.getElementById('priority-filter').addEventListener('change', searchAndFilter);
+            
+            // Setup Quick Action Toolbar
+            document.addEventListener('keydown', handleKeyboardShortcuts);
+            
+            // Hide context menu when clicking elsewhere
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('#context-menu')) {
+                    hideContextMenu();
+                }
+            });
+            
+            // Setup drag and drop for existing rows (if not loaded from storage)
+            if (!dataLoaded) {
+                const existingRows = document.querySelectorAll('tbody tr');
+                existingRows.forEach(setupDragAndDrop);
+            }
+            
+            // Auto-save every 30 seconds
+            setInterval(saveDataToStorage, 30000);
+            
+            // Save data when user leaves the page
+            window.addEventListener('beforeunload', saveDataToStorage);
+        });
+    </script>
+</body>
+</html>
