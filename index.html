@@ -626,6 +626,107 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
+        /* Context Menu Styles */
+        .context-menu {
+            position: fixed;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            padding: 8px 0;
+            z-index: 1000;
+            min-width: 180px;
+            display: none;
+        }
+        
+        .context-menu-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .context-menu-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .context-menu-item.danger:hover {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .context-menu-divider {
+            height: 1px;
+            background-color: #e9ecef;
+            margin: 4px 0;
+        }
+        
+        /* Drag and Drop Styles */
+        .dragging {
+            opacity: 0.5;
+            transform: scale(0.95);
+            background-color: #e3f2fd !important;
+        }
+        
+        .drag-over {
+            border-top: 3px solid #007bff !important;
+        }
+        
+        .drag-handle {
+            cursor: grab;
+            color: #6c757d;
+            padding: 4px;
+            margin-right: 8px;
+        }
+        
+        .drag-handle:hover {
+            color: #007bff;
+        }
+        
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+        
+        /* Keyboard Shortcuts Help */
+        .shortcuts-help {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            z-index: 1001;
+            display: none;
+            max-width: 250px;
+        }
+        
+        .shortcuts-help h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+        }
+        
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        
+        .shortcut-key {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -777,7 +878,7 @@
         <table>
             <thead>
                 <tr>
-                    <th><input type="checkbox" id="select-all" class="select-all-checkbox" onchange="toggleSelectAll()" /> Select</th>
+                    <th><span class="drag-handle">⋮⋮</span><input type="checkbox" id="select-all" class="select-all-checkbox" onchange="toggleSelectAll()" /> Select</th>
                     <th>Aircraft ID</th>
                     <th>Model</th>
                     <th>Status</th>
@@ -796,8 +897,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
+                <tr draggable="true" oncontextmenu="showContextMenu(event, this); return false;">
+                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
                     <td><input type="text" class="aircraft-id-input" placeholder="AC-001" onchange="saveDataToStorage()" /></td>
                     <td>
                         <select class="model-select" onchange="saveDataToStorage()">
@@ -867,8 +968,8 @@
                     <td><input type="date" class="date-input" onchange="saveDataToStorage()" /></td>
                     <td><input type="text" class="team-input" placeholder="Team Name" onchange="saveDataToStorage()" /></td>
                 </tr>
-                <tr>
-                    <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
+                <tr draggable="true" oncontextmenu="showContextMenu(event, this); return false;">
+                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
                     <td><input type="text" class="aircraft-id-input" placeholder="AC-002" onchange="saveDataToStorage()" /></td>
                     <td>
                         <select class="model-select" onchange="saveDataToStorage()">
@@ -938,8 +1039,8 @@
                     <td><input type="date" class="date-input" onchange="saveDataToStorage()" /></td>
                     <td><input type="text" class="team-input" placeholder="Team Name" onchange="saveDataToStorage()" /></td>
                 </tr>
-                <tr>
-                    <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
+                <tr draggable="true" oncontextmenu="showContextMenu(event, this); return false;">
+                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
                     <td><input type="text" class="aircraft-id-input" placeholder="AC-003" onchange="saveDataToStorage()" /></td>
                     <td>
                         <select class="model-select" onchange="saveDataToStorage()">
@@ -1009,8 +1110,8 @@
                     <td><input type="date" class="date-input" onchange="saveDataToStorage()" /></td>
                     <td><input type="text" class="team-input" placeholder="Team Name" onchange="saveDataToStorage()" /></td>
                 </tr>
-                <tr>
-                    <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
+                <tr draggable="true" oncontextmenu="showContextMenu(event, this); return false;">
+                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
                     <td><input type="text" class="aircraft-id-input" placeholder="AC-004" onchange="saveDataToStorage()" /></td>
                     <td>
                         <select class="model-select" onchange="saveDataToStorage()">
@@ -1080,8 +1181,8 @@
                     <td><input type="date" class="date-input" onchange="saveDataToStorage()" /></td>
                     <td><input type="text" class="team-input" placeholder="Team Name" onchange="saveDataToStorage()" /></td>
                 </tr>
-                <tr>
-                    <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
+                <tr draggable="true" oncontextmenu="showContextMenu(event, this); return false;">
+                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
                     <td><input type="text" class="aircraft-id-input" placeholder="AC-005" onchange="saveDataToStorage()" /></td>
                     <td>
                         <select class="model-select" onchange="saveDataToStorage()">
@@ -1157,6 +1258,58 @@
 
     <div class="last-updated" id="last-updated">
         Dashboard Last Updated: Loading...
+    </div>
+
+    <!-- Context Menu -->
+    <div id="context-menu" class="context-menu">
+        <button class="context-menu-item" onclick="contextEditAircraft()">
+            ✏️ Edit Aircraft
+        </button>
+        <button class="context-menu-item" onclick="contextCopyAircraft()">
+            📋 Copy Aircraft
+        </button>
+        <button class="context-menu-item" onclick="contextChangeStatus()">
+            🔄 Change Status
+        </button>
+        <button class="context-menu-item" onclick="contextChangePriority()">
+            ⚡ Change Priority
+        </button>
+        <div class="context-menu-divider"></div>
+        <button class="context-menu-item" onclick="contextSelectRow()">
+            ☑️ Select Row
+        </button>
+        <button class="context-menu-item danger" onclick="contextDeleteAircraft()">
+            🗑️ Delete Aircraft
+        </button>
+    </div>
+
+    <!-- Keyboard Shortcuts Help -->
+    <div id="shortcuts-help" class="shortcuts-help">
+        <h4>⌨️ Keyboard Shortcuts</h4>
+        <div class="shortcut-item">
+            <span>Select All</span>
+            <span class="shortcut-key">Ctrl+A</span>
+        </div>
+        <div class="shortcut-item">
+            <span>Delete Selected</span>
+            <span class="shortcut-key">Delete</span>
+        </div>
+        <div class="shortcut-item">
+            <span>New Aircraft</span>
+            <span class="shortcut-key">Ctrl+N</span>
+        </div>
+        <div class="shortcut-item">
+            <span>Clear Selection</span>
+            <span class="shortcut-key">Escape</span>
+        </div>
+        <div class="shortcut-item">
+            <span>Show Help</span>
+            <span class="shortcut-key">F1</span>
+        </div>
+        <div class="shortcut-item">
+            <span>Hide Help</span>
+            <span class="shortcut-key">Escape</span>
+        </div>
     </div>
 
     <script>
@@ -1520,9 +1673,11 @@
         function addNewAircraft() {
             const tbody = document.querySelector('tbody');
             const newRow = document.createElement('tr');
+            newRow.draggable = true;
+            newRow.oncontextmenu = function(e) { showContextMenu(e, this); return false; };
             
             newRow.innerHTML = `
-                <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
+                <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
                 <td><input type="text" class="aircraft-id-input" placeholder="AC-00X" onchange="saveDataToStorage()" /></td>
                 <td>
                     <select class="model-select" onchange="saveDataToStorage()">
@@ -1595,6 +1750,7 @@
             
             tbody.appendChild(newRow);
             addEventListenersToRow(newRow);
+            setupDragAndDrop(newRow);
             updateSummaryCards();
             updateMetrics();
             updateBulkControls();
@@ -1663,6 +1819,9 @@
             if (teamInput) {
                 teamInput.addEventListener('change', saveDataToStorage);
             }
+            
+            // Setup drag and drop
+            setupDragAndDrop(row);
         }
         
         function updateProgress(row) {
@@ -1746,8 +1905,11 @@
         
         function createAircraftRow(data) {
             const newRow = document.createElement('tr');
+            newRow.draggable = true;
+            newRow.oncontextmenu = function(e) { showContextMenu(e, this); return false; };
+            
             newRow.innerHTML = `
-                <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
+                <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
                 <td><input type="text" class="aircraft-id-input" placeholder="AC-00X" value="${data.aircraftId}" /></td>
                 <td>
                     <select class="model-select">
@@ -1892,37 +2054,178 @@
             input.click();
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Try to load saved data first
-            const dataLoaded = loadDataFromStorage();
+        // ============================================================================
+        // QUICK ACTION TOOLBAR FUNCTIONALITY
+        // ============================================================================
+        
+        // Global variable to track the current context menu row
+        let currentContextRow = null;
+        
+        // Keyboard Shortcuts Handler
+        function handleKeyboardShortcuts(event) {
+            // Don't trigger shortcuts when typing in input fields
+            if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.tagName === 'SELECT') {
+                return;
+            }
             
-            if (!dataLoaded) {
-                // If no saved data, initialize with default rows
+            if (event.ctrlKey && event.key === 'a') {
+                event.preventDefault();
+                selectAllRows();
+            } else if (event.key === 'Delete') {
+                event.preventDefault();
+                if (document.querySelectorAll('.row-checkbox:checked').length > 0) {
+                    bulkDeleteSelected();
+                }
+            } else if (event.ctrlKey && event.key === 'n') {
+                event.preventDefault();
+                addNewAircraft();
+            } else if (event.key === 'Escape') {
+                event.preventDefault();
+                clearAllSelections();
+                hideContextMenu();
+                hideShortcutsHelp();
+            } else if (event.key === 'F1') {
+                event.preventDefault();
+                toggleShortcutsHelp();
+            }
+        }
+        
+        // Context Menu Functions
+        function showContextMenu(event, row) {
+            event.preventDefault();
+            currentContextRow = row;
+            
+            const contextMenu = document.getElementById('context-menu');
+            contextMenu.style.display = 'block';
+            contextMenu.style.left = event.pageX + 'px';
+            contextMenu.style.top = event.pageY + 'px';
+            
+            // Ensure menu doesn't go off screen
+            const rect = contextMenu.getBoundingClientRect();
+            if (rect.right > window.innerWidth) {
+                contextMenu.style.left = (event.pageX - rect.width) + 'px';
+            }
+            if (rect.bottom > window.innerHeight) {
+                contextMenu.style.top = (event.pageY - rect.height) + 'px';
+            }
+        }
+        
+        function hideContextMenu() {
+            document.getElementById('context-menu').style.display = 'none';
+            currentContextRow = null;
+        }
+        
+        // Context Menu Actions
+        function contextEditAircraft() {
+            if (!currentContextRow) return;
+            
+            const aircraftInput = currentContextRow.querySelector('.aircraft-id-input');
+            aircraftInput.focus();
+            aircraftInput.select();
+            hideContextMenu();
+        }
+        
+        function contextCopyAircraft() {
+            if (!currentContextRow) return;
+            
+            const tbody = document.querySelector('tbody');
+            const newRow = currentContextRow.cloneNode(true);
+            
+            // Clear the aircraft ID and mark as copy
+            const aircraftIdInput = newRow.querySelector('.aircraft-id-input');
+            aircraftIdInput.value = '';
+            aircraftIdInput.placeholder = 'AC-00X (Copy)';
+            
+            // Uncheck all checkboxes
+            const checkboxes = newRow.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = false);
+            
+            // Reset progress
+            const progressFill = newRow.querySelector('.progress-fill');
+            progressFill.style.width = '0%';
+            
+            // Clear dates
+            const dateInputs = newRow.querySelectorAll('.date-input');
+            dateInputs.forEach(input => input.value = '');
+            
+            // Setup new row
+            newRow.draggable = true;
+            newRow.oncontextmenu = function(e) { showContextMenu(e, this); return false; };
+            newRow.classList.remove('selected-row');
+            
+            tbody.appendChild(newRow);
+            addEventListenersToRow(newRow);
+            setupDragAndDrop(newRow);
+            
+            updateSummaryCards();
+            updateMetrics();
+            saveDataToStorage();
+            hideContextMenu();
+            
+            newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function contextChangeStatus() {
+            if (!currentContextRow) return;
+            
+            const statusSelect = currentContextRow.querySelector('.status-select');
+            const newStatus = prompt('Enter new status:\n- Production Ready\n- In Progress\n- On Hold\n- Quality Check');
+            
+            if (newStatus && ['Production Ready', 'In Progress', 'On Hold', 'Quality Check'].includes(newStatus)) {
+                statusSelect.value = newStatus;
+                updateStatusStyle(statusSelect);
+                updateSummaryCards();
+                updateMetrics();
+                saveDataToStorage();
+            }
+            hideContextMenu();
+        }
+        
+        function contextChangePriority() {
+            if (!currentContextRow) return;
+            
+            const prioritySelect = currentContextRow.querySelector('.priority-select');
+            const newPriority = prompt('Enter new priority:\n- Critical\n- High\n- Medium\n- Low');
+            
+            if (newPriority && ['Critical', 'High', 'Medium', 'Low'].includes(newPriority)) {
+                prioritySelect.value = newPriority;
+                updatePriorityStyle(prioritySelect);
+                updateMetrics();
+                saveDataToStorage();
+            }
+            hideContextMenu();
+        }
+        
+        function contextSelectRow() {
+            if (!currentContextRow) return;
+            
+            const checkbox = currentContextRow.querySelector('.row-checkbox');
+            checkbox.checked = !checkbox.checked;
+            toggleRowSelection(checkbox);
+            hideContextMenu();
+        }
+        
+        function contextDeleteAircraft() {
+            if (!currentContextRow) return;
+            
+            const aircraftId = currentContextRow.querySelector('.aircraft-id-input').value || 'this aircraft';
+            if (confirm(`Are you sure you want to delete ${aircraftId}?`)) {
+                currentContextRow.remove();
                 updateSummaryCards();
                 updateMetrics();
                 updateBulkControls();
-                
-                const existingRows = document.querySelectorAll('tbody tr');
-                existingRows.forEach(row => {
-                    addEventListenersToRow(row);
-                });
-                
-                // Save initial state
                 saveDataToStorage();
             }
-            
-            // Add search and filter event listeners
-            document.getElementById('search-input').addEventListener('input', searchAndFilter);
-            document.getElementById('status-filter').addEventListener('change', searchAndFilter);
-            document.getElementById('team-filter').addEventListener('input', searchAndFilter);
-            document.getElementById('priority-filter').addEventListener('change', searchAndFilter);
-            
-            // Auto-save every 30 seconds
-            setInterval(saveDataToStorage, 30000);
-            
-            // Save data when user leaves the page
-            window.addEventListener('beforeunload', saveDataToStorage);
-        });
-    </script>
-</body>
-</html>
+            hideContextMenu();
+        }
+        
+        // Keyboard Shortcut Helper Functions
+        function selectAllRows() {
+            const selectAllCheckbox = document.getElementById('select-all');
+            selectAllCheckbox.checked = true;
+            toggleSelectAll();
+        }
+        
+        function clearAllSelections() {
+            const selectAllCheckbox = document.getElementById('select-all');
+            selectAllCheckbox.checked = false
