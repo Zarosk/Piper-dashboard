@@ -63,13 +63,17 @@
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">NCMR</div>
+                            <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
+                        </div>
+                    </td>
+                    <td class="notes-cell">
+                        <div class="note-section">
+                            <div class="note-label">NCMR Notes</div>
                             <textarea class="notes-input" placeholder="Enter non-conformance reports..."></textarea>
                         </div>
                     </td>
                     <td><input type="date" class="date-input" /></td>
-                    <td><input type="date" class="date-input" /></td>
                     <td><input type="text" class="team-input" placeholder="Team Name" /></td>
-                    <td></td>
                 </tr><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -494,43 +498,87 @@
             border-radius: 10px;
             margin-bottom: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
         }
         
         .search-filter-controls {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 15px;
+            gap: 20px;
             align-items: center;
+            margin-bottom: 15px;
         }
         
         .search-input {
-            padding: 10px 15px;
+            padding: 12px 15px;
             border: 2px solid #e9ecef;
             border-radius: 6px;
             font-size: 14px;
             width: 100%;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 5;
         }
         
         .search-input:focus {
             outline: none;
             border-color: #007bff;
             box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+            z-index: 15;
         }
         
         .filter-select {
-            padding: 10px 15px;
+            padding: 12px 15px;
             border: 2px solid #e9ecef;
             border-radius: 6px;
             font-size: 14px;
             cursor: pointer;
             background: white;
             width: 100%;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 5;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
         }
         
         .filter-select:focus {
             outline: none;
             border-color: #007bff;
             box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+            z-index: 15;
+        }
+        
+        .filter-select:hover {
+            border-color: #adb5bd;
+        }
+        
+        .clear-filters-btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .clear-filters-btn:hover {
+            background: #5a6268;
+        }
+        
+        @media (max-width: 768px) {
+            .search-filter-controls {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
         }
         
         .metrics-section {
@@ -612,6 +660,8 @@
             border-radius: 10px;
             margin-bottom: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 5;
         }
         
         .bulk-controls {
@@ -626,12 +676,14 @@
             background: linear-gradient(135deg, #6f42c1, #5a2d91);
             color: white;
             border: none;
-            padding: 10px 16px;
+            padding: 12px 16px;
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
             font-size: 13px;
             transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
         }
         
         .bulk-btn:hover {
@@ -644,6 +696,49 @@
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
+        }
+        
+        .metrics-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 5;
+        }
+        
+        .add-aircraft-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .export-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .main-table {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow-x: auto;
+            position: relative;
+            z-index: 1;
         }
         
         .select-all-checkbox {
@@ -981,16 +1076,24 @@
             const rows = document.querySelectorAll('tbody tr');
             
             rows.forEach(row => {
-                const aircraftId = row.querySelector('.aircraft-id-input').value.toLowerCase();
-                const model = row.querySelector('.model-select').value.toLowerCase();
-                const status = row.querySelector('.status-select').value;
-                const team = row.querySelector('.team-input').value.toLowerCase();
-                const priority = row.querySelector('.priority-select').value;
+                const aircraftId = row.querySelector('.aircraft-id-input');
+                const model = row.querySelector('.model-select');
+                const status = row.querySelector('.status-select');
+                const team = row.querySelector('.team-input');
+                const priority = row.querySelector('.priority-select');
                 
-                const matchesSearch = aircraftId.includes(searchTerm) || model.includes(searchTerm);
-                const matchesStatus = !statusFilter || status === statusFilter;
-                const matchesTeam = !teamFilter || team.includes(teamFilter.toLowerCase());
-                const matchesPriority = !priorityFilter || priority === priorityFilter;
+                if (!aircraftId || !model || !status || !team || !priority) return;
+                
+                const aircraftIdValue = aircraftId.value.toLowerCase();
+                const modelValue = model.value.toLowerCase();
+                const statusValue = status.value;
+                const teamValue = team.value.toLowerCase();
+                const priorityValue = priority.value;
+                
+                const matchesSearch = aircraftIdValue.includes(searchTerm) || modelValue.includes(searchTerm);
+                const matchesStatus = !statusFilter || statusValue === statusFilter;
+                const matchesTeam = !teamFilter || teamValue.includes(teamFilter.toLowerCase());
+                const matchesPriority = !priorityFilter || priorityValue === priorityFilter;
                 
                 if (matchesSearch && matchesStatus && matchesTeam && matchesPriority) {
                     row.classList.remove('hidden-row');
@@ -1155,13 +1258,12 @@
                 <td class="notes-cell">
                     <div class="note-section">
                         <div class="note-label">NCMR</div>
-                        <textarea class="notes-input" placeholder="Enter non-conformance reports..."></textarea>
+                        <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
                     </div>
                 </td>
                 <td><input type="date" class="date-input" /></td>
                 <td><input type="date" class="date-input" /></td>
                 <td><input type="text" class="team-input" placeholder="Team Name" /></td>
-                <td></td>
             `;
             
             tbody.appendChild(newRow);
@@ -1324,7 +1426,7 @@
                 <option value="Low">Low</option>
             </select>
         </div>
-        <button onclick="clearFilters()" style="margin-top: 10px; padding: 8px 16px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Clear All Filters</button>
+        <button onclick="clearFilters()" class="clear-filters-btn">Clear All Filters</button>
     </div>
     
     <div class="metrics-section">
@@ -1410,7 +1512,6 @@
                     <th>Last Updated</th>
                     <th>Delivery Date</th>
                     <th>Team</th>
-                    <th>Quality Score</th>
                 </tr>
             </thead>
             <tbody>
