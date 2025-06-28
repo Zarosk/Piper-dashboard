@@ -1,80 +1,4 @@
-<tr>
-                    <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
-                    <td><input type="text" class="aircraft-id-input" placeholder="AC-001" /></td>
-                    <td>
-                        <select class="model-select">
-                            <option value="">Select Model</option>
-                            <option value="PA-28-181">PA-28-181</option>
-                            <option value="PA-28-181 DX">PA-28-181 DX</option>
-                            <option value="PA-44-180">PA-44-180</option>
-                            <option value="PA-46-350P">PA-46-350P</option>
-                            <option value="PA-46-500">PA-46-500</option>
-                            <option value="PA-46-700">PA-46-700</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select class="status-select production-ready" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics();">
-                            <option value="Production Ready" selected>Production Ready</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="On Hold">On Hold</option>
-                            <option value="Quality Check">Quality Check</option>
-                        </select>
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td class="operation-cell">
-                        <input type="checkbox" class="operation-checkbox" />
-                    </td>
-                    <td>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%;"></div>
-                        </div>
-                    </td>
-                    <td>
-                        <select class="priority-select medium" onchange="updatePriorityStyle(this); updateMetrics();">
-                            <option value="Critical">Critical</option>
-                            <option value="High">High</option>
-                            <option value="Medium" selected>Medium</option>
-                            <option value="Low">Low</option>
-                        </select>
-                    </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">Pre-Flight</div>
-                            <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
-                        </div>
-                    </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">Pre-Cert</div>
-                            <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
-                        </div>
-                    </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">NCMR</div>
-                            <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
-                        </div>
-                    </td>
-                    <td class="notes-cell">
-                        <div class="note-section">
-                            <div class="note-label">NCMR Notes</div>
-                            <textarea class="notes-input" placeholder="Enter non-conformance reports..."></textarea>
-                        </div>
-                    </td>
-                    <td><input type="date" class="date-input" /></td>
-                    <td><input type="text" class="team-input" placeholder="Team Name" /></td>
-                </tr><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -117,6 +41,8 @@
             margin-bottom: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             text-align: center;
+            position: relative;
+            z-index: 5;
         }
         
         .export-btn {
@@ -187,6 +113,8 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             margin-bottom: 20px;
             overflow-x: auto;
+            position: relative;
+            z-index: 1;
         }
         
         table {
@@ -262,15 +190,6 @@
         .status-select.quality-check {
             background-color: #d1ecf1;
             color: #0c5460;
-        }
-        
-        .operation-badge {
-            background-color: #e9ecef;
-            color: #495057;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: bold;
         }
         
         .notes-cell {
@@ -398,6 +317,8 @@
             margin-bottom: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             text-align: center;
+            position: relative;
+            z-index: 5;
         }
         
         .add-btn {
@@ -465,31 +386,6 @@
         .operation-cell {
             text-align: center;
             padding: 8px;
-        }
-        
-        .operation-cell input[type="checkbox"]:checked + .operation-label {
-            background-color: #28a745;
-            color: white;
-        }
-        
-        .operation-cell input[type="checkbox"]:not(:checked) + .operation-label {
-            background-color: #e9ecef;
-            color: #666;
-        }
-        
-        .operation-label {
-            display: none;
-        }
-        
-        .last-updated {
-            text-align: center;
-            color: #666;
-            font-size: 12px;
-            margin-top: 20px;
-            padding: 10px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
         .search-filter-section {
@@ -574,19 +470,14 @@
             background: #5a6268;
         }
         
-        @media (max-width: 768px) {
-            .search-filter-controls {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-        }
-        
         .metrics-section {
             background: white;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 5;
         }
         
         .metrics-grid {
@@ -698,49 +589,6 @@
             box-shadow: none;
         }
         
-        .metrics-section {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 5;
-        }
-        
-        .add-aircraft-section {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            text-align: center;
-            position: relative;
-            z-index: 5;
-        }
-        
-        .export-section {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            text-align: center;
-            position: relative;
-            z-index: 5;
-        }
-        
-        .main-table {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            overflow-x: auto;
-            position: relative;
-            z-index: 1;
-        }
-        
         .select-all-checkbox {
             width: 18px;
             height: 18px;
@@ -765,6 +613,17 @@
         
         .hidden-row {
             display: none;
+        }
+        
+        .last-updated {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-top: 20px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
         @media (max-width: 768px) {
@@ -792,600 +651,13 @@
             th, td {
                 padding: 8px 6px;
             }
+            
+            .search-filter-controls {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
         }
     </style>
-    <script>
-        function exportToCSV() {
-            const table = document.querySelector('table');
-            const rows = table.querySelectorAll('tr');
-            let csvContent = '';
-            
-            rows.forEach(row => {
-                const cols = row.querySelectorAll('th, td');
-                const rowData = [];
-                
-                cols.forEach(col => {
-                    let cellText = col.textContent.trim();
-                    // Clean up text and remove extra whitespace
-                    cellText = cellText.replace(/\s+/g, ' ');
-                    // Escape quotes and wrap in quotes if contains comma
-                    if (cellText.includes(',') || cellText.includes('"')) {
-                        cellText = '"' + cellText.replace(/"/g, '""') + '"';
-                    }
-                    rowData.push(cellText);
-                });
-                
-                csvContent += rowData.join(',') + '\n';
-            });
-            
-            // Create and download CSV file
-            const blob = new Blob([csvContent], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'aircraft_production_dashboard_' + new Date().toISOString().split('T')[0] + '.csv';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }
-        
-        function copyTableData() {
-            const table = document.querySelector('table');
-            const rows = table.querySelectorAll('tr');
-            let tableText = '';
-            
-            rows.forEach(row => {
-                const cols = row.querySelectorAll('th, td');
-                const rowData = [];
-                
-                cols.forEach(col => {
-                    let cellText = col.textContent.trim();
-                    cellText = cellText.replace(/\s+/g, ' ');
-                    rowData.push(cellText);
-                });
-                
-                tableText += rowData.join('\t') + '\n';
-            });
-            
-            navigator.clipboard.writeText(tableText).then(() => {
-                alert('✅ Table data copied to clipboard! You can now paste it into Excel or Google Sheets.');
-            }).catch(() => {
-                alert('❌ Copy failed. Please try the CSV export instead.');
-            });
-        }
-        
-        function toggleSelectAll() {
-            const selectAllCheckbox = document.getElementById('select-all');
-            const rowCheckboxes = document.querySelectorAll('.row-checkbox');
-            
-            rowCheckboxes.forEach(checkbox => {
-                checkbox.checked = selectAllCheckbox.checked;
-                const row = checkbox.closest('tr');
-                if (checkbox.checked) {
-                    row.classList.add('selected-row');
-                } else {
-                    row.classList.remove('selected-row');
-                }
-            });
-            
-            updateBulkControls();
-        }
-        
-        function toggleRowSelection(checkbox) {
-            const row = checkbox.closest('tr');
-            if (checkbox.checked) {
-                row.classList.add('selected-row');
-            } else {
-                row.classList.remove('selected-row');
-            }
-            
-            // Update select all checkbox
-            const rowCheckboxes = document.querySelectorAll('.row-checkbox');
-            const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
-            const selectAllCheckbox = document.getElementById('select-all');
-            
-            if (checkedBoxes.length === rowCheckboxes.length) {
-                selectAllCheckbox.checked = true;
-            } else {
-                selectAllCheckbox.checked = false;
-            }
-            
-            updateBulkControls();
-        }
-        
-        function updateBulkControls() {
-            const selectedRows = document.querySelectorAll('.row-checkbox:checked');
-            const bulkButtons = document.querySelectorAll('.bulk-btn');
-            const selectedCount = document.getElementById('selected-count');
-            
-            selectedCount.textContent = selectedRows.length;
-            
-            if (selectedRows.length > 0) {
-                bulkButtons.forEach(btn => btn.disabled = false);
-            } else {
-                bulkButtons.forEach(btn => btn.disabled = true);
-            }
-        }
-        
-        function bulkUpdateStatus() {
-            const selectedRows = document.querySelectorAll('.row-checkbox:checked');
-            const newStatus = prompt('Enter new status:\n- Production Ready\n- In Progress\n- On Hold\n- Quality Check');
-            
-            if (newStatus && ['Production Ready', 'In Progress', 'On Hold', 'Quality Check'].includes(newStatus)) {
-                selectedRows.forEach(checkbox => {
-                    const row = checkbox.closest('tr');
-                    const statusSelect = row.querySelector('.status-select');
-                    statusSelect.value = newStatus;
-                    updateStatusStyle(statusSelect);
-                });
-                
-                updateSummaryCards();
-                updateMetrics();
-                alert(`Updated ${selectedRows.length} aircraft to "${newStatus}"`);
-            } else if (newStatus) {
-                alert('Invalid status. Please use: Production Ready, In Progress, On Hold, or Quality Check');
-            }
-        }
-        
-        function bulkUpdatePriority() {
-            const selectedRows = document.querySelectorAll('.row-checkbox:checked');
-            const newPriority = prompt('Enter new priority:\n- Critical\n- High\n- Medium\n- Low');
-            
-            if (newPriority && ['Critical', 'High', 'Medium', 'Low'].includes(newPriority)) {
-                selectedRows.forEach(checkbox => {
-                    const row = checkbox.closest('tr');
-                    const prioritySelect = row.querySelector('.priority-select');
-                    prioritySelect.value = newPriority;
-                    updatePriorityStyle(prioritySelect);
-                });
-                
-                updateMetrics();
-                alert(`Updated ${selectedRows.length} aircraft to "${newPriority}" priority`);
-            } else if (newPriority) {
-                alert('Invalid priority. Please use: Critical, High, Medium, or Low');
-            }
-        }
-        
-        function bulkUpdateTeam() {
-            const selectedRows = document.querySelectorAll('.row-checkbox:checked');
-            const newTeam = prompt('Enter team name:');
-            
-            if (newTeam) {
-                selectedRows.forEach(checkbox => {
-                    const row = checkbox.closest('tr');
-                    const teamInput = row.querySelector('.team-input');
-                    teamInput.value = newTeam;
-                });
-                
-                updateMetrics();
-                alert(`Assigned ${selectedRows.length} aircraft to team "${newTeam}"`);
-            }
-        }
-        
-        function copySelectedAircraft() {
-            const selectedRows = document.querySelectorAll('.row-checkbox:checked');
-            if (selectedRows.length === 0) return;
-            
-            const tbody = document.querySelector('tbody');
-            
-            selectedRows.forEach(checkbox => {
-                const originalRow = checkbox.closest('tr');
-                const newRow = originalRow.cloneNode(true);
-                
-                // Clear the aircraft ID and update placeholder
-                const aircraftIdInput = newRow.querySelector('.aircraft-id-input');
-                aircraftIdInput.value = '';
-                aircraftIdInput.placeholder = 'AC-00X (Copy)';
-                
-                // Uncheck the selection checkbox
-                const rowCheckbox = newRow.querySelector('.row-checkbox');
-                rowCheckbox.checked = false;
-                newRow.classList.remove('selected-row');
-                
-                // Reset progress
-                const checkboxes = newRow.querySelectorAll('.operation-checkbox');
-                checkboxes.forEach(cb => cb.checked = false);
-                const progressFill = newRow.querySelector('.progress-fill');
-                progressFill.style.width = '0%';
-                
-                // Clear dates
-                const dateInputs = newRow.querySelectorAll('.date-input');
-                dateInputs.forEach(input => input.value = '');
-                
-                // Add event listeners to new elements
-                addEventListenersToRow(newRow);
-                
-                tbody.appendChild(newRow);
-            });
-            
-            updateSummaryCards();
-            updateMetrics();
-            alert(`Copied ${selectedRows.length} aircraft`);
-        }
-        
-        function updatePriorityStyle(selectElement) {
-            if (!selectElement) return;
-            
-            // Remove all priority classes
-            selectElement.classList.remove('critical', 'high', 'medium', 'low');
-            
-            // Add class based on selected value
-            const value = selectElement.value.toLowerCase();
-            selectElement.classList.add(value);
-        }
-        
-        function updateStatusStyle(selectElement) {
-            if (!selectElement) return;
-            
-            // Remove all status classes
-            selectElement.classList.remove('production-ready', 'in-progress', 'on-hold', 'quality-check');
-            
-            // Add class based on selected value
-            const value = selectElement.value;
-            if (value === 'Production Ready') {
-                selectElement.classList.add('production-ready');
-            } else if (value === 'In Progress') {
-                selectElement.classList.add('in-progress');
-            } else if (value === 'On Hold') {
-                selectElement.classList.add('on-hold');
-            } else if (value === 'Quality Check') {
-                selectElement.classList.add('quality-check');
-            }
-        }
-        
-        function updateSummaryCards() {
-            const statusCells = document.querySelectorAll('tbody tr:not(.hidden-row) td:nth-child(4)'); // Updated column number
-            const counts = {
-                'Production Ready': 0,
-                'In Progress': 0,
-                'On Hold': 0,
-                'Quality Check': 0
-            };
-            
-            statusCells.forEach(cell => {
-                const select = cell.querySelector('.status-select');
-                if (select) {
-                    const status = select.value;
-                    if (counts.hasOwnProperty(status)) {
-                        counts[status]++;
-                    }
-                }
-            });
-            
-            // Check if elements exist before setting textContent
-            const prodReadyElement = document.getElementById('prod-ready-count');
-            const inProgressElement = document.getElementById('in-progress-count');
-            const onHoldElement = document.getElementById('on-hold-count');
-            const qualityCheckElement = document.getElementById('quality-check-count');
-            const totalElement = document.getElementById('total-count');
-            
-            if (prodReadyElement) prodReadyElement.textContent = counts['Production Ready'];
-            if (inProgressElement) inProgressElement.textContent = counts['In Progress'];
-            if (onHoldElement) onHoldElement.textContent = counts['On Hold'];
-            if (qualityCheckElement) qualityCheckElement.textContent = counts['Quality Check'];
-            if (totalElement) totalElement.textContent = statusCells.length;
-        }
-        
-        function searchAndFilter() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const statusFilter = document.getElementById('status-filter').value;
-            const teamFilter = document.getElementById('team-filter').value;
-            const priorityFilter = document.getElementById('priority-filter').value;
-            
-            const rows = document.querySelectorAll('tbody tr');
-            
-            rows.forEach(row => {
-                const aircraftId = row.querySelector('.aircraft-id-input');
-                const model = row.querySelector('.model-select');
-                const status = row.querySelector('.status-select');
-                const team = row.querySelector('.team-input');
-                const priority = row.querySelector('.priority-select');
-                
-                if (!aircraftId || !model || !status || !team || !priority) return;
-                
-                const aircraftIdValue = aircraftId.value.toLowerCase();
-                const modelValue = model.value.toLowerCase();
-                const statusValue = status.value;
-                const teamValue = team.value.toLowerCase();
-                const priorityValue = priority.value;
-                
-                const matchesSearch = aircraftIdValue.includes(searchTerm) || modelValue.includes(searchTerm);
-                const matchesStatus = !statusFilter || statusValue === statusFilter;
-                const matchesTeam = !teamFilter || teamValue.includes(teamFilter.toLowerCase());
-                const matchesPriority = !priorityFilter || priorityValue === priorityFilter;
-                
-                if (matchesSearch && matchesStatus && matchesTeam && matchesPriority) {
-                    row.classList.remove('hidden-row');
-                } else {
-                    row.classList.add('hidden-row');
-                }
-            });
-            
-            updateSummaryCards();
-            updateMetrics();
-        }
-        
-        function clearFilters() {
-            document.getElementById('search-input').value = '';
-            document.getElementById('status-filter').value = '';
-            document.getElementById('team-filter').value = '';
-            document.getElementById('priority-filter').value = '';
-            
-            const rows = document.querySelectorAll('tbody tr');
-            rows.forEach(row => {
-                row.classList.remove('hidden-row');
-            });
-            
-            updateSummaryCards();
-            updateMetrics();
-        }
-        
-        function updateMetrics() {
-            const visibleRows = document.querySelectorAll('tbody tr:not(.hidden-row)');
-            let totalProgress = 0;
-            let completedAircraft = 0;
-            let overdueCount = 0;
-            const teamCounts = {};
-            
-            visibleRows.forEach(row => {
-                // Calculate progress
-                const checkboxes = row.querySelectorAll('.operation-checkbox');
-                const checkedBoxes = row.querySelectorAll('.operation-checkbox:checked');
-                const progress = checkboxes.length > 0 ? (checkedBoxes.length / checkboxes.length) : 0;
-                totalProgress += progress;
-                
-                if (progress === 1) completedAircraft++;
-                
-                // Check if overdue (simplified check)
-                const deliveryDate = row.querySelector('.date-input[type="date"]').value;
-                if (deliveryDate) {
-                    const delivery = new Date(deliveryDate);
-                    const today = new Date();
-                    if (delivery < today && progress < 1) {
-                        overdueCount++;
-                    }
-                }
-                
-                // Count by team
-                const team = row.querySelector('.team-input').value || 'Unassigned';
-                teamCounts[team] = (teamCounts[team] || 0) + 1;
-            });
-            
-            // Update metric displays
-            const avgProgress = visibleRows.length > 0 ? (totalProgress / visibleRows.length * 100).toFixed(1) : 0;
-            const completionRate = visibleRows.length > 0 ? (completedAircraft / visibleRows.length * 100).toFixed(1) : 0;
-            
-            document.getElementById('avg-progress').textContent = avgProgress + '%';
-            document.getElementById('completion-rate').textContent = completionRate + '%';
-            document.getElementById('overdue-count').textContent = overdueCount;
-            
-            // Find most active team
-            let mostActiveTeam = 'None';
-            let maxCount = 0;
-            for (const [team, count] of Object.entries(teamCounts)) {
-                if (count > maxCount && team !== 'Unassigned') {
-                    maxCount = count;
-                    mostActiveTeam = team;
-                }
-            }
-            document.getElementById('active-team').textContent = mostActiveTeam;
-        }
-        
-        function updateStatusStyle(selectElement) {
-            // Remove all status classes
-            selectElement.classList.remove('production-ready', 'in-progress', 'on-hold', 'quality-check');
-            
-            // Add class based on selected value
-            const value = selectElement.value;
-            if (value === 'Production Ready') {
-                selectElement.classList.add('production-ready');
-            } else if (value === 'In Progress') {
-                selectElement.classList.add('in-progress');
-            } else if (value === 'On Hold') {
-                selectElement.classList.add('on-hold');
-            } else if (value === 'Quality Check') {
-                selectElement.classList.add('quality-check');
-            }
-        }
-        
-        function addNewAircraft() {
-            const tbody = document.querySelector('tbody');
-            const newRow = document.createElement('tr');
-            
-            newRow.innerHTML = `
-                <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
-                <td><input type="text" class="aircraft-id-input" placeholder="AC-00X" /></td>
-                <td>
-                    <select class="model-select">
-                        <option value="">Select Model</option>
-                        <option value="PA-28-181">PA-28-181</option>
-                        <option value="PA-28-181 DX">PA-28-181 DX</option>
-                        <option value="PA-44-180">PA-44-180</option>
-                        <option value="PA-46-350P">PA-46-350P</option>
-                        <option value="PA-46-500">PA-46-500</option>
-                        <option value="PA-46-700">PA-46-700</option>
-                    </select>
-                </td>
-                <td>
-                    <select class="status-select in-progress" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics();">
-                        <option value="Production Ready">Production Ready</option>
-                        <option value="In Progress" selected>In Progress</option>
-                        <option value="On Hold">On Hold</option>
-                        <option value="Quality Check">Quality Check</option>
-                    </select>
-                </td>
-                <td class="operation-cell">
-                    <input type="checkbox" class="operation-checkbox" />
-                </td>
-                <td class="operation-cell">
-                    <input type="checkbox" class="operation-checkbox" />
-                </td>
-                <td class="operation-cell">
-                    <input type="checkbox" class="operation-checkbox" />
-                </td>
-                <td class="operation-cell">
-                    <input type="checkbox" class="operation-checkbox" />
-                </td>
-                <td class="operation-cell">
-                    <input type="checkbox" class="operation-checkbox" />
-                </td>
-                <td>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 0%;"></div>
-                    </div>
-                </td>
-                <td>
-                    <select class="priority-select medium" onchange="updatePriorityStyle(this); updateMetrics();">
-                        <option value="Critical">Critical</option>
-                        <option value="High">High</option>
-                        <option value="Medium" selected>Medium</option>
-                        <option value="Low">Low</option>
-                    </select>
-                </td>
-                <td class="notes-cell">
-                    <div class="note-section">
-                        <div class="note-label">Pre-Flight</div>
-                        <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
-                    </div>
-                </td>
-                <td class="notes-cell">
-                    <div class="note-section">
-                        <div class="note-label">Pre-Cert</div>
-                        <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
-                    </div>
-                </td>
-                <td class="notes-cell">
-                    <div class="note-section">
-                        <div class="note-label">NCMR</div>
-                        <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
-                    </div>
-                </td>
-                <td><input type="date" class="date-input" /></td>
-                <td><input type="date" class="date-input" /></td>
-                <td><input type="text" class="team-input" placeholder="Team Name" /></td>
-            `;
-            
-            tbody.appendChild(newRow);
-            
-            // Add event listeners using the helper function
-            addEventListenersToRow(newRow);
-            
-            // Update summary cards and metrics
-            updateSummaryCards();
-            updateMetrics();
-            updateBulkControls();
-            
-            // Scroll to the new row
-            newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-        
-        function addEventListenersToRow(row) {
-            // Add checkbox event listener
-            const rowCheckbox = row.querySelector('.row-checkbox');
-            if (rowCheckbox) {
-                rowCheckbox.addEventListener('change', function() {
-                    toggleRowSelection(this);
-                });
-            }
-            
-            // Add operation checkbox listeners
-            const operationCheckboxes = row.querySelectorAll('.operation-checkbox');
-            operationCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    updateProgress(row);
-                    updateMetrics();
-                });
-            });
-            
-            // Add status select listener
-            const statusSelect = row.querySelector('.status-select');
-            if (statusSelect) {
-                statusSelect.addEventListener('change', function() {
-                    updateStatusStyle(this);
-                    updateSummaryCards();
-                    updateMetrics();
-                });
-            }
-            
-            // Add priority select listener
-            const prioritySelect = row.querySelector('.priority-select');
-            if (prioritySelect) {
-                prioritySelect.addEventListener('change', function() {
-                    updatePriorityStyle(this);
-                    updateMetrics();
-                });
-            }
-        }
-        
-        function updateProgress(row) {
-            const checkboxes = row.querySelectorAll('.operation-checkbox');
-            const checkedBoxes = row.querySelectorAll('.operation-checkbox:checked');
-            const progressBar = row.querySelector('.progress-fill');
-            
-            if (checkboxes.length > 0) {
-                const progressPercent = (checkedBoxes.length / checkboxes.length) * 100;
-                progressBar.style.width = progressPercent + '%';
-            }
-        }
-        
-        function updateSummaryCards() {
-            const statusCells = document.querySelectorAll('tbody tr td:nth-child(3)');
-            const counts = {
-                'Production Ready': 0,
-                'In Progress': 0,
-                'On Hold': 0,
-                'Quality Check': 0
-            };
-            
-            statusCells.forEach(cell => {
-                const status = cell.textContent.trim();
-                if (counts.hasOwnProperty(status)) {
-                    counts[status]++;
-                }
-            });
-            
-            // Check if elements exist before setting textContent
-            const prodReadyElement = document.getElementById('prod-ready-count');
-            const inProgressElement = document.getElementById('in-progress-count');
-            const onHoldElement = document.getElementById('on-hold-count');
-            const qualityCheckElement = document.getElementById('quality-check-count');
-            const totalElement = document.getElementById('total-count');
-            
-            if (prodReadyElement) prodReadyElement.textContent = counts['Production Ready'];
-            if (inProgressElement) inProgressElement.textContent = counts['In Progress'];
-            if (onHoldElement) onHoldElement.textContent = counts['On Hold'];
-            if (qualityCheckElement) qualityCheckElement.textContent = counts['Quality Check'];
-            if (totalElement) totalElement.textContent = statusCells.length;
-        }
-        
-        // Auto-update summary cards when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            updateSummaryCards();
-            updateMetrics();
-            updateBulkControls();
-            
-            // Add event listeners to all existing rows
-            const existingRows = document.querySelectorAll('tbody tr');
-            existingRows.forEach(row => {
-                addEventListenersToRow(row);
-            });
-            
-            // Add search and filter event listeners
-            document.getElementById('search-input').addEventListener('input', searchAndFilter);
-            document.getElementById('status-filter').addEventListener('change', searchAndFilter);
-            document.getElementById('team-filter').addEventListener('input', searchAndFilter);
-            document.getElementById('priority-filter').addEventListener('change', searchAndFilter);
-            
-            // Update timestamp
-            const now = new Date();
-            const timestamp = now.toLocaleDateString() + ' at ' + now.toLocaleTimeString();
-            const lastUpdatedElement = document.getElementById('last-updated');
-            if (lastUpdatedElement) {
-                lastUpdatedElement.textContent = 'Dashboard Last Updated: ' + timestamp;
-            }
-        });
-    </script>
 </head>
 <body>
     <div class="dashboard-header">
@@ -1508,14 +780,14 @@
                     <th>Priority</th>
                     <th>Pre-Flight Notes</th>
                     <th>Pre-Cert Notes</th>
-                    <th>NCMR</th>
-                    <th>Last Updated</th>
+                    <th>NCMR Notes</th>
                     <th>Delivery Date</th>
                     <th>Team</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
+                    <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
                     <td><input type="text" class="aircraft-id-input" placeholder="AC-001" /></td>
                     <td>
                         <select class="model-select">
@@ -1529,7 +801,7 @@
                         </select>
                     </td>
                     <td>
-                        <select class="status-select production-ready" onchange="updateStatusStyle(this); updateSummaryCards();">
+                        <select class="status-select production-ready" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics();">
                             <option value="Production Ready" selected>Production Ready</option>
                             <option value="In Progress">In Progress</option>
                             <option value="On Hold">On Hold</option>
@@ -1576,12 +848,17 @@
                             <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
                         </div>
                     </td>
-                    <td><input type="date" class="date-input" /></td>
+                    <td class="notes-cell">
+                        <div class="note-section">
+                            <div class="note-label">NCMR Notes</div>
+                            <textarea class="notes-input" placeholder="Enter non-conformance reports..."></textarea>
+                        </div>
+                    </td>
                     <td><input type="date" class="date-input" /></td>
                     <td><input type="text" class="team-input" placeholder="Team Name" /></td>
-                    <td></td>
                 </tr>
                 <tr>
+                    <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
                     <td><input type="text" class="aircraft-id-input" placeholder="AC-002" /></td>
                     <td>
                         <select class="model-select">
@@ -1595,7 +872,7 @@
                         </select>
                     </td>
                     <td>
-                        <select class="status-select in-progress" onchange="updateStatusStyle(this); updateSummaryCards();">
+                        <select class="status-select in-progress" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics();">
                             <option value="Production Ready">Production Ready</option>
                             <option value="In Progress" selected>In Progress</option>
                             <option value="On Hold">On Hold</option>
@@ -1642,12 +919,17 @@
                             <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
                         </div>
                     </td>
-                    <td><input type="date" class="date-input" /></td>
+                    <td class="notes-cell">
+                        <div class="note-section">
+                            <div class="note-label">NCMR Notes</div>
+                            <textarea class="notes-input" placeholder="Enter non-conformance reports..."></textarea>
+                        </div>
+                    </td>
                     <td><input type="date" class="date-input" /></td>
                     <td><input type="text" class="team-input" placeholder="Team Name" /></td>
-                    <td></td>
                 </tr>
                 <tr>
+                    <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
                     <td><input type="text" class="aircraft-id-input" placeholder="AC-003" /></td>
                     <td>
                         <select class="model-select">
@@ -1661,7 +943,7 @@
                         </select>
                     </td>
                     <td>
-                        <select class="status-select production-ready" onchange="updateStatusStyle(this); updateSummaryCards();">
+                        <select class="status-select production-ready" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics();">
                             <option value="Production Ready" selected>Production Ready</option>
                             <option value="In Progress">In Progress</option>
                             <option value="On Hold">On Hold</option>
@@ -1708,12 +990,17 @@
                             <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
                         </div>
                     </td>
-                    <td><input type="date" class="date-input" /></td>
+                    <td class="notes-cell">
+                        <div class="note-section">
+                            <div class="note-label">NCMR Notes</div>
+                            <textarea class="notes-input" placeholder="Enter non-conformance reports..."></textarea>
+                        </div>
+                    </td>
                     <td><input type="date" class="date-input" /></td>
                     <td><input type="text" class="team-input" placeholder="Team Name" /></td>
-                    <td></td>
                 </tr>
                 <tr>
+                    <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
                     <td><input type="text" class="aircraft-id-input" placeholder="AC-004" /></td>
                     <td>
                         <select class="model-select">
@@ -1727,7 +1014,7 @@
                         </select>
                     </td>
                     <td>
-                        <select class="status-select quality-check" onchange="updateStatusStyle(this); updateSummaryCards();">
+                        <select class="status-select quality-check" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics();">
                             <option value="Production Ready">Production Ready</option>
                             <option value="In Progress">In Progress</option>
                             <option value="On Hold">On Hold</option>
@@ -1774,12 +1061,17 @@
                             <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
                         </div>
                     </td>
-                    <td><input type="date" class="date-input" /></td>
+                    <td class="notes-cell">
+                        <div class="note-section">
+                            <div class="note-label">NCMR Notes</div>
+                            <textarea class="notes-input" placeholder="Enter non-conformance reports..."></textarea>
+                        </div>
+                    </td>
                     <td><input type="date" class="date-input" /></td>
                     <td><input type="text" class="team-input" placeholder="Team Name" /></td>
-                    <td></td>
                 </tr>
                 <tr>
+                    <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
                     <td><input type="text" class="aircraft-id-input" placeholder="AC-005" /></td>
                     <td>
                         <select class="model-select">
@@ -1793,7 +1085,7 @@
                         </select>
                     </td>
                     <td>
-                        <select class="status-select on-hold" onchange="updateStatusStyle(this); updateSummaryCards();">
+                        <select class="status-select on-hold" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics();">
                             <option value="Production Ready">Production Ready</option>
                             <option value="In Progress">In Progress</option>
                             <option value="On Hold" selected>On Hold</option>
@@ -1840,8 +1132,528 @@
                             <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
                         </div>
                     </td>
-                    <td><input type="date" class="date-input" /></td>
+                    <td class="notes-cell">
+                        <div class="note-section">
+                            <div class="note-label">NCMR Notes</div>
+                            <textarea class="notes-input" placeholder="Enter non-conformance reports..."></textarea>
+                        </div>
+                    </td>
                     <td><input type="date" class="date-input" /></td>
                     <td><input type="text" class="team-input" placeholder="Team Name" /></td>
-                    <td></td>
                 </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="last-updated" id="last-updated">
+        Dashboard Last Updated: Loading...
+    </div>
+
+    <script>
+        function exportToCSV() {
+            const table = document.querySelector('table');
+            const rows = table.querySelectorAll('tr');
+            let csvContent = '';
+            
+            rows.forEach(row => {
+                const cols = row.querySelectorAll('th, td');
+                const rowData = [];
+                
+                cols.forEach(col => {
+                    let cellText = col.textContent.trim();
+                    cellText = cellText.replace(/\s+/g, ' ');
+                    if (cellText.includes(',') || cellText.includes('"')) {
+                        cellText = '"' + cellText.replace(/"/g, '""') + '"';
+                    }
+                    rowData.push(cellText);
+                });
+                
+                csvContent += rowData.join(',') + '\n';
+            });
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'aircraft_production_dashboard_' + new Date().toISOString().split('T')[0] + '.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+        
+        function copyTableData() {
+            const table = document.querySelector('table');
+            const rows = table.querySelectorAll('tr');
+            let tableText = '';
+            
+            rows.forEach(row => {
+                const cols = row.querySelectorAll('th, td');
+                const rowData = [];
+                
+                cols.forEach(col => {
+                    let cellText = col.textContent.trim();
+                    cellText = cellText.replace(/\s+/g, ' ');
+                    rowData.push(cellText);
+                });
+                
+                tableText += rowData.join('\t') + '\n';
+            });
+            
+            navigator.clipboard.writeText(tableText).then(() => {
+                alert('✅ Table data copied to clipboard! You can now paste it into Excel or Google Sheets.');
+            }).catch(() => {
+                alert('❌ Copy failed. Please try the CSV export instead.');
+            });
+        }
+        
+        function toggleSelectAll() {
+            const selectAllCheckbox = document.getElementById('select-all');
+            const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+            
+            rowCheckboxes.forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
+                const row = checkbox.closest('tr');
+                if (checkbox.checked) {
+                    row.classList.add('selected-row');
+                } else {
+                    row.classList.remove('selected-row');
+                }
+            });
+            
+            updateBulkControls();
+        }
+        
+        function toggleRowSelection(checkbox) {
+            const row = checkbox.closest('tr');
+            if (checkbox.checked) {
+                row.classList.add('selected-row');
+            } else {
+                row.classList.remove('selected-row');
+            }
+            
+            const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+            const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
+            const selectAllCheckbox = document.getElementById('select-all');
+            
+            if (checkedBoxes.length === rowCheckboxes.length) {
+                selectAllCheckbox.checked = true;
+            } else {
+                selectAllCheckbox.checked = false;
+            }
+            
+            updateBulkControls();
+        }
+        
+        function updateBulkControls() {
+            const selectedRows = document.querySelectorAll('.row-checkbox:checked');
+            const bulkButtons = document.querySelectorAll('.bulk-btn');
+            const selectedCount = document.getElementById('selected-count');
+            
+            selectedCount.textContent = selectedRows.length;
+            
+            if (selectedRows.length > 0) {
+                bulkButtons.forEach(btn => btn.disabled = false);
+            } else {
+                bulkButtons.forEach(btn => btn.disabled = true);
+            }
+        }
+        
+        function bulkUpdateStatus() {
+            const selectedRows = document.querySelectorAll('.row-checkbox:checked');
+            const newStatus = prompt('Enter new status:\n- Production Ready\n- In Progress\n- On Hold\n- Quality Check');
+            
+            if (newStatus && ['Production Ready', 'In Progress', 'On Hold', 'Quality Check'].includes(newStatus)) {
+                selectedRows.forEach(checkbox => {
+                    const row = checkbox.closest('tr');
+                    const statusSelect = row.querySelector('.status-select');
+                    statusSelect.value = newStatus;
+                    updateStatusStyle(statusSelect);
+                });
+                
+                updateSummaryCards();
+                updateMetrics();
+                alert(`Updated ${selectedRows.length} aircraft to "${newStatus}"`);
+            } else if (newStatus) {
+                alert('Invalid status. Please use: Production Ready, In Progress, On Hold, or Quality Check');
+            }
+        }
+        
+        function bulkUpdatePriority() {
+            const selectedRows = document.querySelectorAll('.row-checkbox:checked');
+            const newPriority = prompt('Enter new priority:\n- Critical\n- High\n- Medium\n- Low');
+            
+            if (newPriority && ['Critical', 'High', 'Medium', 'Low'].includes(newPriority)) {
+                selectedRows.forEach(checkbox => {
+                    const row = checkbox.closest('tr');
+                    const prioritySelect = row.querySelector('.priority-select');
+                    prioritySelect.value = newPriority;
+                    updatePriorityStyle(prioritySelect);
+                });
+                
+                updateMetrics();
+                alert(`Updated ${selectedRows.length} aircraft to "${newPriority}" priority`);
+            } else if (newPriority) {
+                alert('Invalid priority. Please use: Critical, High, Medium, or Low');
+            }
+        }
+        
+        function bulkUpdateTeam() {
+            const selectedRows = document.querySelectorAll('.row-checkbox:checked');
+            const newTeam = prompt('Enter team name:');
+            
+            if (newTeam) {
+                selectedRows.forEach(checkbox => {
+                    const row = checkbox.closest('tr');
+                    const teamInput = row.querySelector('.team-input');
+                    teamInput.value = newTeam;
+                });
+                
+                updateMetrics();
+                alert(`Assigned ${selectedRows.length} aircraft to team "${newTeam}"`);
+            }
+        }
+        
+        function copySelectedAircraft() {
+            const selectedRows = document.querySelectorAll('.row-checkbox:checked');
+            if (selectedRows.length === 0) return;
+            
+            const tbody = document.querySelector('tbody');
+            
+            selectedRows.forEach(checkbox => {
+                const originalRow = checkbox.closest('tr');
+                const newRow = originalRow.cloneNode(true);
+                
+                const aircraftIdInput = newRow.querySelector('.aircraft-id-input');
+                aircraftIdInput.value = '';
+                aircraftIdInput.placeholder = 'AC-00X (Copy)';
+                
+                const rowCheckbox = newRow.querySelector('.row-checkbox');
+                rowCheckbox.checked = false;
+                newRow.classList.remove('selected-row');
+                
+                const checkboxes = newRow.querySelectorAll('.operation-checkbox');
+                checkboxes.forEach(cb => cb.checked = false);
+                const progressFill = newRow.querySelector('.progress-fill');
+                progressFill.style.width = '0%';
+                
+                const dateInputs = newRow.querySelectorAll('.date-input');
+                dateInputs.forEach(input => input.value = '');
+                
+                addEventListenersToRow(newRow);
+                tbody.appendChild(newRow);
+            });
+            
+            updateSummaryCards();
+            updateMetrics();
+            alert(`Copied ${selectedRows.length} aircraft`);
+        }
+        
+        function updatePriorityStyle(selectElement) {
+            if (!selectElement) return;
+            
+            selectElement.classList.remove('critical', 'high', 'medium', 'low');
+            const value = selectElement.value.toLowerCase();
+            selectElement.classList.add(value);
+        }
+        
+        function updateStatusStyle(selectElement) {
+            if (!selectElement) return;
+            
+            selectElement.classList.remove('production-ready', 'in-progress', 'on-hold', 'quality-check');
+            
+            const value = selectElement.value;
+            if (value === 'Production Ready') {
+                selectElement.classList.add('production-ready');
+            } else if (value === 'In Progress') {
+                selectElement.classList.add('in-progress');
+            } else if (value === 'On Hold') {
+                selectElement.classList.add('on-hold');
+            } else if (value === 'Quality Check') {
+                selectElement.classList.add('quality-check');
+            }
+        }
+        
+        function updateSummaryCards() {
+            const statusCells = document.querySelectorAll('tbody tr:not(.hidden-row) .status-select');
+            const counts = {
+                'Production Ready': 0,
+                'In Progress': 0,
+                'On Hold': 0,
+                'Quality Check': 0
+            };
+            
+            statusCells.forEach(select => {
+                const status = select.value;
+                if (counts.hasOwnProperty(status)) {
+                    counts[status]++;
+                }
+            });
+            
+            const prodReadyElement = document.getElementById('prod-ready-count');
+            const inProgressElement = document.getElementById('in-progress-count');
+            const onHoldElement = document.getElementById('on-hold-count');
+            const qualityCheckElement = document.getElementById('quality-check-count');
+            const totalElement = document.getElementById('total-count');
+            
+            if (prodReadyElement) prodReadyElement.textContent = counts['Production Ready'];
+            if (inProgressElement) inProgressElement.textContent = counts['In Progress'];
+            if (onHoldElement) onHoldElement.textContent = counts['On Hold'];
+            if (qualityCheckElement) qualityCheckElement.textContent = counts['Quality Check'];
+            if (totalElement) totalElement.textContent = statusCells.length;
+        }
+        
+        function searchAndFilter() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const statusFilter = document.getElementById('status-filter').value;
+            const teamFilter = document.getElementById('team-filter').value;
+            const priorityFilter = document.getElementById('priority-filter').value;
+            
+            const rows = document.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                const aircraftId = row.querySelector('.aircraft-id-input');
+                const model = row.querySelector('.model-select');
+                const status = row.querySelector('.status-select');
+                const team = row.querySelector('.team-input');
+                const priority = row.querySelector('.priority-select');
+                
+                if (!aircraftId || !model || !status || !team || !priority) return;
+                
+                const aircraftIdValue = aircraftId.value.toLowerCase();
+                const modelValue = model.value.toLowerCase();
+                const statusValue = status.value;
+                const teamValue = team.value.toLowerCase();
+                const priorityValue = priority.value;
+                
+                const matchesSearch = aircraftIdValue.includes(searchTerm) || modelValue.includes(searchTerm);
+                const matchesStatus = !statusFilter || statusValue === statusFilter;
+                const matchesTeam = !teamFilter || teamValue.includes(teamFilter.toLowerCase());
+                const matchesPriority = !priorityFilter || priorityValue === priorityFilter;
+                
+                if (matchesSearch && matchesStatus && matchesTeam && matchesPriority) {
+                    row.classList.remove('hidden-row');
+                } else {
+                    row.classList.add('hidden-row');
+                }
+            });
+            
+            updateSummaryCards();
+            updateMetrics();
+        }
+        
+        function clearFilters() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('status-filter').value = '';
+            document.getElementById('team-filter').value = '';
+            document.getElementById('priority-filter').value = '';
+            
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                row.classList.remove('hidden-row');
+            });
+            
+            updateSummaryCards();
+            updateMetrics();
+        }
+        
+        function updateMetrics() {
+            const visibleRows = document.querySelectorAll('tbody tr:not(.hidden-row)');
+            let totalProgress = 0;
+            let completedAircraft = 0;
+            let overdueCount = 0;
+            const teamCounts = {};
+            
+            visibleRows.forEach(row => {
+                const checkboxes = row.querySelectorAll('.operation-checkbox');
+                const checkedBoxes = row.querySelectorAll('.operation-checkbox:checked');
+                const progress = checkboxes.length > 0 ? (checkedBoxes.length / checkboxes.length) : 0;
+                totalProgress += progress;
+                
+                if (progress === 1) completedAircraft++;
+                
+                const deliveryDate = row.querySelector('.date-input').value;
+                if (deliveryDate) {
+                    const delivery = new Date(deliveryDate);
+                    const today = new Date();
+                    if (delivery < today && progress < 1) {
+                        overdueCount++;
+                    }
+                }
+                
+                const team = row.querySelector('.team-input').value || 'Unassigned';
+                teamCounts[team] = (teamCounts[team] || 0) + 1;
+            });
+            
+            const avgProgress = visibleRows.length > 0 ? (totalProgress / visibleRows.length * 100).toFixed(1) : 0;
+            const completionRate = visibleRows.length > 0 ? (completedAircraft / visibleRows.length * 100).toFixed(1) : 0;
+            
+            document.getElementById('avg-progress').textContent = avgProgress + '%';
+            document.getElementById('completion-rate').textContent = completionRate + '%';
+            document.getElementById('overdue-count').textContent = overdueCount;
+            
+            let mostActiveTeam = 'None';
+            let maxCount = 0;
+            for (const [team, count] of Object.entries(teamCounts)) {
+                if (count > maxCount && team !== 'Unassigned') {
+                    maxCount = count;
+                    mostActiveTeam = team;
+                }
+            }
+            document.getElementById('active-team').textContent = mostActiveTeam;
+        }
+        
+        function addNewAircraft() {
+            const tbody = document.querySelector('tbody');
+            const newRow = document.createElement('tr');
+            
+            newRow.innerHTML = `
+                <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
+                <td><input type="text" class="aircraft-id-input" placeholder="AC-00X" /></td>
+                <td>
+                    <select class="model-select">
+                        <option value="">Select Model</option>
+                        <option value="PA-28-181">PA-28-181</option>
+                        <option value="PA-28-181 DX">PA-28-181 DX</option>
+                        <option value="PA-44-180">PA-44-180</option>
+                        <option value="PA-46-350P">PA-46-350P</option>
+                        <option value="PA-46-500">PA-46-500</option>
+                        <option value="PA-46-700">PA-46-700</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="status-select in-progress" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics();">
+                        <option value="Production Ready">Production Ready</option>
+                        <option value="In Progress" selected>In Progress</option>
+                        <option value="On Hold">On Hold</option>
+                        <option value="Quality Check">Quality Check</option>
+                    </select>
+                </td>
+                <td class="operation-cell">
+                    <input type="checkbox" class="operation-checkbox" />
+                </td>
+                <td class="operation-cell">
+                    <input type="checkbox" class="operation-checkbox" />
+                </td>
+                <td class="operation-cell">
+                    <input type="checkbox" class="operation-checkbox" />
+                </td>
+                <td class="operation-cell">
+                    <input type="checkbox" class="operation-checkbox" />
+                </td>
+                <td class="operation-cell">
+                    <input type="checkbox" class="operation-checkbox" />
+                </td>
+                <td>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                </td>
+                <td>
+                    <select class="priority-select medium" onchange="updatePriorityStyle(this); updateMetrics();">
+                        <option value="Critical">Critical</option>
+                        <option value="High">High</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </td>
+                <td class="notes-cell">
+                    <div class="note-section">
+                        <div class="note-label">Pre-Flight</div>
+                        <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
+                    </div>
+                </td>
+                <td class="notes-cell">
+                    <div class="note-section">
+                        <div class="note-label">Pre-Cert</div>
+                        <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
+                    </div>
+                </td>
+                <td class="notes-cell">
+                    <div class="note-section">
+                        <div class="note-label">NCMR Notes</div>
+                        <textarea class="notes-input" placeholder="Enter non-conformance reports..."></textarea>
+                    </div>
+                </td>
+                <td><input type="date" class="date-input" /></td>
+                <td><input type="text" class="team-input" placeholder="Team Name" /></td>
+            `;
+            
+            tbody.appendChild(newRow);
+            addEventListenersToRow(newRow);
+            updateSummaryCards();
+            updateMetrics();
+            updateBulkControls();
+            newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function addEventListenersToRow(row) {
+            const rowCheckbox = row.querySelector('.row-checkbox');
+            if (rowCheckbox) {
+                rowCheckbox.addEventListener('change', function() {
+                    toggleRowSelection(this);
+                });
+            }
+            
+            const operationCheckboxes = row.querySelectorAll('.operation-checkbox');
+            operationCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    updateProgress(row);
+                    updateMetrics();
+                });
+            });
+            
+            const statusSelect = row.querySelector('.status-select');
+            if (statusSelect) {
+                statusSelect.addEventListener('change', function() {
+                    updateStatusStyle(this);
+                    updateSummaryCards();
+                    updateMetrics();
+                });
+            }
+            
+            const prioritySelect = row.querySelector('.priority-select');
+            if (prioritySelect) {
+                prioritySelect.addEventListener('change', function() {
+                    updatePriorityStyle(this);
+                    updateMetrics();
+                });
+            }
+        }
+        
+        function updateProgress(row) {
+            const checkboxes = row.querySelectorAll('.operation-checkbox');
+            const checkedBoxes = row.querySelectorAll('.operation-checkbox:checked');
+            const progressBar = row.querySelector('.progress-fill');
+            
+            if (checkboxes.length > 0) {
+                const progressPercent = (checkedBoxes.length / checkboxes.length) * 100;
+                progressBar.style.width = progressPercent + '%';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSummaryCards();
+            updateMetrics();
+            updateBulkControls();
+            
+            const existingRows = document.querySelectorAll('tbody tr');
+            existingRows.forEach(row => {
+                addEventListenersToRow(row);
+            });
+            
+            document.getElementById('search-input').addEventListener('input', searchAndFilter);
+            document.getElementById('status-filter').addEventListener('change', searchAndFilter);
+            document.getElementById('team-filter').addEventListener('input', searchAndFilter);
+            document.getElementById('priority-filter').addEventListener('change', searchAndFilter);
+            
+            const now = new Date();
+            const timestamp = now.toLocaleDateString() + ' at ' + now.toLocaleTimeString();
+            const lastUpdatedElement = document.getElementById('last-updated');
+            if (lastUpdatedElement) {
+                lastUpdatedElement.textContent = 'Dashboard Last Updated: ' + timestamp;
+            }
+        });
+    </script>
+</body>
+</html>
