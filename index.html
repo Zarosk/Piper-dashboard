@@ -740,6 +740,16 @@
         </p>
     </div>
     
+    <div class="export-section">
+        <h3 style="margin-bottom: 15px; color: #495057;">Data Management</h3>
+        <button class="export-btn" onclick="exportBackup()">💾 Download Backup</button>
+        <button class="export-btn" onclick="importBackup()">📥 Import Backup</button>
+        <button class="export-btn csv" onclick="clearAllData()" style="background: linear-gradient(135deg, #dc3545, #c82333);">🗑️ Clear All Data</button>
+        <p style="margin-top: 10px; font-size: 12px; color: #666;">
+            Backup: Save/restore your data • Auto-saves every 30 seconds
+        </p>
+    </div>
+    
     <div class="summary-cards">
         <div class="summary-card card-operational">
             <div class="card-number" style="color: #28a745;" id="prod-ready-count">0</div>
@@ -788,9 +798,9 @@
             <tbody>
                 <tr>
                     <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
-                    <td><input type="text" class="aircraft-id-input" placeholder="AC-001" /></td>
+                    <td><input type="text" class="aircraft-id-input" placeholder="AC-001" onchange="saveDataToStorage()" /></td>
                     <td>
-                        <select class="model-select">
+                        <select class="model-select" onchange="saveDataToStorage()">
                             <option value="">Select Model</option>
                             <option value="PA-28-181">PA-28-181</option>
                             <option value="PA-28-181 DX">PA-28-181 DX</option>
@@ -801,7 +811,7 @@
                         </select>
                     </td>
                     <td>
-                        <select class="status-select production-ready" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics();">
+                        <select class="status-select production-ready" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics(); saveDataToStorage();">
                             <option value="Production Ready" selected>Production Ready</option>
                             <option value="In Progress">In Progress</option>
                             <option value="On Hold">On Hold</option>
@@ -829,7 +839,7 @@
                         </div>
                     </td>
                     <td>
-                        <select class="priority-select medium" onchange="updatePriorityStyle(this); updateMetrics();">
+                        <select class="priority-select medium" onchange="updatePriorityStyle(this); updateMetrics(); saveDataToStorage();">
                             <option value="Critical">Critical</option>
                             <option value="High">High</option>
                             <option value="Medium" selected>Medium</option>
@@ -839,29 +849,29 @@
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Flight</div>
-                            <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
+                            <textarea class="notes-input" placeholder="Enter pre-flight notes..." onchange="saveDataToStorage()"></textarea>
                         </div>
                     </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Cert</div>
-                            <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
+                            <textarea class="notes-input" placeholder="Enter pre-cert notes..." onchange="saveDataToStorage()"></textarea>
                         </div>
                     </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">NCMR Notes</div>
-                            <textarea class="notes-input" placeholder="Enter non-conformance reports..."></textarea>
+                            <textarea class="notes-input" placeholder="Enter non-conformance reports..." onchange="saveDataToStorage()"></textarea>
                         </div>
                     </td>
-                    <td><input type="date" class="date-input" /></td>
-                    <td><input type="text" class="team-input" placeholder="Team Name" /></td>
+                    <td><input type="date" class="date-input" onchange="saveDataToStorage()" /></td>
+                    <td><input type="text" class="team-input" placeholder="Team Name" onchange="saveDataToStorage()" /></td>
                 </tr>
                 <tr>
                     <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
-                    <td><input type="text" class="aircraft-id-input" placeholder="AC-002" /></td>
+                    <td><input type="text" class="aircraft-id-input" placeholder="AC-002" onchange="saveDataToStorage()" /></td>
                     <td>
-                        <select class="model-select">
+                        <select class="model-select" onchange="saveDataToStorage()">
                             <option value="">Select Model</option>
                             <option value="PA-28-181">PA-28-181</option>
                             <option value="PA-28-181 DX">PA-28-181 DX</option>
@@ -872,7 +882,7 @@
                         </select>
                     </td>
                     <td>
-                        <select class="status-select in-progress" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics();">
+                        <select class="status-select in-progress" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics(); saveDataToStorage();">
                             <option value="Production Ready">Production Ready</option>
                             <option value="In Progress" selected>In Progress</option>
                             <option value="On Hold">On Hold</option>
@@ -900,7 +910,7 @@
                         </div>
                     </td>
                     <td>
-                        <select class="priority-select medium" onchange="updatePriorityStyle(this); updateMetrics();">
+                        <select class="priority-select medium" onchange="updatePriorityStyle(this); updateMetrics(); saveDataToStorage();">
                             <option value="Critical">Critical</option>
                             <option value="High">High</option>
                             <option value="Medium" selected>Medium</option>
@@ -910,29 +920,29 @@
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Flight</div>
-                            <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
+                            <textarea class="notes-input" placeholder="Enter pre-flight notes..." onchange="saveDataToStorage()"></textarea>
                         </div>
                     </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Cert</div>
-                            <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
+                            <textarea class="notes-input" placeholder="Enter pre-cert notes..." onchange="saveDataToStorage()"></textarea>
                         </div>
                     </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">NCMR Notes</div>
-                            <textarea class="notes-input" placeholder="Enter non-conformance reports..."></textarea>
+                            <textarea class="notes-input" placeholder="Enter non-conformance reports..." onchange="saveDataToStorage()"></textarea>
                         </div>
                     </td>
-                    <td><input type="date" class="date-input" /></td>
-                    <td><input type="text" class="team-input" placeholder="Team Name" /></td>
+                    <td><input type="date" class="date-input" onchange="saveDataToStorage()" /></td>
+                    <td><input type="text" class="team-input" placeholder="Team Name" onchange="saveDataToStorage()" /></td>
                 </tr>
                 <tr>
                     <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
-                    <td><input type="text" class="aircraft-id-input" placeholder="AC-003" /></td>
+                    <td><input type="text" class="aircraft-id-input" placeholder="AC-003" onchange="saveDataToStorage()" /></td>
                     <td>
-                        <select class="model-select">
+                        <select class="model-select" onchange="saveDataToStorage()">
                             <option value="">Select Model</option>
                             <option value="PA-28-181">PA-28-181</option>
                             <option value="PA-28-181 DX">PA-28-181 DX</option>
@@ -943,7 +953,7 @@
                         </select>
                     </td>
                     <td>
-                        <select class="status-select production-ready" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics();">
+                        <select class="status-select production-ready" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics(); saveDataToStorage();">
                             <option value="Production Ready" selected>Production Ready</option>
                             <option value="In Progress">In Progress</option>
                             <option value="On Hold">On Hold</option>
@@ -971,7 +981,7 @@
                         </div>
                     </td>
                     <td>
-                        <select class="priority-select high" onchange="updatePriorityStyle(this); updateMetrics();">
+                        <select class="priority-select high" onchange="updatePriorityStyle(this); updateMetrics(); saveDataToStorage();">
                             <option value="Critical">Critical</option>
                             <option value="High" selected>High</option>
                             <option value="Medium">Medium</option>
@@ -981,29 +991,29 @@
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Flight</div>
-                            <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
+                            <textarea class="notes-input" placeholder="Enter pre-flight notes..." onchange="saveDataToStorage()"></textarea>
                         </div>
                     </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Cert</div>
-                            <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
+                            <textarea class="notes-input" placeholder="Enter pre-cert notes..." onchange="saveDataToStorage()"></textarea>
                         </div>
                     </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">NCMR Notes</div>
-                            <textarea class="notes-input" placeholder="Enter non-conformance reports..."></textarea>
+                            <textarea class="notes-input" placeholder="Enter non-conformance reports..." onchange="saveDataToStorage()"></textarea>
                         </div>
                     </td>
-                    <td><input type="date" class="date-input" /></td>
-                    <td><input type="text" class="team-input" placeholder="Team Name" /></td>
+                    <td><input type="date" class="date-input" onchange="saveDataToStorage()" /></td>
+                    <td><input type="text" class="team-input" placeholder="Team Name" onchange="saveDataToStorage()" /></td>
                 </tr>
                 <tr>
                     <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
-                    <td><input type="text" class="aircraft-id-input" placeholder="AC-004" /></td>
+                    <td><input type="text" class="aircraft-id-input" placeholder="AC-004" onchange="saveDataToStorage()" /></td>
                     <td>
-                        <select class="model-select">
+                        <select class="model-select" onchange="saveDataToStorage()">
                             <option value="">Select Model</option>
                             <option value="PA-28-181">PA-28-181</option>
                             <option value="PA-28-181 DX">PA-28-181 DX</option>
@@ -1014,7 +1024,7 @@
                         </select>
                     </td>
                     <td>
-                        <select class="status-select quality-check" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics();">
+                        <select class="status-select quality-check" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics(); saveDataToStorage();">
                             <option value="Production Ready">Production Ready</option>
                             <option value="In Progress">In Progress</option>
                             <option value="On Hold">On Hold</option>
@@ -1042,7 +1052,7 @@
                         </div>
                     </td>
                     <td>
-                        <select class="priority-select low" onchange="updatePriorityStyle(this); updateMetrics();">
+                        <select class="priority-select low" onchange="updatePriorityStyle(this); updateMetrics(); saveDataToStorage();">
                             <option value="Critical">Critical</option>
                             <option value="High">High</option>
                             <option value="Medium">Medium</option>
@@ -1052,29 +1062,29 @@
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Flight</div>
-                            <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
+                            <textarea class="notes-input" placeholder="Enter pre-flight notes..." onchange="saveDataToStorage()"></textarea>
                         </div>
                     </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Cert</div>
-                            <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
+                            <textarea class="notes-input" placeholder="Enter pre-cert notes..." onchange="saveDataToStorage()"></textarea>
                         </div>
                     </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">NCMR Notes</div>
-                            <textarea class="notes-input" placeholder="Enter non-conformance reports..."></textarea>
+                            <textarea class="notes-input" placeholder="Enter non-conformance reports..." onchange="saveDataToStorage()"></textarea>
                         </div>
                     </td>
-                    <td><input type="date" class="date-input" /></td>
-                    <td><input type="text" class="team-input" placeholder="Team Name" /></td>
+                    <td><input type="date" class="date-input" onchange="saveDataToStorage()" /></td>
+                    <td><input type="text" class="team-input" placeholder="Team Name" onchange="saveDataToStorage()" /></td>
                 </tr>
                 <tr>
                     <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
-                    <td><input type="text" class="aircraft-id-input" placeholder="AC-005" /></td>
+                    <td><input type="text" class="aircraft-id-input" placeholder="AC-005" onchange="saveDataToStorage()" /></td>
                     <td>
-                        <select class="model-select">
+                        <select class="model-select" onchange="saveDataToStorage()">
                             <option value="">Select Model</option>
                             <option value="PA-28-181">PA-28-181</option>
                             <option value="PA-28-181 DX">PA-28-181 DX</option>
@@ -1085,7 +1095,7 @@
                         </select>
                     </td>
                     <td>
-                        <select class="status-select on-hold" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics();">
+                        <select class="status-select on-hold" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics(); saveDataToStorage();">
                             <option value="Production Ready">Production Ready</option>
                             <option value="In Progress">In Progress</option>
                             <option value="On Hold" selected>On Hold</option>
@@ -1113,7 +1123,7 @@
                         </div>
                     </td>
                     <td>
-                        <select class="priority-select critical" onchange="updatePriorityStyle(this); updateMetrics();">
+                        <select class="priority-select critical" onchange="updatePriorityStyle(this); updateMetrics(); saveDataToStorage();">
                             <option value="Critical" selected>Critical</option>
                             <option value="High">High</option>
                             <option value="Medium">Medium</option>
@@ -1123,23 +1133,23 @@
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Flight</div>
-                            <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
+                            <textarea class="notes-input" placeholder="Enter pre-flight notes..." onchange="saveDataToStorage()"></textarea>
                         </div>
                     </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Cert</div>
-                            <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
+                            <textarea class="notes-input" placeholder="Enter pre-cert notes..." onchange="saveDataToStorage()"></textarea>
                         </div>
                     </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">NCMR Notes</div>
-                            <textarea class="notes-input" placeholder="Enter non-conformance reports..."></textarea>
+                            <textarea class="notes-input" placeholder="Enter non-conformance reports..." onchange="saveDataToStorage()"></textarea>
                         </div>
                     </td>
-                    <td><input type="date" class="date-input" /></td>
-                    <td><input type="text" class="team-input" placeholder="Team Name" /></td>
+                    <td><input type="date" class="date-input" onchange="saveDataToStorage()" /></td>
+                    <td><input type="text" class="team-input" placeholder="Team Name" onchange="saveDataToStorage()" /></td>
                 </tr>
             </tbody>
         </table>
@@ -1273,6 +1283,7 @@
                 
                 updateSummaryCards();
                 updateMetrics();
+                saveDataToStorage();
                 alert(`Updated ${selectedRows.length} aircraft to "${newStatus}"`);
             } else if (newStatus) {
                 alert('Invalid status. Please use: Production Ready, In Progress, On Hold, or Quality Check');
@@ -1292,6 +1303,7 @@
                 });
                 
                 updateMetrics();
+                saveDataToStorage();
                 alert(`Updated ${selectedRows.length} aircraft to "${newPriority}" priority`);
             } else if (newPriority) {
                 alert('Invalid priority. Please use: Critical, High, Medium, or Low');
@@ -1310,6 +1322,7 @@
                 });
                 
                 updateMetrics();
+                saveDataToStorage();
                 alert(`Assigned ${selectedRows.length} aircraft to team "${newTeam}"`);
             }
         }
@@ -1346,6 +1359,7 @@
             
             updateSummaryCards();
             updateMetrics();
+            saveDataToStorage();
             alert(`Copied ${selectedRows.length} aircraft`);
         }
         
@@ -1509,9 +1523,9 @@
             
             newRow.innerHTML = `
                 <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
-                <td><input type="text" class="aircraft-id-input" placeholder="AC-00X" /></td>
+                <td><input type="text" class="aircraft-id-input" placeholder="AC-00X" onchange="saveDataToStorage()" /></td>
                 <td>
-                    <select class="model-select">
+                    <select class="model-select" onchange="saveDataToStorage()">
                         <option value="">Select Model</option>
                         <option value="PA-28-181">PA-28-181</option>
                         <option value="PA-28-181 DX">PA-28-181 DX</option>
@@ -1522,7 +1536,7 @@
                     </select>
                 </td>
                 <td>
-                    <select class="status-select in-progress" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics();">
+                    <select class="status-select in-progress" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics(); saveDataToStorage();">
                         <option value="Production Ready">Production Ready</option>
                         <option value="In Progress" selected>In Progress</option>
                         <option value="On Hold">On Hold</option>
@@ -1550,7 +1564,7 @@
                     </div>
                 </td>
                 <td>
-                    <select class="priority-select medium" onchange="updatePriorityStyle(this); updateMetrics();">
+                    <select class="priority-select medium" onchange="updatePriorityStyle(this); updateMetrics(); saveDataToStorage();">
                         <option value="Critical">Critical</option>
                         <option value="High">High</option>
                         <option value="Medium" selected>Medium</option>
@@ -1560,23 +1574,23 @@
                 <td class="notes-cell">
                     <div class="note-section">
                         <div class="note-label">Pre-Flight</div>
-                        <textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea>
+                        <textarea class="notes-input" placeholder="Enter pre-flight notes..." onchange="saveDataToStorage()"></textarea>
                     </div>
                 </td>
                 <td class="notes-cell">
                     <div class="note-section">
                         <div class="note-label">Pre-Cert</div>
-                        <textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea>
+                        <textarea class="notes-input" placeholder="Enter pre-cert notes..." onchange="saveDataToStorage()"></textarea>
                     </div>
                 </td>
                 <td class="notes-cell">
                     <div class="note-section">
                         <div class="note-label">NCMR Notes</div>
-                        <textarea class="notes-input" placeholder="Enter non-conformance reports..."></textarea>
+                        <textarea class="notes-input" placeholder="Enter non-conformance reports..." onchange="saveDataToStorage()"></textarea>
                     </div>
                 </td>
-                <td><input type="date" class="date-input" /></td>
-                <td><input type="text" class="team-input" placeholder="Team Name" /></td>
+                <td><input type="date" class="date-input" onchange="saveDataToStorage()" /></td>
+                <td><input type="text" class="team-input" placeholder="Team Name" onchange="saveDataToStorage()" /></td>
             `;
             
             tbody.appendChild(newRow);
@@ -1584,6 +1598,7 @@
             updateSummaryCards();
             updateMetrics();
             updateBulkControls();
+            saveDataToStorage();
             newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
         
@@ -1600,6 +1615,7 @@
                 checkbox.addEventListener('change', function() {
                     updateProgress(row);
                     updateMetrics();
+                    saveDataToStorage();
                 });
             });
             
@@ -1609,6 +1625,7 @@
                     updateStatusStyle(this);
                     updateSummaryCards();
                     updateMetrics();
+                    saveDataToStorage();
                 });
             }
             
@@ -1617,7 +1634,34 @@
                 prioritySelect.addEventListener('change', function() {
                     updatePriorityStyle(this);
                     updateMetrics();
+                    saveDataToStorage();
                 });
+            }
+            
+            // Add save listeners to all input fields
+            const aircraftInput = row.querySelector('.aircraft-id-input');
+            if (aircraftInput) {
+                aircraftInput.addEventListener('change', saveDataToStorage);
+            }
+            
+            const modelSelect = row.querySelector('.model-select');
+            if (modelSelect) {
+                modelSelect.addEventListener('change', saveDataToStorage);
+            }
+            
+            const notesInputs = row.querySelectorAll('.notes-input');
+            notesInputs.forEach(input => {
+                input.addEventListener('change', saveDataToStorage);
+            });
+            
+            const dateInput = row.querySelector('.date-input');
+            if (dateInput) {
+                dateInput.addEventListener('change', saveDataToStorage);
+            }
+            
+            const teamInput = row.querySelector('.team-input');
+            if (teamInput) {
+                teamInput.addEventListener('change', saveDataToStorage);
             }
         }
         
@@ -1632,27 +1676,252 @@
             }
         }
         
-        document.addEventListener('DOMContentLoaded', function() {
-            updateSummaryCards();
-            updateMetrics();
-            updateBulkControls();
+        // Local Storage Functions
+        function saveDataToStorage() {
+            const rows = document.querySelectorAll('tbody tr');
+            const aircraftData = [];
             
-            const existingRows = document.querySelectorAll('tbody tr');
-            existingRows.forEach(row => {
-                addEventListenersToRow(row);
+            rows.forEach(row => {
+                const rowData = {
+                    aircraftId: row.querySelector('.aircraft-id-input')?.value || '',
+                    model: row.querySelector('.model-select')?.value || '',
+                    status: row.querySelector('.status-select')?.value || 'In Progress',
+                    operations: Array.from(row.querySelectorAll('.operation-checkbox')).map(cb => cb.checked),
+                    priority: row.querySelector('.priority-select')?.value || 'Medium',
+                    preFlightNotes: row.querySelector('.notes-input')?.value || '',
+                    preCertNotes: row.querySelectorAll('.notes-input')[1]?.value || '',
+                    ncmrNotes: row.querySelectorAll('.notes-input')[2]?.value || '',
+                    deliveryDate: row.querySelector('.date-input')?.value || '',
+                    team: row.querySelector('.team-input')?.value || ''
+                };
+                aircraftData.push(rowData);
             });
             
+            const dashboardData = {
+                aircraft: aircraftData,
+                lastSaved: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            try {
+                localStorage.setItem('aircraftDashboardData', JSON.stringify(dashboardData));
+                console.log('Data saved successfully');
+                updateLastSavedTime();
+            } catch (error) {
+                console.error('Failed to save data:', error);
+                alert('Warning: Could not save data to browser storage. Changes may be lost.');
+            }
+        }
+        
+        function loadDataFromStorage() {
+            try {
+                const savedData = localStorage.getItem('aircraftDashboardData');
+                if (!savedData) return false;
+                
+                const dashboardData = JSON.parse(savedData);
+                const tbody = document.querySelector('tbody');
+                
+                // Clear existing rows
+                tbody.innerHTML = '';
+                
+                // Recreate rows from saved data
+                dashboardData.aircraft.forEach(aircraftData => {
+                    const newRow = createAircraftRow(aircraftData);
+                    tbody.appendChild(newRow);
+                    addEventListenersToRow(newRow);
+                });
+                
+                updateSummaryCards();
+                updateMetrics();
+                updateBulkControls();
+                updateLastSavedTime(dashboardData.lastSaved);
+                
+                console.log('Data loaded successfully');
+                return true;
+            } catch (error) {
+                console.error('Failed to load data:', error);
+                return false;
+            }
+        }
+        
+        function createAircraftRow(data) {
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="checkbox" class="row-checkbox" onchange="toggleRowSelection(this)" /></td>
+                <td><input type="text" class="aircraft-id-input" placeholder="AC-00X" value="${data.aircraftId}" /></td>
+                <td>
+                    <select class="model-select">
+                        <option value="">Select Model</option>
+                        <option value="PA-28-181" ${data.model === 'PA-28-181' ? 'selected' : ''}>PA-28-181</option>
+                        <option value="PA-28-181 DX" ${data.model === 'PA-28-181 DX' ? 'selected' : ''}>PA-28-181 DX</option>
+                        <option value="PA-44-180" ${data.model === 'PA-44-180' ? 'selected' : ''}>PA-44-180</option>
+                        <option value="PA-46-350P" ${data.model === 'PA-46-350P' ? 'selected' : ''}>PA-46-350P</option>
+                        <option value="PA-46-500" ${data.model === 'PA-46-500' ? 'selected' : ''}>PA-46-500</option>
+                        <option value="PA-46-700" ${data.model === 'PA-46-700' ? 'selected' : ''}>PA-46-700</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="status-select ${getStatusClass(data.status)}" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics(); saveDataToStorage();">
+                        <option value="Production Ready" ${data.status === 'Production Ready' ? 'selected' : ''}>Production Ready</option>
+                        <option value="In Progress" ${data.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                        <option value="On Hold" ${data.status === 'On Hold' ? 'selected' : ''}>On Hold</option>
+                        <option value="Quality Check" ${data.status === 'Quality Check' ? 'selected' : ''}>Quality Check</option>
+                    </select>
+                </td>
+                <td class="operation-cell">
+                    <input type="checkbox" class="operation-checkbox" ${data.operations[0] ? 'checked' : ''} />
+                </td>
+                <td class="operation-cell">
+                    <input type="checkbox" class="operation-checkbox" ${data.operations[1] ? 'checked' : ''} />
+                </td>
+                <td class="operation-cell">
+                    <input type="checkbox" class="operation-checkbox" ${data.operations[2] ? 'checked' : ''} />
+                </td>
+                <td class="operation-cell">
+                    <input type="checkbox" class="operation-checkbox" ${data.operations[3] ? 'checked' : ''} />
+                </td>
+                <td class="operation-cell">
+                    <input type="checkbox" class="operation-checkbox" ${data.operations[4] ? 'checked' : ''} />
+                </td>
+                <td>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${calculateProgress(data.operations)}%;"></div>
+                    </div>
+                </td>
+                <td>
+                    <select class="priority-select ${data.priority.toLowerCase()}" onchange="updatePriorityStyle(this); updateMetrics(); saveDataToStorage();">
+                        <option value="Critical" ${data.priority === 'Critical' ? 'selected' : ''}>Critical</option>
+                        <option value="High" ${data.priority === 'High' ? 'selected' : ''}>High</option>
+                        <option value="Medium" ${data.priority === 'Medium' ? 'selected' : ''}>Medium</option>
+                        <option value="Low" ${data.priority === 'Low' ? 'selected' : ''}>Low</option>
+                    </select>
+                </td>
+                <td class="notes-cell">
+                    <div class="note-section">
+                        <div class="note-label">Pre-Flight</div>
+                        <textarea class="notes-input" placeholder="Enter pre-flight notes..." onchange="saveDataToStorage()">${data.preFlightNotes}</textarea>
+                    </div>
+                </td>
+                <td class="notes-cell">
+                    <div class="note-section">
+                        <div class="note-label">Pre-Cert</div>
+                        <textarea class="notes-input" placeholder="Enter pre-cert notes..." onchange="saveDataToStorage()">${data.preCertNotes}</textarea>
+                    </div>
+                </td>
+                <td class="notes-cell">
+                    <div class="note-section">
+                        <div class="note-label">NCMR Notes</div>
+                        <textarea class="notes-input" placeholder="Enter non-conformance reports..." onchange="saveDataToStorage()">${data.ncmrNotes}</textarea>
+                    </div>
+                </td>
+                <td><input type="date" class="date-input" value="${data.deliveryDate}" onchange="saveDataToStorage()" /></td>
+                <td><input type="text" class="team-input" placeholder="Team Name" value="${data.team}" onchange="saveDataToStorage()" /></td>
+            `;
+            
+            return newRow;
+        }
+        
+        function getStatusClass(status) {
+            switch(status) {
+                case 'Production Ready': return 'production-ready';
+                case 'In Progress': return 'in-progress';
+                case 'On Hold': return 'on-hold';
+                case 'Quality Check': return 'quality-check';
+                default: return 'in-progress';
+            }
+        }
+        
+        function calculateProgress(operations) {
+            const checked = operations.filter(op => op).length;
+            return operations.length > 0 ? (checked / operations.length) * 100 : 0;
+        }
+        
+        function updateLastSavedTime(timestamp = null) {
+            const lastUpdatedElement = document.getElementById('last-updated');
+            if (lastUpdatedElement) {
+                const time = timestamp ? new Date(timestamp) : new Date();
+                lastUpdatedElement.textContent = `Dashboard Last Saved: ${time.toLocaleDateString()} at ${time.toLocaleTimeString()}`;
+            }
+        }
+        
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all aircraft data? This action cannot be undone.')) {
+                localStorage.removeItem('aircraftDashboardData');
+                location.reload();
+            }
+        }
+        
+        function exportBackup() {
+            const savedData = localStorage.getItem('aircraftDashboardData');
+            if (!savedData) {
+                alert('No data to export');
+                return;
+            }
+            
+            const blob = new Blob([savedData], { type: 'application/json' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `aircraft_dashboard_backup_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+        
+        function importBackup() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const importedData = JSON.parse(e.target.result);
+                            localStorage.setItem('aircraftDashboardData', JSON.stringify(importedData));
+                            location.reload();
+                        } catch (error) {
+                            alert('Invalid backup file format');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Try to load saved data first
+            const dataLoaded = loadDataFromStorage();
+            
+            if (!dataLoaded) {
+                // If no saved data, initialize with default rows
+                updateSummaryCards();
+                updateMetrics();
+                updateBulkControls();
+                
+                const existingRows = document.querySelectorAll('tbody tr');
+                existingRows.forEach(row => {
+                    addEventListenersToRow(row);
+                });
+                
+                // Save initial state
+                saveDataToStorage();
+            }
+            
+            // Add search and filter event listeners
             document.getElementById('search-input').addEventListener('input', searchAndFilter);
             document.getElementById('status-filter').addEventListener('change', searchAndFilter);
             document.getElementById('team-filter').addEventListener('input', searchAndFilter);
             document.getElementById('priority-filter').addEventListener('change', searchAndFilter);
             
-            const now = new Date();
-            const timestamp = now.toLocaleDateString() + ' at ' + now.toLocaleTimeString();
-            const lastUpdatedElement = document.getElementById('last-updated');
-            if (lastUpdatedElement) {
-                lastUpdatedElement.textContent = 'Dashboard Last Updated: ' + timestamp;
-            }
+            // Auto-save every 30 seconds
+            setInterval(saveDataToStorage, 30000);
+            
+            // Save data when user leaves the page
+            window.addEventListener('beforeunload', saveDataToStorage);
         });
     </script>
 </body>
