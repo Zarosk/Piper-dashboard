@@ -416,32 +416,126 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
-        .priority-badge {
-            padding: 4px 8px;
-            border-radius: 4px;
+        .search-filter-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-filter-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .search-input {
+            padding: 10px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 100%;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+        
+        .filter-select {
+            padding: 10px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            background: white;
+            width: 100%;
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+        
+        .metrics-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .metric-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #6c757d;
+        }
+        
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #495057;
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .priority-select {
+            border: none;
+            background: transparent;
             font-size: 10px;
             font-weight: bold;
             text-transform: uppercase;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 80px;
         }
         
-        .priority-critical {
+        .priority-select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0,123,255,.25);
+        }
+        
+        .priority-select.critical {
             background-color: #dc3545;
             color: white;
         }
         
-        .priority-high {
+        .priority-select.high {
             background-color: #fd7e14;
             color: white;
         }
         
-        .priority-medium {
+        .priority-select.medium {
             background-color: #ffc107;
             color: #000;
         }
         
-        .priority-low {
+        .priority-select.low {
             background-color: #28a745;
             color: white;
+        }
+        
+        .hidden-row {
+            display: none;
         }
         
         @media (max-width: 768px) {
@@ -532,6 +626,112 @@
             });
         }
         
+        function updatePriorityStyle(selectElement) {
+            // Remove all priority classes
+            selectElement.classList.remove('critical', 'high', 'medium', 'low');
+            
+            // Add class based on selected value
+            const value = selectElement.value.toLowerCase();
+            selectElement.classList.add(value);
+        }
+        
+        function searchAndFilter() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const statusFilter = document.getElementById('status-filter').value;
+            const teamFilter = document.getElementById('team-filter').value;
+            const priorityFilter = document.getElementById('priority-filter').value;
+            
+            const rows = document.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                const aircraftId = row.querySelector('.aircraft-id-input').value.toLowerCase();
+                const model = row.querySelector('.model-select').value.toLowerCase();
+                const status = row.querySelector('.status-select').value;
+                const team = row.querySelector('.team-input').value.toLowerCase();
+                const priority = row.querySelector('.priority-select').value;
+                
+                const matchesSearch = aircraftId.includes(searchTerm) || model.includes(searchTerm);
+                const matchesStatus = !statusFilter || status === statusFilter;
+                const matchesTeam = !teamFilter || team.includes(teamFilter.toLowerCase());
+                const matchesPriority = !priorityFilter || priority === priorityFilter;
+                
+                if (matchesSearch && matchesStatus && matchesTeam && matchesPriority) {
+                    row.classList.remove('hidden-row');
+                } else {
+                    row.classList.add('hidden-row');
+                }
+            });
+            
+            updateSummaryCards();
+            updateMetrics();
+        }
+        
+        function clearFilters() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('status-filter').value = '';
+            document.getElementById('team-filter').value = '';
+            document.getElementById('priority-filter').value = '';
+            
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                row.classList.remove('hidden-row');
+            });
+            
+            updateSummaryCards();
+            updateMetrics();
+        }
+        
+        function updateMetrics() {
+            const visibleRows = document.querySelectorAll('tbody tr:not(.hidden-row)');
+            let totalProgress = 0;
+            let completedAircraft = 0;
+            let overdueCount = 0;
+            const teamCounts = {};
+            
+            visibleRows.forEach(row => {
+                // Calculate progress
+                const checkboxes = row.querySelectorAll('.operation-checkbox');
+                const checkedBoxes = row.querySelectorAll('.operation-checkbox:checked');
+                const progress = checkboxes.length > 0 ? (checkedBoxes.length / checkboxes.length) : 0;
+                totalProgress += progress;
+                
+                if (progress === 1) completedAircraft++;
+                
+                // Check if overdue (simplified check)
+                const deliveryDate = row.querySelector('.date-input[type="date"]').value;
+                if (deliveryDate) {
+                    const delivery = new Date(deliveryDate);
+                    const today = new Date();
+                    if (delivery < today && progress < 1) {
+                        overdueCount++;
+                    }
+                }
+                
+                // Count by team
+                const team = row.querySelector('.team-input').value || 'Unassigned';
+                teamCounts[team] = (teamCounts[team] || 0) + 1;
+            });
+            
+            // Update metric displays
+            const avgProgress = visibleRows.length > 0 ? (totalProgress / visibleRows.length * 100).toFixed(1) : 0;
+            const completionRate = visibleRows.length > 0 ? (completedAircraft / visibleRows.length * 100).toFixed(1) : 0;
+            
+            document.getElementById('avg-progress').textContent = avgProgress + '%';
+            document.getElementById('completion-rate').textContent = completionRate + '%';
+            document.getElementById('overdue-count').textContent = overdueCount;
+            
+            // Find most active team
+            let mostActiveTeam = 'None';
+            let maxCount = 0;
+            for (const [team, count] of Object.entries(teamCounts)) {
+                if (count > maxCount && team !== 'Unassigned') {
+                    maxCount = count;
+                    mostActiveTeam = team;
+                }
+            }
+            document.getElementById('active-team').textContent = mostActiveTeam;
+        }
+        
         function updateStatusStyle(selectElement) {
             // Remove all status classes
             selectElement.classList.remove('production-ready', 'in-progress', 'on-hold', 'quality-check');
@@ -567,7 +767,7 @@
                     </select>
                 </td>
                 <td>
-                    <select class="status-select in-progress" onchange="updateStatusStyle(this); updateSummaryCards();">
+                    <select class="status-select in-progress" onchange="updateStatusStyle(this); updateSummaryCards(); updateMetrics();">
                         <option value="Production Ready">Production Ready</option>
                         <option value="In Progress" selected>In Progress</option>
                         <option value="On Hold">On Hold</option>
@@ -594,7 +794,14 @@
                         <div class="progress-fill" style="width: 0%;"></div>
                     </div>
                 </td>
-                <td><span class="priority-badge priority-medium">Medium</span></td>
+                <td>
+                    <select class="priority-select medium" onchange="updatePriorityStyle(this); updateMetrics();">
+                        <option value="Critical">Critical</option>
+                        <option value="High">High</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </td>
                 <td class="notes-cell">
                     <div class="note-section">
                         <div class="note-label">Pre-Flight</div>
@@ -621,11 +828,13 @@
                 checkbox.addEventListener('change', function() {
                     const row = this.closest('tr');
                     updateProgress(row);
+                    updateMetrics();
                 });
             });
             
-            // Update summary cards
+            // Update summary cards and metrics
             updateSummaryCards();
+            updateMetrics();
             
             // Scroll to the new row
             newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -675,6 +884,7 @@
         // Auto-update summary cards when page loads
         document.addEventListener('DOMContentLoaded', function() {
             updateSummaryCards();
+            updateMetrics();
             
             // Add event listeners to all operation checkboxes
             const checkboxes = document.querySelectorAll('.operation-checkbox');
@@ -682,6 +892,7 @@
                 checkbox.addEventListener('change', function() {
                     const row = this.closest('tr');
                     updateProgress(row);
+                    updateMetrics();
                 });
             });
             
@@ -692,8 +903,25 @@
                 select.addEventListener('change', function() {
                     updateStatusStyle(this);
                     updateSummaryCards();
+                    updateMetrics();
                 });
             });
+            
+            // Add event listeners to all priority dropdowns
+            const prioritySelects = document.querySelectorAll('.priority-select');
+            prioritySelects.forEach(select => {
+                updatePriorityStyle(select); // Set initial styling
+                select.addEventListener('change', function() {
+                    updatePriorityStyle(this);
+                    updateMetrics();
+                });
+            });
+            
+            // Add search and filter event listeners
+            document.getElementById('search-input').addEventListener('input', searchAndFilter);
+            document.getElementById('status-filter').addEventListener('change', searchAndFilter);
+            document.getElementById('team-filter').addEventListener('input', searchAndFilter);
+            document.getElementById('priority-filter').addEventListener('change', searchAndFilter);
             
             // Update timestamp
             const now = new Date();
@@ -709,6 +937,51 @@
     <div class="dashboard-header">
         <h1>Aircraft Production Dashboard</h1>
         <p>Real-time production monitoring and build status overview</p>
+    </div>
+    
+    <div class="search-filter-section">
+        <h3 style="margin-bottom: 15px; color: #495057;">Search & Filter Aircraft</h3>
+        <div class="search-filter-controls">
+            <input type="text" id="search-input" class="search-input" placeholder="🔍 Search by Aircraft ID or Model">
+            <select id="status-filter" class="filter-select">
+                <option value="">All Statuses</option>
+                <option value="Production Ready">Production Ready</option>
+                <option value="In Progress">In Progress</option>
+                <option value="On Hold">On Hold</option>
+                <option value="Quality Check">Quality Check</option>
+            </select>
+            <input type="text" id="team-filter" class="search-input" placeholder="Filter by Team">
+            <select id="priority-filter" class="filter-select">
+                <option value="">All Priorities</option>
+                <option value="Critical">Critical</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+        </div>
+        <button onclick="clearFilters()" style="margin-top: 10px; padding: 8px 16px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Clear All Filters</button>
+    </div>
+    
+    <div class="metrics-section">
+        <h3 style="margin-bottom: 15px; color: #495057;">Production Metrics</h3>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value" id="avg-progress">0%</div>
+                <div class="metric-label">Average Progress</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="completion-rate">0%</div>
+                <div class="metric-label">Completion Rate</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="overdue-count">0</div>
+                <div class="metric-label">Overdue Aircraft</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="active-team">None</div>
+                <div class="metric-label">Most Active Team</div>
+            </div>
+        </div>
     </div>
     
     <div class="add-aircraft-section">
@@ -815,7 +1088,14 @@
                             <div class="progress-fill" style="width: 0%;"></div>
                         </div>
                     </td>
-                    <td><span class="priority-badge priority-medium">Medium</span></td>
+                    <td>
+                        <select class="priority-select medium" onchange="updatePriorityStyle(this); updateMetrics();">
+                            <option value="Critical">Critical</option>
+                            <option value="High">High</option>
+                            <option value="Medium" selected>Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Flight</div>
@@ -874,7 +1154,14 @@
                             <div class="progress-fill" style="width: 0%;"></div>
                         </div>
                     </td>
-                    <td><span class="priority-badge priority-medium">Medium</span></td>
+                    <td>
+                        <select class="priority-select medium" onchange="updatePriorityStyle(this); updateMetrics();">
+                            <option value="Critical">Critical</option>
+                            <option value="High">High</option>
+                            <option value="Medium" selected>Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Flight</div>
@@ -933,7 +1220,14 @@
                             <div class="progress-fill" style="width: 0%;"></div>
                         </div>
                     </td>
-                    <td><span class="priority-badge priority-high">High</span></td>
+                    <td>
+                        <select class="priority-select high" onchange="updatePriorityStyle(this); updateMetrics();">
+                            <option value="Critical">Critical</option>
+                            <option value="High" selected>High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Flight</div>
@@ -992,7 +1286,14 @@
                             <div class="progress-fill" style="width: 0%;"></div>
                         </div>
                     </td>
-                    <td><span class="priority-badge priority-low">Low</span></td>
+                    <td>
+                        <select class="priority-select low" onchange="updatePriorityStyle(this); updateMetrics();">
+                            <option value="Critical">Critical</option>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low" selected>Low</option>
+                        </select>
+                    </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Flight</div>
@@ -1051,7 +1352,14 @@
                             <div class="progress-fill" style="width: 0%;"></div>
                         </div>
                     </td>
-                    <td><span class="priority-badge priority-critical">Critical</span></td>
+                    <td>
+                        <select class="priority-select critical" onchange="updatePriorityStyle(this); updateMetrics();">
+                            <option value="Critical" selected>Critical</option>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </td>
                     <td class="notes-cell">
                         <div class="note-section">
                             <div class="note-label">Pre-Flight</div>
