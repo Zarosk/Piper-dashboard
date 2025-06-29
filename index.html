@@ -651,6 +651,29 @@
             75% { transform: translateX(5px); }
         }
         
+        /* Screen lock overlay */
+        .screen-locked {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .screen-locked::before {
+            content: '🔒 Click anywhere to unlock';
+            animation: pulse 2s infinite;
+        }
+        
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -1016,6 +1039,15 @@
         let sessionInterval = null;
         let lastActivity = Date.now();
         
+        // Rate limiting variables
+        let actionCount = 0;
+        let actionResetTimer = null;
+        
+        // Idle detection variables
+        let idleTimer = 0;
+        let idleInterval = null;
+        let isScreenLocked = false;
+        
         // Initialize security logging
         function initializeSecurityLog() {
             if (!localStorage.getItem('securityAuditLog')) {
@@ -1146,12 +1178,88 @@
             lastActivity = Date.now();
             sessionTimer = sessionDuration;
             
+            // Reset idle timer when user is active
+            resetIdleTimer();
+            
             if (sessionInterval) {
                 clearInterval(sessionInterval);
             }
             
             sessionInterval = setInterval(updateSessionTimer, 1000);
             logSecurityEvent('SESSION_ACTIVITY', { timestamp: new Date().toISOString() });
+        }
+        
+        // Action rate limiting
+        function rateLimitCheck(action = 'GENERIC') {
+            actionCount++;
+            
+            // Reset counter every 10 seconds
+            if (actionResetTimer) clearTimeout(actionResetTimer);
+            actionResetTimer = setTimeout(() => { actionCount = 0; }, 10000);
+            
+            if (actionCount > 20) { // Max 20 actions per 10 seconds
+                logSecurityEvent('RATE_LIMIT_EXCEEDED', { 
+                    action: action,
+                    count: actionCount,
+                    timestamp: new Date().toISOString()
+                });
+                showSecurityNotification('🛡️ Too many actions. Please slow down.', true);
+                return false;
+            }
+            return true;
+        }
+        
+        // Idle detection and screen lock
+        function resetIdleTimer() {
+            idleTimer = 0;
+            
+            // Unlock screen if it was locked
+            if (isScreenLocked) {
+                unlockScreen();
+            }
+            
+            // Start/restart idle monitoring
+            if (idleInterval) clearInterval(idleInterval);
+            idleInterval = setInterval(() => {
+                idleTimer++;
+                
+                // Lock screen after 5 minutes of inactivity
+                if (idleTimer >= 300 && !isScreenLocked) {
+                    lockScreen();
+                }
+            }, 1000);
+        }
+        
+        function lockScreen() {
+            isScreenLocked = true;
+            document.body.style.filter = 'blur(10px)';
+            document.body.style.pointerEvents = 'none';
+            
+            logSecurityEvent('SCREEN_LOCKED', { 
+                idleTime: idleTimer,
+                timestamp: new Date().toISOString()
+            });
+            
+            showSecurityNotification('🔒 Screen locked due to inactivity. Click to unlock.', true);
+            
+            // Add click to unlock
+            document.addEventListener('click', unlockScreen, { once: true });
+            document.addEventListener('keydown', unlockScreen, { once: true });
+        }
+        
+        function unlockScreen() {
+            if (!isScreenLocked) return;
+            
+            isScreenLocked = false;
+            document.body.style.filter = '';
+            document.body.style.pointerEvents = '';
+            
+            logSecurityEvent('SCREEN_UNLOCKED', {
+                timestamp: new Date().toISOString()
+            });
+            
+            showSecurityNotification('🔓 Screen unlocked');
+            resetIdleTimer();
         }
         
         function updateSessionTimer() {
@@ -1267,11 +1375,38 @@
         }
         
         function setupSecurityEventListeners() {
-            // Activity tracking for session timeout
-            document.addEventListener('click', resetSessionTimeout);
-            document.addEventListener('keypress', resetSessionTimeout);
+            // Activity tracking for session timeout and idle detection
+            document.addEventListener('click', () => {
+                if (rateLimitCheck('CLICK')) {
+                    resetSessionTimeout();
+                }
+            });
+            
+            document.addEventListener('keypress', () => {
+                if (rateLimitCheck('KEYPRESS')) {
+                    resetSessionTimeout();
+                }
+            });
+            
             document.addEventListener('mousemove', function() {
                 if (Date.now() - lastActivity > 60000) { // Only reset every minute
+                    resetSessionTimeout();
+                }
+            });
+            
+            // Tab visibility security monitoring
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    logSecurityEvent('TAB_HIDDEN', {
+                        timestamp: new Date().toISOString(),
+                        timeHidden: new Date().toISOString()
+                    });
+                } else {
+                    logSecurityEvent('TAB_VISIBLE', {
+                        timestamp: new Date().toISOString(),
+                        timeReturned: new Date().toISOString()
+                    });
+                    // Reset session when user returns to tab
                     resetSessionTimeout();
                 }
             });
@@ -1280,6 +1415,8 @@
             document.addEventListener('copy', function(e) {
                 const selection = window.getSelection().toString();
                 if (selection.length > 50) {
+                    if (!rateLimitCheck('COPY')) return;
+                    
                     logSecurityEvent('DATA_COPY_ATTEMPT', { 
                         length: selection.length,
                         target: e.target.className 
@@ -1297,6 +1434,11 @@
             
             // Print protection
             window.addEventListener('beforeprint', function(e) {
+                if (!rateLimitCheck('PRINT')) {
+                    e.preventDefault();
+                    return;
+                }
+                
                 logSecurityEvent('PRINT_ATTEMPT', {});
                 
                 if (!confirm('⚠️ You are about to print sensitive aircraft data. Continue?')) {
@@ -1311,17 +1453,24 @@
                     (e.metaKey && e.shiftKey && e.key === '4') || // Mac screenshot
                     (e.ctrlKey && e.shiftKey && e.key === 'S')) { // Some screenshot tools
                     
-                    logSecurityEvent('SCREENSHOT_ATTEMPT', { key: e.key });
-                    showSecurityNotification('⚠️ Screenshot detected. Activity logged.', true);
+                    if (rateLimitCheck('SCREENSHOT')) {
+                        logSecurityEvent('SCREENSHOT_ATTEMPT', { key: e.key });
+                        showSecurityNotification('⚠️ Screenshot detected. Activity logged.', true);
+                    }
                 }
             });
             
             // Input validation
             document.addEventListener('input', function(e) {
                 if (e.target.type === 'text' || e.target.tagName === 'TEXTAREA') {
-                    validateAndSanitizeInput(e.target);
+                    if (rateLimitCheck('INPUT')) {
+                        validateAndSanitizeInput(e.target);
+                    }
                 }
             });
+            
+            // Initialize idle monitoring
+            resetIdleTimer();
         }
         
         function validateAndSanitizeInput(inputElement) {
@@ -1363,8 +1512,10 @@
             document.getElementById('select-all').addEventListener('change', toggleSelectAll);
         }
 
-        // Enhanced save function with encryption
+        // Enhanced save function with encryption and rate limiting
         function saveDataToStorage() {
+            if (!rateLimitCheck('SAVE')) return;
+            
             try {
                 const rows = document.querySelectorAll('tbody tr');
                 const aircraftData = [];
@@ -2390,8 +2541,10 @@
             newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        // Add new aircraft
+        // Add new aircraft with rate limiting
         function addNewAircraft() {
+            if (!rateLimitCheck('ADD_AIRCRAFT')) return;
+            
             const tbody = document.getElementById('aircraft-tbody');
             const newRow = document.createElement('tr');
             newRow.draggable = true;
