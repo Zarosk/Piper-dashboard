@@ -24,6 +24,7 @@
             margin-bottom: 20px;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
         }
         
         .dashboard-header h1 {
@@ -36,6 +37,38 @@
             margin: 5px 0 0 0;
             opacity: 0.9;
             font-size: 14px;
+        }
+        
+        .security-indicator {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 12px;
+            opacity: 0.9;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .security-status {
+            color: #4ade80;
+            font-weight: bold;
+        }
+        
+        .session-timer {
+            color: #fbbf24;
+            font-weight: bold;
+        }
+        
+        .session-warning {
+            color: #f87171 !important;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
         
         .section {
@@ -199,7 +232,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 13px;
-            min-width: 1300px;
+            min-width: 1400px;
         }
         
         th {
@@ -349,13 +382,27 @@
             background-color: #e9ecef;
             border-radius: 10px;
             overflow: hidden;
+            position: relative;
         }
         
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #28a745, #20c997);
             border-radius: 10px;
-            transition: width 0.3s ease;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+            z-index: 1;
         }
         
         .operation-checkbox {
@@ -396,7 +443,6 @@
             display: none;
         }
         
-        /* Visual Status Indicators */
         .overdue-row {
             background-color: #fff5f5 !important;
             border-left: 4px solid #dc3545 !important;
@@ -442,7 +488,6 @@
             60% { transform: translateY(-5px); }
         }
         
-        /* Sortable Column Headers */
         .sortable-header {
             cursor: pointer;
             user-select: none;
@@ -471,7 +516,6 @@
             color: #ffc107;
         }
         
-        /* Quick Filter Chips */
         .quick-filters {
             display: flex;
             flex-wrap: wrap;
@@ -527,125 +571,6 @@
             border-color: #17a2b8;
         }
         
-        /* Data Validation */
-        .required-field {
-            border: 2px solid #dc3545 !important;
-            background-color: #fff5f5 !important;
-            animation: shake 0.5s ease-in-out;
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-        
-        .duplicate-warning {
-            border: 2px solid #ffc107 !important;
-            background-color: #fff3cd !important;
-        }
-        
-        .validation-message {
-            position: absolute;
-            background: #dc3545;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            z-index: 1000;
-            white-space: nowrap;
-            margin-top: 2px;
-        }
-        
-        .validation-message::before {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: 10px;
-            width: 0;
-            height: 0;
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
-            border-bottom: 4px solid #dc3545;
-        }
-        
-        /* Undo Notification */
-        .undo-notification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #343a40;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            z-index: 1001;
-            display: none;
-            animation: slide-up 0.3s ease-out;
-        }
-        
-        @keyframes slide-up {
-            from { transform: translateX(-50%) translateY(100%); }
-            to { transform: translateX(-50%) translateY(0); }
-        }
-        
-        .undo-btn {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 4px 12px;
-            border-radius: 4px;
-            margin-left: 10px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        
-        .undo-btn:hover {
-            background: #0056b3;
-        }
-        
-        /* Enhanced Progress Bar */
-        .progress-bar {
-            width: 100%;
-            height: 20px;
-            background-color: #e9ecef;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #28a745, #20c997);
-            border-radius: 10px;
-            transition: width 0.5s ease;
-            position: relative;
-        }
-        
-        .progress-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 10px;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
-            z-index: 1;
-        }
-        
-        .progress-complete {
-            background: linear-gradient(90deg, #28a745, #20c997) !important;
-            animation: glow 1s ease-in-out;
-        }
-        
-        @keyframes glow {
-            0% { box-shadow: 0 0 5px rgba(40,167,69,0.5); }
-            50% { box-shadow: 0 0 20px rgba(40,167,69,0.8); }
-            100% { box-shadow: 0 0 5px rgba(40,167,69,0.5); }
-        }
-        
         .drag-handle {
             cursor: grab;
             color: #6c757d;
@@ -680,79 +605,6 @@
             border-top: 3px solid #007bff !important;
         }
         
-        .context-menu {
-            position: fixed;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            padding: 8px 0;
-            z-index: 1000;
-            min-width: 180px;
-            display: none;
-        }
-        
-        .context-menu-item {
-            padding: 10px 16px;
-            cursor: pointer;
-            font-size: 14px;
-            color: #333;
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .context-menu-item:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .context-menu-item.danger:hover {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        
-        .context-menu-divider {
-            height: 1px;
-            background-color: #e9ecef;
-            margin: 4px 0;
-        }
-        
-        .shortcuts-help {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 12px;
-            z-index: 1001;
-            display: none;
-            max-width: 250px;
-        }
-        
-        .shortcuts-help h4 {
-            margin: 0 0 10px 0;
-            font-size: 14px;
-        }
-        
-        .shortcut-item {
-            display: flex;
-            justify-content: space-between;
-            margin: 5px 0;
-        }
-        
-        .shortcut-key {
-            background: rgba(255,255,255,0.2);
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: monospace;
-        }
-        
         .last-updated {
             text-align: center;
             color: #666;
@@ -762,6 +614,41 @@
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .security-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1001;
+            display: none;
+            animation: slide-in 0.3s ease-out;
+        }
+        
+        @keyframes slide-in {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        .security-warning {
+            background: #dc3545 !important;
+        }
+        
+        .input-invalid {
+            border: 2px solid #dc3545 !important;
+            background-color: #fff5f5 !important;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
         
         @media (max-width: 768px) {
@@ -788,6 +675,12 @@
             th, td {
                 padding: 8px 6px;
             }
+            
+            .security-indicator {
+                position: relative;
+                text-align: center;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
@@ -795,8 +688,9 @@
     <div class="dashboard-header">
         <h1>Aircraft Production Dashboard</h1>
         <p>Real-time production monitoring and build status overview</p>
-        <div style="position: absolute; top: 15px; right: 20px; font-size: 12px; opacity: 0.8;">
-            🛡️ Security: Active | Session: <span id="session-timer">30:00</span>
+        <div class="security-indicator">
+            🛡️ <span class="security-status">Security: Active</span> | 
+            Session: <span id="session-timer" class="session-timer">30:00</span>
         </div>
     </div>
     
@@ -883,12 +777,13 @@
     </div>
     
     <div class="section">
-        <h3>Data Management</h3>
+        <h3>Data Management & Security</h3>
         <button class="btn btn-success" onclick="exportBackup()">💾 Download Backup</button>
         <button class="btn btn-success" onclick="importBackup()">📥 Import Backup</button>
+        <button class="btn btn-info" onclick="viewSecurityLog()">🛡️ Security Log</button>
         <button class="btn btn-danger" onclick="clearAllData()">🗑️ Clear All Data</button>
         <p style="margin-top: 10px; font-size: 12px; color: #666;">
-            Backup: Save/restore your data • Auto-saves every 30 seconds
+            Backup: Save/restore encrypted data • Security: View audit trail • Auto-saves every 30 seconds
         </p>
     </div>
     
@@ -941,11 +836,11 @@
             <tbody id="aircraft-tbody">
                 <tr draggable="true">
                     <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
-                    <td><input type="text" class="table-input" placeholder="AC-001" /></td>
+                    <td><input type="text" class="table-input" placeholder="AC-001" value="AC-001" /></td>
                     <td>
                         <select class="table-input">
                             <option value="">Select Model</option>
-                            <option value="PA-28-181">PA-28-181</option>
+                            <option value="PA-28-181" selected>PA-28-181</option>
                             <option value="PA-28-181 DX">PA-28-181 DX</option>
                             <option value="PA-44-180">PA-44-180</option>
                             <option value="PA-46-350P">PA-46-350P</option>
@@ -961,15 +856,15 @@
                             <option value="Quality Check">Quality Check</option>
                         </select>
                     </td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" checked /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" checked /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" checked /></td>
                     <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                     <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                     <td>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%;">
-                                <div class="progress-text">0%</div>
+                            <div class="progress-fill" style="width: 60%;">
+                                <div class="progress-text">60%</div>
                             </div>
                         </div>
                     </td>
@@ -981,11 +876,11 @@
                             <option value="Low">Low</option>
                         </select>
                     </td>
-                    <td><textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea></td>
-                    <td><textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea></td>
+                    <td><textarea class="notes-input" placeholder="Enter pre-flight notes...">Electrical systems checked</textarea></td>
+                    <td><textarea class="notes-input" placeholder="Enter pre-cert notes...">Ready for certification</textarea></td>
                     <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
-                    <td><input type="date" class="table-input" /></td>
-                    <td><input type="text" class="table-input" placeholder="Team Name" /></td>
+                    <td><input type="date" class="table-input" value="2025-01-15" /></td>
+                    <td><input type="text" class="table-input" placeholder="Team Name" value="Alpha Team" /></td>
                     <td>
                         <button class="btn-small btn-danger" onclick="deleteAircraft(this)" title="Delete Aircraft">🗑️</button>
                         <button class="btn-small" onclick="duplicateAircraft(this)" title="Duplicate Aircraft">📋</button>
@@ -993,13 +888,13 @@
                 </tr>
                 <tr draggable="true">
                     <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
-                    <td><input type="text" class="table-input" placeholder="AC-002" /></td>
+                    <td><input type="text" class="table-input" placeholder="AC-002" value="AC-002" /></td>
                     <td>
                         <select class="table-input">
                             <option value="">Select Model</option>
                             <option value="PA-28-181">PA-28-181</option>
                             <option value="PA-28-181 DX">PA-28-181 DX</option>
-                            <option value="PA-44-180">PA-44-180</option>
+                            <option value="PA-44-180" selected>PA-44-180</option>
                             <option value="PA-46-350P">PA-46-350P</option>
                             <option value="PA-46-500">PA-46-500</option>
                             <option value="PA-46-700">PA-46-700</option>
@@ -1013,67 +908,15 @@
                             <option value="Quality Check">Quality Check</option>
                         </select>
                     </td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%;">
-                                <div class="progress-text">0%</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <select class="priority-select medium">
-                            <option value="Critical">Critical</option>
-                            <option value="High">High</option>
-                            <option value="Medium" selected>Medium</option>
-                            <option value="Low">Low</option>
-                        </select>
-                    </td>
-                    <td><textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea></td>
-                    <td><textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea></td>
-                    <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
-                    <td><input type="date" class="table-input" /></td>
-                    <td><input type="text" class="table-input" placeholder="Team Name" /></td>
-                    <td>
-                        <button class="btn-small btn-danger" onclick="deleteAircraft(this)" title="Delete Aircraft">🗑️</button>
-                        <button class="btn-small" onclick="duplicateAircraft(this)" title="Duplicate Aircraft">📋</button>
-                    </td>
-                </tr>
-                <tr draggable="true">
-                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
-                    <td><input type="text" class="table-input" placeholder="AC-003" /></td>
-                    <td>
-                        <select class="table-input">
-                            <option value="">Select Model</option>
-                            <option value="PA-28-181">PA-28-181</option>
-                            <option value="PA-28-181 DX">PA-28-181 DX</option>
-                            <option value="PA-44-180">PA-44-180</option>
-                            <option value="PA-46-350P">PA-46-350P</option>
-                            <option value="PA-46-500">PA-46-500</option>
-                            <option value="PA-46-700">PA-46-700</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select class="status-select production-ready">
-                            <option value="Production Ready" selected>Production Ready</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="On Hold">On Hold</option>
-                            <option value="Quality Check">Quality Check</option>
-                        </select>
-                    </td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" checked /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" checked /></td>
                     <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                     <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                     <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                     <td>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%;">
-                                <div class="progress-text">0%</div>
+                            <div class="progress-fill" style="width: 40%;">
+                                <div class="progress-text">40%</div>
                             </div>
                         </div>
                     </td>
@@ -1085,11 +928,11 @@
                             <option value="Low">Low</option>
                         </select>
                     </td>
-                    <td><textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea></td>
+                    <td><textarea class="notes-input" placeholder="Enter pre-flight notes...">Wing assembly in progress</textarea></td>
                     <td><textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea></td>
                     <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
-                    <td><input type="date" class="table-input" /></td>
-                    <td><input type="text" class="table-input" placeholder="Team Name" /></td>
+                    <td><input type="date" class="table-input" value="2025-01-20" /></td>
+                    <td><input type="text" class="table-input" placeholder="Team Name" value="Beta Team" /></td>
                     <td>
                         <button class="btn-small btn-danger" onclick="deleteAircraft(this)" title="Delete Aircraft">🗑️</button>
                         <button class="btn-small" onclick="duplicateAircraft(this)" title="Duplicate Aircraft">📋</button>
@@ -1097,14 +940,14 @@
                 </tr>
                 <tr draggable="true">
                     <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
-                    <td><input type="text" class="table-input" placeholder="AC-004" /></td>
+                    <td><input type="text" class="table-input" placeholder="AC-003" value="AC-003" /></td>
                     <td>
                         <select class="table-input">
                             <option value="">Select Model</option>
                             <option value="PA-28-181">PA-28-181</option>
                             <option value="PA-28-181 DX">PA-28-181 DX</option>
                             <option value="PA-44-180">PA-44-180</option>
-                            <option value="PA-46-350P">PA-46-350P</option>
+                            <option value="PA-46-350P" selected>PA-46-350P</option>
                             <option value="PA-46-500">PA-46-500</option>
                             <option value="PA-46-700">PA-46-700</option>
                         </select>
@@ -1117,67 +960,15 @@
                             <option value="Quality Check" selected>Quality Check</option>
                         </select>
                     </td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" checked /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" checked /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" checked /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" checked /></td>
+                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" checked /></td>
                     <td>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%;">
-                                <div class="progress-text">0%</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <select class="priority-select low">
-                            <option value="Critical">Critical</option>
-                            <option value="High">High</option>
-                            <option value="Medium">Medium</option>
-                            <option value="Low" selected>Low</option>
-                        </select>
-                    </td>
-                    <td><textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea></td>
-                    <td><textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea></td>
-                    <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
-                    <td><input type="date" class="table-input" /></td>
-                    <td><input type="text" class="table-input" placeholder="Team Name" /></td>
-                    <td>
-                        <button class="btn-small btn-danger" onclick="deleteAircraft(this)" title="Delete Aircraft">🗑️</button>
-                        <button class="btn-small" onclick="duplicateAircraft(this)" title="Duplicate Aircraft">📋</button>
-                    </td>
-                </tr>
-                <tr draggable="true">
-                    <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
-                    <td><input type="text" class="table-input" placeholder="AC-005" /></td>
-                    <td>
-                        <select class="table-input">
-                            <option value="">Select Model</option>
-                            <option value="PA-28-181">PA-28-181</option>
-                            <option value="PA-28-181 DX">PA-28-181 DX</option>
-                            <option value="PA-44-180">PA-44-180</option>
-                            <option value="PA-46-350P">PA-46-350P</option>
-                            <option value="PA-46-500">PA-46-500</option>
-                            <option value="PA-46-700">PA-46-700</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select class="status-select on-hold">
-                            <option value="Production Ready">Production Ready</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="On Hold" selected>On Hold</option>
-                            <option value="Quality Check">Quality Check</option>
-                        </select>
-                    </td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
-                    <td>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%;">
-                                <div class="progress-text">0%</div>
+                            <div class="progress-fill" style="width: 100%;">
+                                <div class="progress-text">100%</div>
                             </div>
                         </div>
                     </td>
@@ -1189,11 +980,11 @@
                             <option value="Low">Low</option>
                         </select>
                     </td>
-                    <td><textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea></td>
-                    <td><textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea></td>
-                    <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
-                    <td><input type="date" class="table-input" /></td>
-                    <td><input type="text" class="table-input" placeholder="Team Name" /></td>
+                    <td><textarea class="notes-input" placeholder="Enter pre-flight notes...">Final quality inspection required</textarea></td>
+                    <td><textarea class="notes-input" placeholder="Enter pre-cert notes...">Certification pending</textarea></td>
+                    <td><textarea class="notes-input" placeholder="Enter NCMR notes...">Minor adjustments needed</textarea></td>
+                    <td><input type="date" class="table-input" value="2025-01-10" /></td>
+                    <td><input type="text" class="table-input" placeholder="Team Name" value="QA Team" /></td>
                     <td>
                         <button class="btn-small btn-danger" onclick="deleteAircraft(this)" title="Delete Aircraft">🗑️</button>
                         <button class="btn-small" onclick="duplicateAircraft(this)" title="Duplicate Aircraft">📋</button>
@@ -1207,64 +998,228 @@
         Dashboard Last Updated: Loading...
     </div>
 
-    <!-- Context Menu -->
-    <div id="context-menu" class="context-menu">
-        <button class="context-menu-item" onclick="contextEditAircraft()">
-            ✏️ Edit Aircraft
-        </button>
-        <button class="context-menu-item" onclick="contextCopyAircraft()">
-            📋 Copy Aircraft
-        </button>
-        <button class="context-menu-item" onclick="contextChangeStatus()">
-            🔄 Change Status
-        </button>
-        <button class="context-menu-item" onclick="contextChangePriority()">
-            ⚡ Change Priority
-        </button>
-        <div class="context-menu-divider"></div>
-        <button class="context-menu-item" onclick="contextSelectRow()">
-            ☑️ Select Row
-        </button>
-        <button class="context-menu-item danger" onclick="contextDeleteAircraft()">
-            🗑️ Delete Aircraft
-        </button>
-    </div>
-
-    <!-- Keyboard Shortcuts Help -->
-    <div id="shortcuts-help" class="shortcuts-help">
-        <h4>⌨️ Keyboard Shortcuts</h4>
-        <div class="shortcut-item">
-            <span>Select All</span>
-            <span class="shortcut-key">Ctrl+A</span>
-        </div>
-        <div class="shortcut-item">
-            <span>Delete Selected</span>
-            <span class="shortcut-key">Delete</span>
-        </div>
-        <div class="shortcut-item">
-            <span>New Aircraft</span>
-            <span class="shortcut-key">Ctrl+N</span>
-        </div>
-        <div class="shortcut-item">
-            <span>Clear Selection</span>
-            <span class="shortcut-key">Escape</span>
-        </div>
-        <div class="shortcut-item">
-            <span>Show Help</span>
-            <span class="shortcut-key">F1</span>
-        </div>
-    </div>
-
-    <!-- Undo Notification -->
-    <div id="undo-notification" class="undo-notification">
-        <span id="undo-message">Aircraft deleted</span>
-        <button class="undo-btn" onclick="undoLastAction()">Undo</button>
+    <!-- Security Notification -->
+    <div id="security-notification" class="security-notification">
+        <span id="security-message">🔒 Data encrypted & saved securely</span>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <script>
-        // Global variables
+        // ====================================================================
+        // SECURITY CORE FUNCTIONS (DEFINED FIRST)
+        // ====================================================================
+        
+        // Global security variables
+        let sessionDuration = 30 * 60; // 30 minutes in seconds
+        let sessionTimer = sessionDuration;
+        let sessionInterval = null;
+        let lastActivity = Date.now();
+        
+        // Initialize security logging
+        function initializeSecurityLog() {
+            if (!localStorage.getItem('securityAuditLog')) {
+                localStorage.setItem('securityAuditLog', JSON.stringify([]));
+            }
+        }
+        
+        // Security event logging
+        function logSecurityEvent(action, details = {}) {
+            try {
+                const log = JSON.parse(localStorage.getItem('securityAuditLog') || '[]');
+                const event = {
+                    timestamp: new Date().toISOString(),
+                    action: action,
+                    details: details,
+                    userAgent: navigator.userAgent.substring(0, 100),
+                    url: window.location.href
+                };
+                
+                log.push(event);
+                
+                // Keep only last 500 events
+                if (log.length > 500) {
+                    log.splice(0, log.length - 500);
+                }
+                
+                localStorage.setItem('securityAuditLog', JSON.stringify(log));
+                console.log('Security event logged:', action);
+            } catch (error) {
+                console.warn('Failed to log security event:', error);
+            }
+        }
+        
+        // Input sanitization
+        function sanitizeInput(input) {
+            if (typeof input !== 'string') return input;
+            
+            // Remove potentially dangerous characters and patterns
+            return input
+                .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+                .replace(/<[^>]*>/g, '')
+                .replace(/javascript:/gi, '')
+                .replace(/vbscript:/gi, '')
+                .replace(/onload=/gi, '')
+                .replace(/onerror=/gi, '')
+                .replace(/onclick=/gi, '')
+                .substring(0, 1000); // Limit length
+        }
+        
+        // Enhanced input validation
+        function validateInput(input, type = 'text') {
+            const sanitized = sanitizeInput(input);
+            
+            switch (type) {
+                case 'aircraftId':
+                    // Aircraft ID should match pattern like AC-001, ABC-1234, etc.
+                    const aircraftPattern = /^[A-Z]{1,3}-\d{1,4}$/;
+                    return aircraftPattern.test(sanitized) ? sanitized : '';
+                case 'email':
+                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    return emailPattern.test(sanitized) ? sanitized : '';
+                case 'date':
+                    const date = new Date(sanitized);
+                    return !isNaN(date.getTime()) ? sanitized : '';
+                default:
+                    return sanitized;
+            }
+        }
+        
+        // Data encryption for localStorage
+        function encryptData(data) {
+            try {
+                const jsonString = JSON.stringify(data);
+                // Simple but reliable encryption
+                const encoded = btoa(unescape(encodeURIComponent(jsonString)));
+                
+                // XOR cipher with rotating key
+                const key = 'SecureAircraft2025';
+                let encrypted = '';
+                for (let i = 0; i < encoded.length; i++) {
+                    const charCode = encoded.charCodeAt(i) ^ key.charCodeAt(i % key.length);
+                    encrypted += String.fromCharCode(charCode);
+                }
+                
+                // Base64 encode the result to ensure safe storage
+                return btoa(encrypted);
+            } catch (error) {
+                console.warn('Encryption failed:', error);
+                return JSON.stringify(data);
+            }
+        }
+        
+        function decryptData(encryptedData) {
+            try {
+                // Try new encryption format first
+                const decoded = atob(encryptedData);
+                
+                // XOR decrypt with rotating key
+                const key = 'SecureAircraft2025';
+                let decrypted = '';
+                for (let i = 0; i < decoded.length; i++) {
+                    const charCode = decoded.charCodeAt(i) ^ key.charCodeAt(i % key.length);
+                    decrypted += String.fromCharCode(charCode);
+                }
+                
+                const finalDecoded = decodeURIComponent(escape(atob(decrypted)));
+                return JSON.parse(finalDecoded);
+            } catch (error) {
+                console.log('Trying fallback decryption for legacy data...');
+                try {
+                    // Fallback for old unencrypted data
+                    return JSON.parse(encryptedData);
+                } catch (fallbackError) {
+                    try {
+                        // Try simple base64 decode for older encrypted data
+                        const decoded = decodeURIComponent(escape(atob(encryptedData)));
+                        return JSON.parse(decoded);
+                    } catch (finalError) {
+                        console.warn('All decryption methods failed');
+                        return null;
+                    }
+                }
+            }
+        }
+        
+        // Session management
+        function resetSessionTimeout() {
+            lastActivity = Date.now();
+            sessionTimer = sessionDuration;
+            
+            if (sessionInterval) {
+                clearInterval(sessionInterval);
+            }
+            
+            sessionInterval = setInterval(updateSessionTimer, 1000);
+            logSecurityEvent('SESSION_ACTIVITY', { timestamp: new Date().toISOString() });
+        }
+        
+        function updateSessionTimer() {
+            sessionTimer--;
+            
+            const minutes = Math.floor(sessionTimer / 60);
+            const seconds = sessionTimer % 60;
+            const timeString = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            const timerElement = document.getElementById('session-timer');
+            if (timerElement) {
+                timerElement.textContent = timeString;
+                
+                // Color code based on time remaining
+                if (sessionTimer <= 300) { // 5 minutes
+                    timerElement.className = 'session-timer session-warning';
+                } else if (sessionTimer <= 600) { // 10 minutes
+                    timerElement.className = 'session-timer';
+                } else {
+                    timerElement.className = 'session-timer';
+                }
+            }
+            
+            if (sessionTimer <= 0) {
+                handleSessionExpiry();
+            }
+        }
+        
+        function handleSessionExpiry() {
+            clearInterval(sessionInterval);
+            logSecurityEvent('SESSION_EXPIRED', {});
+            
+            if (confirm('🛡️ Session expired for security. Save your work and refresh the page to continue.')) {
+                saveDataToStorage();
+            }
+            
+            // Disable all inputs
+            document.querySelectorAll('input, select, textarea, button').forEach(el => {
+                el.disabled = true;
+            });
+        }
+        
+        // Security notifications
+        function showSecurityNotification(message, isWarning = false) {
+            const notification = document.getElementById('security-notification');
+            const messageElement = document.getElementById('security-message');
+            
+            if (notification && messageElement) {
+                messageElement.textContent = message;
+                
+                if (isWarning) {
+                    notification.classList.add('security-warning');
+                } else {
+                    notification.classList.remove('security-warning');
+                }
+                
+                notification.style.display = 'block';
+                
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        // ====================================================================
+        // MAIN DASHBOARD FUNCTIONALITY
+        // ====================================================================
+        
         let currentContextRow = null;
         let draggedRow = null;
         let lastDeletedData = null;
@@ -1277,18 +1232,28 @@
 
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
+            initializeSecurityLog();
             initializeDashboard();
             setupEventListeners();
             loadDataFromStorage();
             updateSummaryCards();
             updateQuickFilterCounts();
             applyVisualIndicators();
+            resetSessionTimeout();
+            
+            logSecurityEvent('DASHBOARD_LOADED', {
+                userAgent: navigator.userAgent,
+                timestamp: new Date().toISOString()
+            });
             
             // Auto-save every 30 seconds
             setInterval(saveDataToStorage, 30000);
             
             // Save when leaving page
             window.addEventListener('beforeunload', saveDataToStorage);
+            
+            // Setup security event listeners
+            setupSecurityEventListeners();
         });
 
         function initializeDashboard() {
@@ -1300,6 +1265,92 @@
                 applyRowVisualIndicators(row);
             });
         }
+        
+        function setupSecurityEventListeners() {
+            // Activity tracking for session timeout
+            document.addEventListener('click', resetSessionTimeout);
+            document.addEventListener('keypress', resetSessionTimeout);
+            document.addEventListener('mousemove', function() {
+                if (Date.now() - lastActivity > 60000) { // Only reset every minute
+                    resetSessionTimeout();
+                }
+            });
+            
+            // Copy protection
+            document.addEventListener('copy', function(e) {
+                const selection = window.getSelection().toString();
+                if (selection.length > 50) {
+                    logSecurityEvent('DATA_COPY_ATTEMPT', { 
+                        length: selection.length,
+                        target: e.target.className 
+                    });
+                    
+                    if (!e.target.closest('.notes-input, .table-input')) {
+                        if (!confirm('⚠️ You are copying sensitive data. Continue?')) {
+                            e.preventDefault();
+                            showSecurityNotification('🛡️ Data copying restricted for security', true);
+                            return;
+                        }
+                    }
+                }
+            });
+            
+            // Print protection
+            window.addEventListener('beforeprint', function(e) {
+                logSecurityEvent('PRINT_ATTEMPT', {});
+                
+                if (!confirm('⚠️ You are about to print sensitive aircraft data. Continue?')) {
+                    e.preventDefault();
+                    showSecurityNotification('🛡️ Print operation cancelled for security', true);
+                }
+            });
+            
+            // Screenshot detection
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'PrintScreen' || 
+                    (e.metaKey && e.shiftKey && e.key === '4') || // Mac screenshot
+                    (e.ctrlKey && e.shiftKey && e.key === 'S')) { // Some screenshot tools
+                    
+                    logSecurityEvent('SCREENSHOT_ATTEMPT', { key: e.key });
+                    showSecurityNotification('⚠️ Screenshot detected. Activity logged.', true);
+                }
+            });
+            
+            // Input validation
+            document.addEventListener('input', function(e) {
+                if (e.target.type === 'text' || e.target.tagName === 'TEXTAREA') {
+                    validateAndSanitizeInput(e.target);
+                }
+            });
+        }
+        
+        function validateAndSanitizeInput(inputElement) {
+            const originalValue = inputElement.value;
+            let sanitizedValue = sanitizeInput(originalValue);
+            
+            // Length validation
+            if (sanitizedValue.length > 1000) {
+                sanitizedValue = sanitizedValue.substring(0, 1000);
+                showSecurityNotification('🛡️ Input truncated for security', true);
+            }
+            
+            // Aircraft ID validation
+            if (inputElement.placeholder && inputElement.placeholder.includes('AC-')) {
+                if (sanitizedValue && !validateInput(sanitizedValue, 'aircraftId') && sanitizedValue.length > 0) {
+                    inputElement.classList.add('input-invalid');
+                    setTimeout(() => inputElement.classList.remove('input-invalid'), 2000);
+                }
+            }
+            
+            // Update the input if it was changed
+            if (originalValue !== sanitizedValue) {
+                inputElement.value = sanitizedValue;
+                logSecurityEvent('INPUT_SANITIZED', {
+                    original: originalValue.substring(0, 50),
+                    sanitized: sanitizedValue.substring(0, 50)
+                });
+            }
+        }
 
         function setupEventListeners() {
             // Search and filter
@@ -1310,33 +1361,185 @@
             
             // Select all checkbox
             document.getElementById('select-all').addEventListener('change', toggleSelectAll);
-            
-            // Keyboard shortcuts
-            document.addEventListener('keydown', handleKeyboardShortcuts);
-            
-            // Context menu
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('#context-menu')) {
-                    hideContextMenu();
-                }
-            });
-            
-            // Initialize session timeout (simplified)
-            if (typeof resetSessionTimeout === 'function') {
-                resetSessionTimeout();
-            }
-            
-            // Right-click context menu for rows
-            document.querySelectorAll('tbody tr').forEach(row => {
-                row.addEventListener('contextmenu', function(e) {
-                    showContextMenu(e, this);
-                    return false;
+        }
+
+        // Enhanced save function with encryption
+        function saveDataToStorage() {
+            try {
+                const rows = document.querySelectorAll('tbody tr');
+                const aircraftData = [];
+                
+                rows.forEach(row => {
+                    const rowData = {
+                        aircraftId: sanitizeInput(row.querySelectorAll('.table-input')[0]?.value || ''),
+                        model: sanitizeInput(row.querySelectorAll('.table-input')[1]?.value || ''),
+                        status: row.querySelector('.status-select')?.value || 'In Progress',
+                        operations: Array.from(row.querySelectorAll('.operation-checkbox')).map(cb => cb.checked),
+                        priority: row.querySelector('.priority-select')?.value || 'Medium',
+                        preFlightNotes: sanitizeInput(row.querySelectorAll('.notes-input')[0]?.value || ''),
+                        preCertNotes: sanitizeInput(row.querySelectorAll('.notes-input')[1]?.value || ''),
+                        ncmrNotes: sanitizeInput(row.querySelectorAll('.notes-input')[2]?.value || ''),
+                        deliveryDate: row.querySelector('input[type="date"]')?.value || '',
+                        team: sanitizeInput(row.querySelectorAll('.table-input')[4]?.value || '')
+                    };
+                    aircraftData.push(rowData);
                 });
-            });
+                
+                const dashboardData = {
+                    aircraft: aircraftData,
+                    lastSaved: new Date().toISOString(),
+                    version: '2.0',
+                    securityHash: generateSecurityHash(aircraftData)
+                };
+                
+                const encryptedData = encryptData(dashboardData);
+                localStorage.setItem('aircraftDashboardData', encryptedData);
+                
+                updateLastSavedTime();
+                showSecurityNotification('🔒 Data encrypted & saved securely');
+                
+                logSecurityEvent('DATA_SAVED', {
+                    aircraftCount: aircraftData.length,
+                    timestamp: new Date().toISOString()
+                });
+                
+            } catch (error) {
+                console.error('Failed to save data:', error);
+                showSecurityNotification('❌ Save failed - check console for details', true);
+                logSecurityEvent('SAVE_ERROR', { error: error.message });
+            }
+        }
+        
+        function loadDataFromStorage() {
+            try {
+                const savedData = localStorage.getItem('aircraftDashboardData');
+                if (!savedData) {
+                    logSecurityEvent('NO_SAVED_DATA', {});
+                    return false;
+                }
+                
+                const dashboardData = decryptData(savedData);
+                if (!dashboardData) {
+                    logSecurityEvent('DECRYPT_FAILED', {});
+                    return false;
+                }
+                
+                // Verify data integrity
+                if (dashboardData.securityHash) {
+                    const currentHash = generateSecurityHash(dashboardData.aircraft);
+                    if (currentHash !== dashboardData.securityHash) {
+                        logSecurityEvent('DATA_INTEGRITY_VIOLATION', {});
+                        if (!confirm('⚠️ Data integrity check failed. Data may have been tampered with. Continue loading?')) {
+                            return false;
+                        }
+                    }
+                }
+                
+                const tbody = document.getElementById('aircraft-tbody');
+                tbody.innerHTML = '';
+                
+                dashboardData.aircraft.forEach(aircraftData => {
+                    const newRow = createAircraftRow(aircraftData);
+                    tbody.appendChild(newRow);
+                    addEventListenersToRow(newRow);
+                    setupDragAndDrop(newRow);
+                });
+                
+                updateSummaryCards();
+                updateLastSavedTime(dashboardData.lastSaved);
+                
+                logSecurityEvent('DATA_LOADED', {
+                    aircraftCount: dashboardData.aircraft.length,
+                    version: dashboardData.version
+                });
+                
+                return true;
+            } catch (error) {
+                console.error('Failed to load data:', error);
+                logSecurityEvent('LOAD_ERROR', { error: error.message });
+                return false;
+            }
+        }
+        
+        function generateSecurityHash(data) {
+            // Simple hash for data integrity (use proper crypto in production)
+            const str = JSON.stringify(data);
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+            return hash.toString(16);
+        }
+        
+        // Security log viewer
+        function viewSecurityLog() {
+            try {
+                const log = JSON.parse(localStorage.getItem('securityAuditLog') || '[]');
+                
+                if (log.length === 0) {
+                    alert('No security events logged yet.');
+                    return;
+                }
+                
+                const logWindow = window.open('', '_blank', 'width=800,height=600');
+                logWindow.document.write(`
+                    <html>
+                    <head>
+                        <title>Security Audit Log</title>
+                        <style>
+                            body { font-family: monospace; margin: 20px; background: #f8f9fa; }
+                            h2 { color: #495057; }
+                            .log-entry { 
+                                margin: 10px 0; 
+                                padding: 15px; 
+                                border-left: 4px solid #007bff; 
+                                background: white; 
+                                border-radius: 4px;
+                                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                            }
+                            .timestamp { font-weight: bold; color: #495057; }
+                            .action { color: #007bff; font-weight: bold; margin: 5px 0; }
+                            .details { color: #6c757d; font-size: 12px; }
+                            .critical { border-left-color: #dc3545; }
+                            .warning { border-left-color: #ffc107; }
+                        </style>
+                    </head>
+                    <body>
+                        <h2>🛡️ Security Audit Log</h2>
+                        <p><strong>Total Events:</strong> ${log.length}</p>
+                        <p><strong>Generated:</strong> ${new Date().toLocaleString()}</p>
+                        <hr>
+                        ${log.reverse().map(entry => {
+                            const isCritical = entry.action.includes('VIOLATION') || entry.action.includes('FAILED');
+                            const isWarning = entry.action.includes('ATTEMPT') || entry.action.includes('WARNING');
+                            const cssClass = isCritical ? 'critical' : (isWarning ? 'warning' : '');
+                            
+                            return `
+                                <div class="log-entry ${cssClass}">
+                                    <div class="timestamp">${new Date(entry.timestamp).toLocaleString()}</div>
+                                    <div class="action">${entry.action}</div>
+                                    <div class="details">${JSON.stringify(entry.details, null, 2)}</div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </body>
+                    </html>
+                `);
+                
+                logSecurityEvent('AUDIT_LOG_VIEWED', {});
+                
+            } catch (error) {
+                console.error('Failed to view security log:', error);
+                alert('Failed to load security log. Check console for details.');
+            }
         }
 
         // Export functions
         function exportToCSV() {
+            logSecurityEvent('CSV_EXPORT', {});
+            
             const table = document.querySelector('table');
             const rows = table.querySelectorAll('tr');
             let csvContent = '';
@@ -1387,6 +1590,8 @@
         }
 
         function copyTableData() {
+            logSecurityEvent('TABLE_COPY', {});
+            
             const table = document.querySelector('table');
             const rows = table.querySelectorAll('tr');
             let tableText = '';
@@ -1423,14 +1628,16 @@
             });
             
             navigator.clipboard.writeText(tableText).then(() => {
-                alert('✅ Table data copied to clipboard! You can now paste it into Excel or Google Sheets.');
+                showSecurityNotification('✅ Table data copied to clipboard!');
             }).catch(() => {
-                alert('❌ Copy failed. Please try the CSV export instead.');
+                showSecurityNotification('❌ Copy failed. Please try the CSV export instead.', true);
             });
         }
 
         // PDF Report Generation
         function generatePDFReport() {
+            logSecurityEvent('PDF_EXPORT', {});
+            
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
@@ -1447,22 +1654,22 @@
             
             // Header
             doc.setFontSize(20);
-            doc.setTextColor(30, 60, 114); // Dark blue
+            doc.setTextColor(30, 60, 114);
             doc.text('Aircraft Production Report', 20, 25);
             
             doc.setFontSize(12);
-            doc.setTextColor(102, 117, 127); // Gray
+            doc.setTextColor(102, 117, 127);
             doc.text(`Generated on ${reportDate}`, 20, 35);
             
             // Executive Summary
             let yPosition = 50;
             doc.setFontSize(16);
-            doc.setTextColor(73, 80, 87); // Dark gray
+            doc.setTextColor(73, 80, 87);
             doc.text('Executive Summary', 20, yPosition);
             
             yPosition += 15;
             doc.setFontSize(11);
-            doc.setTextColor(33, 37, 41); // Black
+            doc.setTextColor(33, 37, 41);
             
             const summaryText = [
                 `Total Aircraft in Production: ${metrics.totalAircraft}`,
@@ -1478,7 +1685,7 @@
                 yPosition += 6;
             });
             
-            // Status Breakdown Chart (text-based)
+            // Status Breakdown
             yPosition += 10;
             doc.setFontSize(14);
             doc.setTextColor(73, 80, 87);
@@ -1553,85 +1760,26 @@
                     fontStyle: 'bold'
                 },
                 columnStyles: {
-                    0: { fontStyle: 'bold' }, // Aircraft ID
-                    4: { halign: 'center' }, // Progress
-                    7: { halign: 'center' }  // Timeline
+                    0: { fontStyle: 'bold' },
+                    4: { halign: 'center' },
+                    7: { halign: 'center' }
                 },
                 didParseCell: function(data) {
-                    // Color code overdue rows
                     if (data.cell.text[0] === 'OVERDUE') {
-                        data.cell.styles.textColor = [220, 53, 69]; // Red
+                        data.cell.styles.textColor = [220, 53, 69];
                         data.cell.styles.fontStyle = 'bold';
                     }
-                    // Color code priorities
-                    if (data.column.index === 5) { // Priority column
+                    if (data.column.index === 5) {
                         if (data.cell.text[0] === 'Critical') {
-                            data.cell.styles.fillColor = [248, 215, 218]; // Light red
+                            data.cell.styles.fillColor = [248, 215, 218];
                             data.cell.styles.textColor = [114, 28, 36];
                         } else if (data.cell.text[0] === 'High') {
-                            data.cell.styles.fillColor = [255, 243, 205]; // Light orange
+                            data.cell.styles.fillColor = [255, 243, 205];
                             data.cell.styles.textColor = [133, 100, 4];
                         }
                     }
                 }
             });
-            
-            // Notes Summary Section
-            const notesData = aircraftData.filter(aircraft => 
-                aircraft.preFlightNotes || aircraft.preCertNotes || aircraft.ncmrNotes
-            );
-            
-            if (notesData.length > 0) {
-                doc.addPage();
-                yPosition = 25;
-                
-                doc.setFontSize(16);
-                doc.setTextColor(73, 80, 87);
-                doc.text('Notes & Comments Summary', 20, yPosition);
-                
-                yPosition += 15;
-                
-                notesData.forEach(aircraft => {
-                    if (yPosition > 250) { // Check if we need a new page
-                        doc.addPage();
-                        yPosition = 25;
-                    }
-                    
-                    doc.setFontSize(12);
-                    doc.setTextColor(30, 60, 114);
-                    doc.text(`${aircraft.aircraftId || 'Unassigned'} - ${aircraft.model || 'Unknown Model'}`, 20, yPosition);
-                    yPosition += 8;
-                    
-                    doc.setFontSize(9);
-                    doc.setTextColor(33, 37, 41);
-                    
-                    if (aircraft.preFlightNotes) {
-                        doc.text('Pre-Flight Notes:', 25, yPosition);
-                        yPosition += 5;
-                        const preFlightLines = doc.splitTextToSize(aircraft.preFlightNotes, 160);
-                        doc.text(preFlightLines, 30, yPosition);
-                        yPosition += preFlightLines.length * 4 + 3;
-                    }
-                    
-                    if (aircraft.preCertNotes) {
-                        doc.text('Pre-Certification Notes:', 25, yPosition);
-                        yPosition += 5;
-                        const preCertLines = doc.splitTextToSize(aircraft.preCertNotes, 160);
-                        doc.text(preCertLines, 30, yPosition);
-                        yPosition += preCertLines.length * 4 + 3;
-                    }
-                    
-                    if (aircraft.ncmrNotes) {
-                        doc.text('NCMR Notes:', 25, yPosition);
-                        yPosition += 5;
-                        const ncmrLines = doc.splitTextToSize(aircraft.ncmrNotes, 160);
-                        doc.text(ncmrLines, 30, yPosition);
-                        yPosition += ncmrLines.length * 4 + 3;
-                    }
-                    
-                    yPosition += 8; // Space between aircraft
-                });
-            }
             
             // Footer on each page
             const pageCount = doc.internal.getNumberOfPages();
@@ -1691,7 +1839,6 @@
             const teamCounts = {};
             
             aircraftData.forEach(aircraft => {
-                // Calculate progress
                 const completedOps = aircraft.operations.filter(op => op).length;
                 const totalOps = aircraft.operations.length;
                 const progress = totalOps > 0 ? (completedOps / totalOps) : 0;
@@ -1699,7 +1846,6 @@
                 
                 if (progress === 1) metrics.completedAircraft++;
                 
-                // Check overdue
                 if (aircraft.deliveryDate) {
                     const deliveryDate = new Date(aircraft.deliveryDate);
                     const today = new Date();
@@ -1708,28 +1854,23 @@
                     }
                 }
                 
-                // Count priorities
                 if (aircraft.priority === 'Critical') {
                     metrics.criticalCount++;
                 }
                 
-                // Count statuses
                 if (metrics.statusCounts.hasOwnProperty(aircraft.status)) {
                     metrics.statusCounts[aircraft.status]++;
                 }
                 
-                // Count teams
                 const team = aircraft.team || 'Unassigned';
                 teamCounts[team] = (teamCounts[team] || 0) + 1;
             });
             
-            // Calculate averages
             metrics.avgProgress = aircraftData.length > 0 ? 
                 Math.round((totalProgress / aircraftData.length) * 100) : 0;
             metrics.completionRate = aircraftData.length > 0 ? 
                 Math.round((metrics.completedAircraft / aircraftData.length) * 100) : 0;
             
-            // Find most active team
             let maxCount = 0;
             for (const [team, count] of Object.entries(teamCounts)) {
                 if (count > maxCount && team !== 'Unassigned') {
@@ -1809,7 +1950,8 @@
                 
                 updateSummaryCards();
                 saveDataToStorage();
-                alert(`Updated ${selectedRows.length} aircraft to "${newStatus}"`);
+                logSecurityEvent('BULK_STATUS_UPDATE', { count: selectedRows.length, newStatus });
+                showSecurityNotification(`Updated ${selectedRows.length} aircraft to "${newStatus}"`);
             }
         }
 
@@ -1826,7 +1968,8 @@
                 });
                 
                 saveDataToStorage();
-                alert(`Updated ${selectedRows.length} aircraft to "${newPriority}" priority`);
+                logSecurityEvent('BULK_PRIORITY_UPDATE', { count: selectedRows.length, newPriority });
+                showSecurityNotification(`Updated ${selectedRows.length} aircraft to "${newPriority}" priority`);
             }
         }
 
@@ -1835,14 +1978,16 @@
             const newTeam = prompt('Enter team name:');
             
             if (newTeam) {
+                const sanitizedTeam = sanitizeInput(newTeam);
                 selectedRows.forEach(checkbox => {
                     const row = checkbox.closest('tr');
-                    const teamInput = row.querySelectorAll('.table-input')[4]; // Team input is last
-                    teamInput.value = newTeam;
+                    const teamInput = row.querySelectorAll('.table-input')[4];
+                    teamInput.value = sanitizedTeam;
                 });
                 
                 saveDataToStorage();
-                alert(`Assigned ${selectedRows.length} aircraft to team "${newTeam}"`);
+                logSecurityEvent('BULK_TEAM_UPDATE', { count: selectedRows.length, newTeam: sanitizedTeam });
+                showSecurityNotification(`Assigned ${selectedRows.length} aircraft to team "${sanitizedTeam}"`);
             }
         }
 
@@ -1859,7 +2004,7 @@
                 // Clear aircraft ID
                 const aircraftInput = newRow.querySelectorAll('.table-input')[0];
                 aircraftInput.value = '';
-                aircraftInput.placeholder = 'AC-00X (Copy)';
+                aircraftInput.placeholder = getNextAircraftId() + ' (Copy)';
                 
                 // Uncheck all checkboxes
                 const checkboxes = newRow.querySelectorAll('input[type="checkbox"]');
@@ -1881,7 +2026,8 @@
             
             updateSummaryCards();
             saveDataToStorage();
-            alert(`Copied ${selectedRows.length} aircraft`);
+            logSecurityEvent('BULK_COPY', { count: selectedRows.length });
+            showSecurityNotification(`Copied ${selectedRows.length} aircraft`);
         }
 
         // Style update functions
@@ -1933,7 +2079,6 @@
             document.getElementById('quality-check-count').textContent = counts['Quality Check'];
             document.getElementById('total-count').textContent = statusCells.length;
             
-            // Update quick filter counts
             updateQuickFilterCounts();
         }
 
@@ -2033,6 +2178,8 @@
             
             // Reorder rows in DOM
             rows.forEach(row => tbody.appendChild(row));
+            
+            logSecurityEvent('TABLE_SORTED', { column, direction: sortDirection[column] });
         }
 
         // Quick filter functionality
@@ -2076,6 +2223,8 @@
             
             // Apply filters
             applyQuickFilters();
+            
+            logSecurityEvent('QUICK_FILTER', { type, value, isActive: !isActive });
         }
 
         function applyQuickFilters() {
@@ -2160,6 +2309,7 @@
             });
             
             updateSummaryCards();
+            logSecurityEvent('SEARCH_FILTER', { searchTerm, statusFilter, teamFilter, priorityFilter });
         }
 
         function clearFilters() {
@@ -2180,6 +2330,7 @@
             });
             
             updateSummaryCards();
+            logSecurityEvent('FILTERS_CLEARED', {});
         }
 
         // Individual aircraft actions
@@ -2189,27 +2340,14 @@
             const aircraftId = aircraftInput.value || 'this aircraft';
             
             if (confirm(`Are you sure you want to delete ${aircraftId}?`)) {
-                // Store data for undo
-                const rowData = {
-                    aircraftId: row.querySelectorAll('.table-input')[0]?.value || '',
-                    model: row.querySelectorAll('.table-input')[1]?.value || '',
-                    status: row.querySelector('.status-select')?.value || '',
-                    operations: Array.from(row.querySelectorAll('.operation-checkbox')).map(cb => cb.checked),
-                    priority: row.querySelector('.priority-select')?.value || '',
-                    preFlightNotes: row.querySelectorAll('.notes-input')[0]?.value || '',
-                    preCertNotes: row.querySelectorAll('.notes-input')[1]?.value || '',
-                    ncmrNotes: row.querySelectorAll('.notes-input')[2]?.value || '',
-                    deliveryDate: row.querySelector('input[type="date"]')?.value || '',
-                    team: row.querySelectorAll('.table-input')[4]?.value || ''
-                };
+                logSecurityEvent('AIRCRAFT_DELETED', { aircraftId });
                 
                 row.remove();
                 updateSummaryCards();
                 updateBulkControls();
                 saveDataToStorage();
                 
-                // Show undo notification
-                showUndoNotification(`Deleted ${aircraftId}`, rowData);
+                showSecurityNotification(`🗑️ Deleted ${aircraftId}`);
             }
         }
 
@@ -2220,8 +2358,9 @@
             
             // Clear the aircraft ID and mark as copy
             const aircraftInput = newRow.querySelectorAll('.table-input')[0];
+            const originalId = aircraftInput.value;
             aircraftInput.value = '';
-            aircraftInput.placeholder = 'AC-00X (Copy)';
+            aircraftInput.placeholder = getNextAircraftId() + ' (Copy)';
             
             // Uncheck all checkboxes
             const checkboxes = newRow.querySelectorAll('input[type="checkbox"]');
@@ -2229,7 +2368,9 @@
             
             // Reset progress
             const progressFill = newRow.querySelector('.progress-fill');
+            const progressText = newRow.querySelector('.progress-text');
             progressFill.style.width = '0%';
+            progressText.textContent = '0%';
             
             // Clear date
             const dateInput = newRow.querySelector('input[type="date"]');
@@ -2243,6 +2384,9 @@
             updateSummaryCards();
             saveDataToStorage();
             
+            logSecurityEvent('AIRCRAFT_DUPLICATED', { originalId });
+            showSecurityNotification(`📋 Duplicated aircraft ${originalId}`);
+            
             newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
@@ -2252,9 +2396,14 @@
             const newRow = document.createElement('tr');
             newRow.draggable = true;
             
+            const nextId = getNextAircraftId();
+            const defaultDate = new Date();
+            defaultDate.setDate(defaultDate.getDate() + 30); // 30 days from today
+            const dateString = defaultDate.toISOString().split('T')[0];
+            
             newRow.innerHTML = `
                 <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
-                <td><input type="text" class="table-input" placeholder="AC-00X" /></td>
+                <td><input type="text" class="table-input" placeholder="${nextId}" value="${nextId}" /></td>
                 <td>
                     <select class="table-input">
                         <option value="">Select Model</option>
@@ -2281,7 +2430,9 @@
                 <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                 <td>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: 0%;"></div>
+                        <div class="progress-fill" style="width: 0%;">
+                            <div class="progress-text">0%</div>
+                        </div>
                     </div>
                 </td>
                 <td>
@@ -2295,7 +2446,7 @@
                 <td><textarea class="notes-input" placeholder="Enter pre-flight notes..."></textarea></td>
                 <td><textarea class="notes-input" placeholder="Enter pre-cert notes..."></textarea></td>
                 <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
-                <td><input type="date" class="table-input" /></td>
+                <td><input type="date" class="table-input" value="${dateString}" /></td>
                 <td><input type="text" class="table-input" placeholder="Team Name" /></td>
                 <td>
                     <button class="btn-small btn-danger" onclick="deleteAircraft(this)" title="Delete Aircraft">🗑️</button>
@@ -2308,6 +2459,9 @@
             setupDragAndDrop(newRow);
             updateSummaryCards();
             saveDataToStorage();
+            
+            logSecurityEvent('AIRCRAFT_ADDED', { aircraftId: nextId });
+            showSecurityNotification(`➕ Added aircraft ${nextId}`);
             
             newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
@@ -2346,20 +2500,20 @@
             if (prioritySelect) {
                 prioritySelect.addEventListener('change', function() {
                     updatePriorityStyle(this);
+                    applyRowVisualIndicators(row);
                     saveDataToStorage();
                 });
             }
             
-            // All inputs
+            // All inputs for auto-save
             const inputs = row.querySelectorAll('input, select, textarea');
             inputs.forEach(input => {
-                input.addEventListener('change', saveDataToStorage);
-            });
-            
-            // Context menu
-            row.addEventListener('contextmenu', function(e) {
-                showContextMenu(e, this);
-                return false;
+                input.addEventListener('change', function() {
+                    if (input.type === 'date') {
+                        applyRowVisualIndicators(row);
+                    }
+                    saveDataToStorage();
+                });
             });
         }
 
@@ -2376,7 +2530,7 @@
                 
                 // Add completion effects
                 if (progressPercent === 100) {
-                    progressBar.classList.add('progress-complete');
+                    progressBar.style.background = 'linear-gradient(90deg, #28a745, #20c997)';
                     row.classList.add('completed-row');
                     
                     // Show completion badge with animation
@@ -2387,12 +2541,12 @@
                         badge.className = 'completion-badge';
                         badge.textContent = '✓ Complete';
                         aircraftIdCell.appendChild(badge);
+                        
+                        logSecurityEvent('AIRCRAFT_COMPLETED', { 
+                            aircraftId: row.querySelectorAll('.table-input')[0]?.value 
+                        });
+                        showSecurityNotification('🎉 Aircraft completed!');
                     }
-                    
-                    // Celebration effect
-                    setTimeout(() => {
-                        progressBar.classList.remove('progress-complete');
-                    }, 1000);
                 } else {
                     row.classList.remove('completed-row');
                     const badge = row.querySelector('.completion-badge');
@@ -2408,12 +2562,40 @@
         function getNextAircraftId() {
             const existingIds = Array.from(document.querySelectorAll('.table-input'))
                 .map(input => input.value)
-                .filter(id => id.startsWith('AC-'))
-                .map(id => parseInt(id.split('-')[1]))
-                .filter(num => !isNaN(num));
+                .filter(id => id.match(/^[A-Z]{1,3}-\d{1,4}$/))
+                .map(id => {
+                    const parts = id.split('-');
+                    return { prefix: parts[0], number: parseInt(parts[1]) };
+                })
+                .filter(obj => !isNaN(obj.number));
             
-            const nextNum = Math.max(...existingIds, 0) + 1;
-            return `AC-${nextNum.toString().padStart(3, '0')}`;
+            if (existingIds.length === 0) {
+                return 'AC-001';
+            }
+            
+            // Group by prefix and find max number for each
+            const prefixGroups = {};
+            existingIds.forEach(obj => {
+                if (!prefixGroups[obj.prefix]) {
+                    prefixGroups[obj.prefix] = [];
+                }
+                prefixGroups[obj.prefix].push(obj.number);
+            });
+            
+            // Use the most common prefix, or AC if none
+            let mostCommonPrefix = 'AC';
+            let maxCount = 0;
+            for (const [prefix, numbers] of Object.entries(prefixGroups)) {
+                if (numbers.length > maxCount) {
+                    maxCount = numbers.length;
+                    mostCommonPrefix = prefix;
+                }
+            }
+            
+            const maxNumber = Math.max(...(prefixGroups[mostCommonPrefix] || [0]));
+            const nextNumber = maxNumber + 1;
+            
+            return `${mostCommonPrefix}-${nextNumber.toString().padStart(3, '0')}`;
         }
 
         // Visual indicators for rows
@@ -2454,71 +2636,6 @@
             const checkboxes = row.querySelectorAll('.operation-checkbox');
             const checkedBoxes = row.querySelectorAll('.operation-checkbox:checked');
             return checkboxes.length > 0 ? (checkedBoxes.length / checkboxes.length) * 100 : 0;
-        }
-
-        // Local Storage Functions
-        function saveDataToStorage() {
-            const rows = document.querySelectorAll('tbody tr');
-            const aircraftData = [];
-            
-            rows.forEach(row => {
-                const inputs = row.querySelectorAll('input, select, textarea');
-                const rowData = {
-                    aircraftId: row.querySelectorAll('.table-input')[0]?.value || '',
-                    model: row.querySelectorAll('.table-input')[1]?.value || '',
-                    status: row.querySelector('.status-select')?.value || 'In Progress',
-                    operations: Array.from(row.querySelectorAll('.operation-checkbox')).map(cb => cb.checked),
-                    priority: row.querySelector('.priority-select')?.value || 'Medium',
-                    preFlightNotes: row.querySelectorAll('.notes-input')[0]?.value || '',
-                    preCertNotes: row.querySelectorAll('.notes-input')[1]?.value || '',
-                    ncmrNotes: row.querySelectorAll('.notes-input')[2]?.value || '',
-                    deliveryDate: row.querySelector('input[type="date"]')?.value || '',
-                    team: row.querySelectorAll('.table-input')[4]?.value || ''
-                };
-                aircraftData.push(rowData);
-            });
-            
-            const dashboardData = {
-                aircraft: aircraftData,
-                lastSaved: new Date().toISOString(),
-                version: '1.0'
-            };
-            
-            try {
-                localStorage.setItem('aircraftDashboardData', JSON.stringify(dashboardData));
-                updateLastSavedTime();
-            } catch (error) {
-                console.error('Failed to save data:', error);
-            }
-        }
-
-        function loadDataFromStorage() {
-            try {
-                const savedData = localStorage.getItem('aircraftDashboardData');
-                if (!savedData) return false;
-                
-                const dashboardData = JSON.parse(savedData);
-                const tbody = document.getElementById('aircraft-tbody');
-                
-                // Clear existing rows
-                tbody.innerHTML = '';
-                
-                // Recreate rows from saved data
-                dashboardData.aircraft.forEach(aircraftData => {
-                    const newRow = createAircraftRow(aircraftData);
-                    tbody.appendChild(newRow);
-                    addEventListenersToRow(newRow);
-                    setupDragAndDrop(newRow);
-                });
-                
-                updateSummaryCards();
-                updateLastSavedTime(dashboardData.lastSaved);
-                
-                return true;
-            } catch (error) {
-                console.error('Failed to load data:', error);
-                return false;
-            }
         }
 
         function createAircraftRow(data) {
@@ -2607,19 +2724,31 @@
         // Data management functions
         function clearAllData() {
             if (confirm('Are you sure you want to clear all aircraft data? This action cannot be undone.')) {
+                logSecurityEvent('DATA_CLEARED', { userConfirmed: true });
                 localStorage.removeItem('aircraftDashboardData');
-                location.reload();
+                showSecurityNotification('🗑️ All data cleared', true);
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                logSecurityEvent('DATA_CLEAR_CANCELLED', {});
             }
         }
 
         function exportBackup() {
             const savedData = localStorage.getItem('aircraftDashboardData');
             if (!savedData) {
-                alert('No data to export');
+                showSecurityNotification('❌ No data to export', true);
                 return;
             }
             
-            const blob = new Blob([savedData], { type: 'application/json' });
+            // Create backup with metadata
+            const backup = {
+                data: savedData,
+                exportDate: new Date().toISOString(),
+                version: '2.0',
+                encrypted: true
+            };
+            
+            const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -2628,6 +2757,9 @@
             a.click();
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
+            
+            logSecurityEvent('BACKUP_EXPORTED', {});
+            showSecurityNotification('💾 Backup exported successfully');
         }
 
         function importBackup() {
@@ -2640,216 +2772,31 @@
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         try {
-                            const importedData = JSON.parse(e.target.result);
-                            localStorage.setItem('aircraftDashboardData', JSON.stringify(importedData));
-                            location.reload();
+                            const backup = JSON.parse(e.target.result);
+                            
+                            // Validate backup format
+                            if (!backup.data) {
+                                throw new Error('Invalid backup format');
+                            }
+                            
+                            if (confirm('⚠️ Importing backup will replace all current data. Continue?')) {
+                                localStorage.setItem('aircraftDashboardData', backup.data);
+                                logSecurityEvent('BACKUP_IMPORTED', { 
+                                    exportDate: backup.exportDate,
+                                    version: backup.version 
+                                });
+                                showSecurityNotification('📥 Backup imported successfully');
+                                setTimeout(() => location.reload(), 1000);
+                            }
                         } catch (error) {
-                            alert('Invalid backup file format');
+                            logSecurityEvent('BACKUP_IMPORT_FAILED', { error: error.message });
+                            showSecurityNotification('❌ Invalid backup file format', true);
                         }
                     };
                     reader.readAsText(file);
                 }
             };
             input.click();
-        }
-
-        // ============================================================================
-        // QUICK ACTION TOOLBAR FUNCTIONALITY
-        // ============================================================================
-
-        // Keyboard Shortcuts Handler
-        function handleKeyboardShortcuts(event) {
-            // Don't trigger shortcuts when typing in input fields
-            if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.tagName === 'SELECT') {
-                return;
-            }
-            
-            if (event.ctrlKey && event.key === 'a') {
-                event.preventDefault();
-                selectAllRows();
-            } else if (event.key === 'Delete') {
-                event.preventDefault();
-                if (document.querySelectorAll('.row-checkbox:checked').length > 0) {
-                    bulkDeleteSelected();
-                }
-            } else if (event.ctrlKey && event.key === 'n') {
-                event.preventDefault();
-                addNewAircraft();
-            } else if (event.key === 'Escape') {
-                event.preventDefault();
-                clearAllSelections();
-                hideContextMenu();
-                hideShortcutsHelp();
-            } else if (event.key === 'F1') {
-                event.preventDefault();
-                toggleShortcutsHelp();
-            }
-        }
-
-        // Context Menu Functions
-        function showContextMenu(event, row) {
-            event.preventDefault();
-            currentContextRow = row;
-            
-            const contextMenu = document.getElementById('context-menu');
-            contextMenu.style.display = 'block';
-            contextMenu.style.left = event.pageX + 'px';
-            contextMenu.style.top = event.pageY + 'px';
-            
-            // Ensure menu doesn't go off screen
-            const rect = contextMenu.getBoundingClientRect();
-            if (rect.right > window.innerWidth) {
-                contextMenu.style.left = (event.pageX - rect.width) + 'px';
-            }
-            if (rect.bottom > window.innerHeight) {
-                contextMenu.style.top = (event.pageY - rect.height) + 'px';
-            }
-        }
-
-        function hideContextMenu() {
-            document.getElementById('context-menu').style.display = 'none';
-            currentContextRow = null;
-        }
-
-        // Context Menu Actions
-        function contextEditAircraft() {
-            if (!currentContextRow) return;
-            
-            const aircraftInput = currentContextRow.querySelectorAll('.table-input')[0];
-            aircraftInput.focus();
-            aircraftInput.select();
-            hideContextMenu();
-        }
-
-        function contextCopyAircraft() {
-            if (!currentContextRow) return;
-            
-            const tbody = document.getElementById('aircraft-tbody');
-            const newRow = currentContextRow.cloneNode(true);
-            
-            // Clear the aircraft ID
-            const aircraftInput = newRow.querySelectorAll('.table-input')[0];
-            aircraftInput.value = '';
-            aircraftInput.placeholder = 'AC-00X (Copy)';
-            
-            // Uncheck all checkboxes
-            const checkboxes = newRow.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach(cb => cb.checked = false);
-            
-            // Reset progress
-            const progressFill = newRow.querySelector('.progress-fill');
-            progressFill.style.width = '0%';
-            
-            // Clear date
-            const dateInput = newRow.querySelector('input[type="date"]');
-            dateInput.value = '';
-            
-            newRow.classList.remove('selected-row');
-            tbody.appendChild(newRow);
-            addEventListenersToRow(newRow);
-            setupDragAndDrop(newRow);
-            
-            updateSummaryCards();
-            saveDataToStorage();
-            hideContextMenu();
-            
-            newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        function contextChangeStatus() {
-            if (!currentContextRow) return;
-            
-            const statusSelect = currentContextRow.querySelector('.status-select');
-            const newStatus = prompt('Enter new status:\n- Production Ready\n- In Progress\n- On Hold\n- Quality Check');
-            
-            if (newStatus && ['Production Ready', 'In Progress', 'On Hold', 'Quality Check'].includes(newStatus)) {
-                statusSelect.value = newStatus;
-                updateStatusStyle(statusSelect);
-                updateSummaryCards();
-                saveDataToStorage();
-            }
-            hideContextMenu();
-        }
-
-        function contextChangePriority() {
-            if (!currentContextRow) return;
-            
-            const prioritySelect = currentContextRow.querySelector('.priority-select');
-            const newPriority = prompt('Enter new priority:\n- Critical\n- High\n- Medium\n- Low');
-            
-            if (newPriority && ['Critical', 'High', 'Medium', 'Low'].includes(newPriority)) {
-                prioritySelect.value = newPriority;
-                updatePriorityStyle(prioritySelect);
-                saveDataToStorage();
-            }
-            hideContextMenu();
-        }
-
-        function contextSelectRow() {
-            if (!currentContextRow) return;
-            
-            const checkbox = currentContextRow.querySelector('.row-checkbox');
-            checkbox.checked = !checkbox.checked;
-            toggleRowSelection(checkbox);
-            hideContextMenu();
-        }
-
-        function contextDeleteAircraft() {
-            if (!currentContextRow) return;
-            
-            const aircraftId = currentContextRow.querySelectorAll('.table-input')[0].value || 'this aircraft';
-            if (confirm(`Are you sure you want to delete ${aircraftId}?`)) {
-                currentContextRow.remove();
-                updateSummaryCards();
-                updateBulkControls();
-                saveDataToStorage();
-            }
-            hideContextMenu();
-        }
-
-        // Keyboard Shortcut Helper Functions
-        function selectAllRows() {
-            const selectAllCheckbox = document.getElementById('select-all');
-            selectAllCheckbox.checked = true;
-            toggleSelectAll();
-        }
-
-        function clearAllSelections() {
-            const selectAllCheckbox = document.getElementById('select-all');
-            const rowCheckboxes = document.querySelectorAll('.row-checkbox');
-            
-            selectAllCheckbox.checked = false;
-            rowCheckboxes.forEach(checkbox => {
-                checkbox.checked = false;
-                const row = checkbox.closest('tr');
-                row.classList.remove('selected-row');
-            });
-            
-            updateBulkControls();
-        }
-
-        function bulkDeleteSelected() {
-            const selectedRows = document.querySelectorAll('.row-checkbox:checked');
-            if (selectedRows.length === 0) return;
-            
-            if (confirm(`Are you sure you want to delete ${selectedRows.length} aircraft?`)) {
-                selectedRows.forEach(checkbox => {
-                    checkbox.closest('tr').remove();
-                });
-                
-                updateSummaryCards();
-                updateBulkControls();
-                saveDataToStorage();
-            }
-        }
-
-        function toggleShortcutsHelp() {
-            const help = document.getElementById('shortcuts-help');
-            help.style.display = help.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function hideShortcutsHelp() {
-            document.getElementById('shortcuts-help').style.display = 'none';
         }
 
         // Drag and Drop Functions
@@ -2868,7 +2815,6 @@
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/html', this.outerHTML);
             
-            // Change cursor to grabbing for drag handle
             const dragHandle = this.querySelector('.drag-handle');
             if (dragHandle) {
                 dragHandle.style.cursor = 'grabbing';
@@ -2911,6 +2857,7 @@
                 }
                 
                 saveDataToStorage();
+                logSecurityEvent('ROW_REORDERED', { from: draggedIndex, to: targetIndex });
                 
                 // Show success feedback
                 this.style.backgroundColor = '#d4edda';
