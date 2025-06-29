@@ -27,6 +27,56 @@
             position: relative;
         }
         
+        .user-info {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-size: 12px;
+            opacity: 0.9;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .logout-btn {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            margin-top: 35px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .change-password-btn {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            margin-top: 60px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .change-password-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
         .dashboard-header h1 {
             margin: 0;
             font-size: 28px;
@@ -674,6 +724,178 @@
             animation: pulse 2s infinite;
         }
         
+        /* Login Screen Styles */
+        .login-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+        
+        .login-form {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .login-form h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+            font-weight: 300;
+        }
+        
+        .login-form .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .login-input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .login-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102,126,234,.25);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 0;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.3);
+        }
+        
+        .login-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .login-toggle {
+            color: #667eea;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 15px;
+            text-decoration: underline;
+        }
+        
+        .login-toggle:hover {
+            color: #764ba2;
+        }
+        
+        .role-select {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+        }
+        
+        .role-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102,126,234,.25);
+        }
+        
+        .login-error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .login-success {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 14px;
+            display: none;
+        }
+        
+        /* Password Change Modal */
+        .password-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+        }
+        
+        .password-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .password-modal h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            background: none;
+            border: none;
+        }
+        
+        .close-modal:hover {
+            color: #000;
+        }
+        
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -708,7 +930,60 @@
     </style>
 </head>
 <body>
+    <!-- Login Screen -->
+    <div id="login-container" class="login-container">
+        <div class="login-form">
+            <h2>🚁 Aircraft Dashboard</h2>
+            <p class="subtitle">Secure Production Management System</p>
+            
+            <!-- Login Form -->
+            <div id="login-form-section">
+                <input type="text" id="login-username" class="login-input" placeholder="Username" />
+                <input type="password" id="login-password" class="login-input" placeholder="Password" />
+                <div class="login-error" id="login-error"></div>
+                <button class="login-btn" onclick="login()">🔐 Login</button>
+                <p class="login-toggle" onclick="showRegisterForm()">Don't have an account? Register here</p>
+            </div>
+            
+            <!-- Registration Form -->
+            <div id="register-form-section" style="display: none;">
+                <input type="text" id="register-username" class="login-input" placeholder="Choose Username" />
+                <input type="email" id="register-email" class="login-input" placeholder="Email Address" />
+                <input type="password" id="register-password" class="login-input" placeholder="Choose Password" />
+                <input type="password" id="register-confirm" class="login-input" placeholder="Confirm Password" />
+                <select id="register-role" class="role-select">
+                    <option value="">Select Your Role</option>
+                    <option value="technician">Technician</option>
+                    <option value="supervisor">Supervisor</option>
+                    <option value="manager">Manager</option>
+                    <option value="admin">Administrator</option>
+                </select>
+                <div class="login-error" id="register-error"></div>
+                <div class="login-success" id="register-success"></div>
+                <button class="login-btn" onclick="register()">📝 Create Account</button>
+                <p class="login-toggle" onclick="showLoginForm()">Already have an account? Login here</p>
+            </div>
+            
+            <div style="margin-top: 30px; font-size: 12px; color: #666;">
+                <p><strong>Demo Accounts:</strong></p>
+                <p>Admin: admin / admin123</p>
+                <p>Manager: manager / mgr123</p>
+                <p>Tech: tech / tech123</p>
+                <div style="margin-top: 10px; font-size: 11px; color: #999;">
+                    💡 Tip: Use "Change Password" button after login to update these defaults
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard (Hidden until login) -->
+    <div id="main-dashboard" style="display: none;">
     <div class="dashboard-header">
+        <div class="user-info">
+            👤 <span id="current-user">User</span> | <span id="current-role">Role</span>
+        </div>
+        <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+        <button class="change-password-btn" onclick="showChangePasswordModal()">🔑 Change Password</button>
         <h1>Aircraft Production Dashboard</h1>
         <p>Real-time production monitoring and build status overview</p>
         <div class="security-indicator">
@@ -1025,6 +1300,21 @@
     <div id="security-notification" class="security-notification">
         <span id="security-message">🔒 Data encrypted & saved securely</span>
     </div>
+    
+    <!-- Password Change Modal -->
+    <div id="password-modal" class="password-modal">
+        <div class="password-modal-content" style="position: relative;">
+            <button class="close-modal" onclick="hideChangePasswordModal()">&times;</button>
+            <h3>🔑 Change Password</h3>
+            <input type="password" id="current-password" class="login-input" placeholder="Current Password" />
+            <input type="password" id="new-password" class="login-input" placeholder="New Password" />
+            <input type="password" id="confirm-new-password" class="login-input" placeholder="Confirm New Password" />
+            <div class="login-error" id="password-error"></div>
+            <div class="login-success" id="password-success"></div>
+            <button class="login-btn" onclick="changePassword()">🔄 Update Password</button>
+        </div>
+    </div>
+    </div> <!-- End Main Dashboard -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
@@ -1048,6 +1338,553 @@
         let idleInterval = null;
         let isScreenLocked = false;
         
+        // Authentication variables
+        let currentUser = null;
+        let userPermissions = {};
+        
+        // ====================================================================
+        // AUTHENTICATION SYSTEM
+        // ====================================================================
+        
+        // Initialize authentication system
+        function initializeAuth() {
+            // Create default admin account if no users exist
+            const users = JSON.parse(localStorage.getItem('dashboardUsers') || '{}');
+            if (Object.keys(users).length === 0) {
+                const defaultUsers = {
+                    'admin': {
+                        password: hashPassword('admin123'),
+                        email: 'admin@company.com',
+                        role: 'admin',
+                        created: new Date().toISOString(),
+                        lastLogin: null
+                    },
+                    'manager': {
+                        password: hashPassword('mgr123'),
+                        email: 'manager@company.com',
+                        role: 'manager',
+                        created: new Date().toISOString(),
+                        lastLogin: null
+                    },
+                    'tech': {
+                        password: hashPassword('tech123'),
+                        email: 'tech@company.com',
+                        role: 'technician',
+                        created: new Date().toISOString(),
+                        lastLogin: null
+                    }
+                };
+                localStorage.setItem('dashboardUsers', JSON.stringify(defaultUsers));
+            }
+            
+            // Check if user is already logged in
+            const savedSession = localStorage.getItem('currentSession');
+            if (savedSession) {
+                try {
+                    const session = JSON.parse(savedSession);
+                    const sessionAge = Date.now() - new Date(session.loginTime).getTime();
+                    
+                    // Session expires after 8 hours
+                    if (sessionAge < 8 * 60 * 60 * 1000) {
+                        currentUser = session;
+                        showDashboard();
+                        return;
+                    } else {
+                        localStorage.removeItem('currentSession');
+                    }
+                } catch (error) {
+                    localStorage.removeItem('currentSession');
+                }
+            }
+            
+            // Show login screen
+            showLoginScreen();
+        }
+        
+        function hashPassword(password) {
+            // Simple hash for demo purposes (use bcrypt or similar in production)
+            let hash = 0;
+            for (let i = 0; i < password.length; i++) {
+                const char = password.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+            return hash.toString(16);
+        }
+        
+        function showLoginScreen() {
+            document.getElementById('login-container').style.display = 'flex';
+            document.getElementById('main-dashboard').style.display = 'none';
+        }
+        
+        function showDashboard() {
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('main-dashboard').style.display = 'block';
+            
+            // Update user info in header
+            document.getElementById('current-user').textContent = currentUser.username;
+            document.getElementById('current-role').textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
+            
+            // Apply role-based permissions
+            applyRolePermissions(currentUser.role);
+            
+            // Initialize dashboard
+            initializeDashboard();
+            setupEventListeners();
+            loadDataFromStorage();
+            updateSummaryCards();
+            updateQuickFilterCounts();
+            applyVisualIndicators();
+            resetSessionTimeout();
+            
+            logSecurityEvent('USER_LOGIN', {
+                username: currentUser.username,
+                role: currentUser.role,
+                timestamp: new Date().toISOString()
+            });
+            
+            showSecurityNotification(`👋 Welcome back, ${currentUser.username}!`);
+        }
+        
+        function login() {
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+            const errorDiv = document.getElementById('login-error');
+            
+            // Clear previous errors
+            errorDiv.style.display = 'none';
+            
+            if (!username || !password) {
+                showLoginError('Please enter both username and password');
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('dashboardUsers') || '{}');
+            const user = users[username];
+            
+            if (!user) {
+                logSecurityEvent('LOGIN_FAILED', { username, reason: 'USER_NOT_FOUND' });
+                showLoginError('Invalid username or password');
+                return;
+            }
+            
+            if (user.password !== hashPassword(password)) {
+                logSecurityEvent('LOGIN_FAILED', { username, reason: 'WRONG_PASSWORD' });
+                showLoginError('Invalid username or password');
+                return;
+            }
+            
+            // Successful login
+            currentUser = {
+                username: username,
+                email: user.email,
+                role: user.role,
+                loginTime: new Date().toISOString()
+            };
+            
+            // Update last login time
+            users[username].lastLogin = new Date().toISOString();
+            localStorage.setItem('dashboardUsers', JSON.stringify(users));
+            
+            // Save session
+            localStorage.setItem('currentSession', JSON.stringify(currentUser));
+            
+            // Clear form
+            document.getElementById('login-username').value = '';
+            document.getElementById('login-password').value = '';
+            
+            showDashboard();
+        }
+        
+        function register() {
+            const username = document.getElementById('register-username').value.trim();
+            const email = document.getElementById('register-email').value.trim();
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm').value;
+            const role = document.getElementById('register-role').value;
+            
+            const errorDiv = document.getElementById('register-error');
+            const successDiv = document.getElementById('register-success');
+            
+            // Clear previous messages
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            
+            // Validation
+            if (!username || !email || !password || !confirmPassword || !role) {
+                showRegisterError('Please fill in all fields');
+                return;
+            }
+            
+            if (username.length < 3) {
+                showRegisterError('Username must be at least 3 characters');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showRegisterError('Password must be at least 6 characters');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showRegisterError('Passwords do not match');
+                return;
+            }
+            
+            if (!email.includes('@')) {
+                showRegisterError('Please enter a valid email address');
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('dashboardUsers') || '{}');
+            
+            if (users[username]) {
+                showRegisterError('Username already exists');
+                return;
+            }
+            
+            // Check if email already exists
+            const existingEmails = Object.values(users).map(user => user.email);
+            if (existingEmails.includes(email)) {
+                showRegisterError('Email address already registered');
+                return;
+            }
+            
+            // Create new user
+            users[username] = {
+                password: hashPassword(password),
+                email: email,
+                role: role,
+                created: new Date().toISOString(),
+                lastLogin: null
+            };
+            
+            localStorage.setItem('dashboardUsers', JSON.stringify(users));
+            
+            logSecurityEvent('USER_REGISTERED', {
+                username: username,
+                email: email,
+                role: role,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Clear form
+            document.getElementById('register-username').value = '';
+            document.getElementById('register-email').value = '';
+            document.getElementById('register-password').value = '';
+            document.getElementById('register-confirm').value = '';
+            document.getElementById('register-role').value = '';
+            
+            showRegisterSuccess('Account created successfully! You can now login.');
+            
+            // Auto-switch to login form after 2 seconds
+            setTimeout(() => {
+                showLoginForm();
+            }, 2000);
+        }
+        
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                logSecurityEvent('USER_LOGOUT', {
+                    username: currentUser?.username,
+                    sessionDuration: Date.now() - new Date(currentUser?.loginTime).getTime(),
+                    timestamp: new Date().toISOString()
+                });
+                
+                localStorage.removeItem('currentSession');
+                currentUser = null;
+                
+                // Clear any timers
+                if (sessionInterval) clearInterval(sessionInterval);
+                if (idleInterval) clearInterval(idleInterval);
+                
+                showSecurityNotification('👋 Logged out successfully');
+                showLoginScreen();
+            }
+        }
+        
+        function applyRolePermissions(role) {
+            userPermissions = {
+                canDelete: ['admin', 'manager'].includes(role),
+                canExport: ['admin', 'manager', 'supervisor'].includes(role),
+                canBulkEdit: ['admin', 'manager'].includes(role),
+                canViewSecurity: ['admin'].includes(role),
+                canManageData: ['admin'].includes(role)
+            };
+            
+            // Hide/show elements based on permissions
+            if (!userPermissions.canDelete) {
+                document.querySelectorAll('.btn-danger').forEach(btn => {
+                    btn.style.display = 'none';
+                });
+            }
+            
+            if (!userPermissions.canExport) {
+                document.querySelectorAll('.btn-info, .btn-success').forEach(btn => {
+                    if (btn.textContent.includes('Download') || btn.textContent.includes('Copy') || btn.textContent.includes('PDF')) {
+                        btn.style.display = 'none';
+                    }
+                });
+            }
+            
+            if (!userPermissions.canBulkEdit) {
+                document.querySelectorAll('.btn-purple').forEach(btn => {
+                    btn.disabled = true;
+                    btn.title = 'Insufficient permissions';
+                });
+            }
+            
+            if (!userPermissions.canViewSecurity) {
+                document.querySelectorAll('.btn').forEach(btn => {
+                    if (btn.textContent.includes('Security Log')) {
+                        btn.style.display = 'none';
+                    }
+                });
+            }
+            
+            if (!userPermissions.canManageData) {
+                document.querySelectorAll('.btn').forEach(btn => {
+                    if (btn.textContent.includes('Clear All Data')) {
+                        btn.style.display = 'none';
+                    }
+                });
+            }
+        }
+        
+        function showLoginForm() {
+            document.getElementById('login-form-section').style.display = 'block';
+            document.getElementById('register-form-section').style.display = 'none';
+        }
+        
+        function showRegisterForm() {
+            document.getElementById('login-form-section').style.display = 'none';
+            document.getElementById('register-form-section').style.display = 'block';
+        }
+        
+        function showLoginError(message) {
+            const errorDiv = document.getElementById('login-error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+        
+        function showRegisterError(message) {
+            const errorDiv = document.getElementById('register-error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+        
+        function showRegisterSuccess(message) {
+            const successDiv = document.getElementById('register-success');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+        }
+        
+        // Password change functionality
+        function showChangePasswordModal() {
+            document.getElementById('password-modal').style.display = 'flex';
+            document.getElementById('current-password').focus();
+        }
+        
+        function hideChangePasswordModal() {
+            document.getElementById('password-modal').style.display = 'none';
+            
+            // Clear form
+            document.getElementById('current-password').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-new-password').value = '';
+            
+            // Clear messages
+            document.getElementById('password-error').style.display = 'none';
+            document.getElementById('password-success').style.display = 'none';
+        }
+        
+        function changePassword() {
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-new-password').value;
+            
+            const errorDiv = document.getElementById('password-error');
+            const successDiv = document.getElementById('password-success');
+            
+            // Clear previous messages
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            
+            // Validation
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showPasswordError('Please fill in all fields');
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                showPasswordError('New password must be at least 6 characters');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showPasswordError('New passwords do not match');
+                return;
+            }
+            
+            if (newPassword === currentPassword) {
+                showPasswordError('New password must be different from current password');
+                return;
+            }
+            
+            // Get current user data
+            const users = JSON.parse(localStorage.getItem('dashboardUsers') || '{}');
+            const userData = users[currentUser.username];
+            
+            if (!userData) {
+                showPasswordError('User data not found');
+                return;
+            }
+            
+            // Verify current password
+            if (userData.password !== hashPassword(currentPassword)) {
+                logSecurityEvent('PASSWORD_CHANGE_FAILED', { 
+                    username: currentUser.username,
+                    reason: 'WRONG_CURRENT_PASSWORD'
+                });
+                showPasswordError('Current password is incorrect');
+                return;
+            }
+            
+            // Update password
+            userData.password = hashPassword(newPassword);
+            userData.passwordChanged = new Date().toISOString();
+            users[currentUser.username] = userData;
+            
+            localStorage.setItem('dashboardUsers', JSON.stringify(users));
+            
+            logSecurityEvent('PASSWORD_CHANGED', {
+                username: currentUser.username,
+                timestamp: new Date().toISOString()
+            });
+            
+            showPasswordSuccess('Password updated successfully!');
+            showSecurityNotification('🔑 Password changed successfully');
+            
+            // Auto-close modal after 2 seconds
+            setTimeout(() => {
+                hideChangePasswordModal();
+            }, 2000);
+        }
+        
+        function showPasswordError(message) {
+            const errorDiv = document.getElementById('password-error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+        
+        function showPasswordSuccess(message) {
+            const successDiv = document.getElementById('password-success');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+        }
+        
+        // Change default demo passwords (call this function to update)
+        function updateDemoPasswords() {
+            const users = JSON.parse(localStorage.getItem('dashboardUsers') || '{}');
+            
+            // Update with your preferred passwords
+            if (users['admin']) {
+                users['admin'].password = hashPassword('NewAdminPass123!');
+            }
+            if (users['manager']) {
+                users['manager'].password = hashPassword('NewManagerPass123!');
+            }
+            if (users['tech']) {
+                users['tech'].password = hashPassword('NewTechPass123!');
+            }
+            
+            localStorage.setItem('dashboardUsers', JSON.stringify(users));
+            
+            logSecurityEvent('DEMO_PASSWORDS_UPDATED', {
+                timestamp: new Date().toISOString(),
+                updatedBy: currentUser ? currentUser.username : 'system'
+            });
+            
+            console.log('Demo passwords updated successfully!');
+            console.log('New passwords:');
+            console.log('admin: NewAdminPass123!');
+            console.log('manager: NewManagerPass123!');
+            console.log('tech: NewTechPass123!');
+        }
+        
+        // Reset demo passwords to defaults
+        function resetDemoPasswords() {
+            const users = JSON.parse(localStorage.getItem('dashboardUsers') || '{}');
+            
+            // Reset to original defaults
+            if (users['admin']) {
+                users['admin'].password = hashPassword('admin123');
+            }
+            if (users['manager']) {
+                users['manager'].password = hashPassword('mgr123');
+            }
+            if (users['tech']) {
+                users['tech'].password = hashPassword('tech123');
+            }
+            
+            localStorage.setItem('dashboardUsers', JSON.stringify(users));
+            
+            logSecurityEvent('DEMO_PASSWORDS_RESET', {
+                timestamp: new Date().toISOString(),
+                resetBy: currentUser ? currentUser.username : 'system'
+            });
+            
+            console.log('Demo passwords reset to defaults!');
+            showSecurityNotification('🔄 Demo passwords reset to defaults');
+        }
+        
+        // Add Enter key support for login forms
+        function setupLoginKeyHandlers() {
+            document.getElementById('login-username').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('login-password').focus();
+                }
+            });
+            
+            document.getElementById('login-password').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    login();
+                }
+            });
+            
+            document.getElementById('register-confirm').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    register();
+                }
+            });
+            
+            // Password change modal handlers
+            document.getElementById('current-password').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('new-password').focus();
+                }
+            });
+            
+            document.getElementById('new-password').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('confirm-new-password').focus();
+                }
+            });
+            
+            document.getElementById('confirm-new-password').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    changePassword();
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    hideChangePasswordModal();
+                }
+            });
+        }
+        
         // Initialize security logging
         function initializeSecurityLog() {
             if (!localStorage.getItem('securityAuditLog')) {
@@ -1063,6 +1900,8 @@
                     timestamp: new Date().toISOString(),
                     action: action,
                     details: details,
+                    user: currentUser ? currentUser.username : 'anonymous',
+                    userRole: currentUser ? currentUser.role : 'none',
                     userAgent: navigator.userAgent.substring(0, 100),
                     url: window.location.href
                 };
@@ -1341,24 +2180,27 @@
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
             initializeSecurityLog();
-            initializeDashboard();
-            setupEventListeners();
-            loadDataFromStorage();
-            updateSummaryCards();
-            updateQuickFilterCounts();
-            applyVisualIndicators();
-            resetSessionTimeout();
+            initializeAuth();
+            setupLoginKeyHandlers();
             
             logSecurityEvent('DASHBOARD_LOADED', {
                 userAgent: navigator.userAgent,
                 timestamp: new Date().toISOString()
             });
             
-            // Auto-save every 30 seconds
-            setInterval(saveDataToStorage, 30000);
+            // Auto-save every 30 seconds (only when logged in)
+            setInterval(() => {
+                if (currentUser) {
+                    saveDataToStorage();
+                }
+            }, 30000);
             
             // Save when leaving page
-            window.addEventListener('beforeunload', saveDataToStorage);
+            window.addEventListener('beforeunload', () => {
+                if (currentUser) {
+                    saveDataToStorage();
+                }
+            });
             
             // Setup security event listeners
             setupSecurityEventListeners();
@@ -1624,8 +2466,13 @@
             return hash.toString(16);
         }
         
-        // Security log viewer
+        // Security log viewer (admin only)
         function viewSecurityLog() {
+            if (!userPermissions.canViewSecurity) {
+                showSecurityNotification('❌ Access denied. Admin privileges required.', true);
+                return;
+            }
+            
             try {
                 const log = JSON.parse(localStorage.getItem('securityAuditLog') || '[]');
                 
@@ -1655,12 +2502,16 @@
                             .details { color: #6c757d; font-size: 12px; }
                             .critical { border-left-color: #dc3545; }
                             .warning { border-left-color: #ffc107; }
+                            .user-info { background: #e3f2fd; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
                         </style>
                     </head>
                     <body>
-                        <h2>🛡️ Security Audit Log</h2>
+                        <div class="user-info">
+                            <strong>🛡️ Security Audit Log</strong><br>
+                            Accessed by: ${currentUser.username} (${currentUser.role})<br>
+                            Generated: ${new Date().toLocaleString()}
+                        </div>
                         <p><strong>Total Events:</strong> ${log.length}</p>
-                        <p><strong>Generated:</strong> ${new Date().toLocaleString()}</p>
                         <hr>
                         ${log.reverse().map(entry => {
                             const isCritical = entry.action.includes('VIOLATION') || entry.action.includes('FAILED');
@@ -1679,7 +2530,7 @@
                     </html>
                 `);
                 
-                logSecurityEvent('AUDIT_LOG_VIEWED', {});
+                logSecurityEvent('AUDIT_LOG_VIEWED', { viewedBy: currentUser.username });
                 
             } catch (error) {
                 console.error('Failed to view security log:', error);
@@ -2486,12 +3337,20 @@
 
         // Individual aircraft actions
         function deleteAircraft(button) {
+            if (!userPermissions.canDelete) {
+                showSecurityNotification('❌ Delete not allowed for your role', true);
+                return;
+            }
+            
             const row = button.closest('tr');
             const aircraftInput = row.querySelectorAll('.table-input')[0];
             const aircraftId = aircraftInput.value || 'this aircraft';
             
             if (confirm(`Are you sure you want to delete ${aircraftId}?`)) {
-                logSecurityEvent('AIRCRAFT_DELETED', { aircraftId });
+                logSecurityEvent('AIRCRAFT_DELETED', { 
+                    aircraftId,
+                    deletedBy: currentUser.username 
+                });
                 
                 row.remove();
                 updateSummaryCards();
@@ -2876,17 +3735,32 @@
 
         // Data management functions
         function clearAllData() {
+            if (!userPermissions.canManageData) {
+                showSecurityNotification('❌ Access denied. Admin privileges required.', true);
+                return;
+            }
+            
             if (confirm('Are you sure you want to clear all aircraft data? This action cannot be undone.')) {
-                logSecurityEvent('DATA_CLEARED', { userConfirmed: true });
+                logSecurityEvent('DATA_CLEARED', { 
+                    userConfirmed: true,
+                    clearedBy: currentUser.username 
+                });
                 localStorage.removeItem('aircraftDashboardData');
                 showSecurityNotification('🗑️ All data cleared', true);
                 setTimeout(() => location.reload(), 1000);
             } else {
-                logSecurityEvent('DATA_CLEAR_CANCELLED', {});
+                logSecurityEvent('DATA_CLEAR_CANCELLED', { 
+                    cancelledBy: currentUser.username 
+                });
             }
         }
 
         function exportBackup() {
+            if (!userPermissions.canExport) {
+                showSecurityNotification('❌ Export not allowed for your role', true);
+                return;
+            }
+            
             const savedData = localStorage.getItem('aircraftDashboardData');
             if (!savedData) {
                 showSecurityNotification('❌ No data to export', true);
@@ -2897,6 +3771,8 @@
             const backup = {
                 data: savedData,
                 exportDate: new Date().toISOString(),
+                exportedBy: currentUser.username,
+                exporterRole: currentUser.role,
                 version: '2.0',
                 encrypted: true
             };
@@ -2911,11 +3787,18 @@
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
             
-            logSecurityEvent('BACKUP_EXPORTED', {});
+            logSecurityEvent('BACKUP_EXPORTED', { 
+                exportedBy: currentUser.username 
+            });
             showSecurityNotification('💾 Backup exported successfully');
         }
 
         function importBackup() {
+            if (!userPermissions.canManageData) {
+                showSecurityNotification('❌ Import not allowed for your role', true);
+                return;
+            }
+            
             const input = document.createElement('input');
             input.type = 'file';
             input.accept = '.json';
@@ -2936,13 +3819,18 @@
                                 localStorage.setItem('aircraftDashboardData', backup.data);
                                 logSecurityEvent('BACKUP_IMPORTED', { 
                                     exportDate: backup.exportDate,
-                                    version: backup.version 
+                                    version: backup.version,
+                                    importedBy: currentUser.username,
+                                    originalExporter: backup.exportedBy || 'unknown'
                                 });
                                 showSecurityNotification('📥 Backup imported successfully');
                                 setTimeout(() => location.reload(), 1000);
                             }
                         } catch (error) {
-                            logSecurityEvent('BACKUP_IMPORT_FAILED', { error: error.message });
+                            logSecurityEvent('BACKUP_IMPORT_FAILED', { 
+                                error: error.message,
+                                attemptedBy: currentUser.username 
+                            });
                             showSecurityNotification('❌ Invalid backup file format', true);
                         }
                     };
