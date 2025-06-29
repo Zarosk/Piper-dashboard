@@ -583,8 +583,9 @@
         <h3>Export Dashboard Data</h3>
         <button class="btn btn-info" onclick="exportToCSV()">📊 Download CSV</button>
         <button class="btn btn-success" onclick="copyTableData()">📋 Copy for Excel/Sheets</button>
+        <button class="btn btn-purple" onclick="generatePDFReport()">📄 Generate PDF Report</button>
         <p style="margin-top: 10px; font-size: 12px; color: #666;">
-            CSV: Direct download • Copy: Paste into Excel/Google Sheets
+            CSV: Raw data export • Copy: Paste into Excel/Google Sheets • PDF: Professional summary report
         </p>
     </div>
     
@@ -951,6 +952,8 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <script>
         // Global variables
         let currentContextRow = null;
@@ -1099,6 +1102,318 @@
             }).catch(() => {
                 alert('❌ Copy failed. Please try the CSV export instead.');
             });
+        }
+
+        // PDF Report Generation
+        function generatePDFReport() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Get current date for report
+            const reportDate = new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Calculate metrics for summary
+            const aircraftData = gatherAircraftData();
+            const metrics = calculateReportMetrics(aircraftData);
+            
+            // Header
+            doc.setFontSize(20);
+            doc.setTextColor(30, 60, 114); // Dark blue
+            doc.text('Aircraft Production Report', 20, 25);
+            
+            doc.setFontSize(12);
+            doc.setTextColor(102, 117, 127); // Gray
+            doc.text(`Generated on ${reportDate}`, 20, 35);
+            
+            // Executive Summary
+            let yPosition = 50;
+            doc.setFontSize(16);
+            doc.setTextColor(73, 80, 87); // Dark gray
+            doc.text('Executive Summary', 20, yPosition);
+            
+            yPosition += 15;
+            doc.setFontSize(11);
+            doc.setTextColor(33, 37, 41); // Black
+            
+            const summaryText = [
+                `Total Aircraft in Production: ${metrics.totalAircraft}`,
+                `Completed Aircraft: ${metrics.completedAircraft} (${metrics.completionRate}%)`,
+                `Average Progress: ${metrics.avgProgress}%`,
+                `Overdue Aircraft: ${metrics.overdueCount}`,
+                `Critical Priority Items: ${metrics.criticalCount}`,
+                `Most Active Team: ${metrics.mostActiveTeam}`
+            ];
+            
+            summaryText.forEach(line => {
+                doc.text(line, 25, yPosition);
+                yPosition += 6;
+            });
+            
+            // Status Breakdown Chart (text-based)
+            yPosition += 10;
+            doc.setFontSize(14);
+            doc.setTextColor(73, 80, 87);
+            doc.text('Status Breakdown', 20, yPosition);
+            
+            yPosition += 10;
+            doc.setFontSize(10);
+            const statusData = [
+                ['Status', 'Count', 'Percentage'],
+                ['Production Ready', metrics.statusCounts['Production Ready'].toString(), `${((metrics.statusCounts['Production Ready'] / metrics.totalAircraft) * 100).toFixed(1)}%`],
+                ['In Progress', metrics.statusCounts['In Progress'].toString(), `${((metrics.statusCounts['In Progress'] / metrics.totalAircraft) * 100).toFixed(1)}%`],
+                ['On Hold', metrics.statusCounts['On Hold'].toString(), `${((metrics.statusCounts['On Hold'] / metrics.totalAircraft) * 100).toFixed(1)}%`],
+                ['Quality Check', metrics.statusCounts['Quality Check'].toString(), `${((metrics.statusCounts['Quality Check'] / metrics.totalAircraft) * 100).toFixed(1)}%`]
+            ];
+            
+            doc.autoTable({
+                head: [statusData[0]],
+                body: statusData.slice(1),
+                startY: yPosition,
+                theme: 'grid',
+                styles: { fontSize: 9 },
+                headStyles: { fillColor: [30, 60, 114] },
+                margin: { left: 20, right: 20 }
+            });
+            
+            // New page for detailed aircraft information
+            doc.addPage();
+            yPosition = 25;
+            
+            doc.setFontSize(16);
+            doc.setTextColor(73, 80, 87);
+            doc.text('Aircraft Details & Operations Summary', 20, yPosition);
+            
+            yPosition += 15;
+            
+            // Create detailed table
+            const tableData = [];
+            aircraftData.forEach(aircraft => {
+                const completedOps = aircraft.operations.filter(op => op).length;
+                const totalOps = aircraft.operations.length;
+                const progress = totalOps > 0 ? Math.round((completedOps / totalOps) * 100) : 0;
+                
+                const deliveryStatus = aircraft.deliveryDate ? 
+                    (new Date(aircraft.deliveryDate) < new Date() && progress < 100 ? 'OVERDUE' : 'On Track') : 
+                    'No Date Set';
+                
+                tableData.push([
+                    aircraft.aircraftId || 'Unassigned',
+                    aircraft.model || 'Not Selected',
+                    aircraft.status || 'Unknown',
+                    `${completedOps}/${totalOps}`,
+                    `${progress}%`,
+                    aircraft.priority || 'Medium',
+                    aircraft.deliveryDate || 'TBD',
+                    deliveryStatus,
+                    aircraft.team || 'Unassigned'
+                ]);
+            });
+            
+            doc.autoTable({
+                head: [['Aircraft ID', 'Model', 'Status', 'Operations', 'Progress', 'Priority', 'Delivery', 'Timeline', 'Team']],
+                body: tableData,
+                startY: yPosition,
+                theme: 'striped',
+                styles: { 
+                    fontSize: 8,
+                    cellPadding: 3
+                },
+                headStyles: { 
+                    fillColor: [30, 60, 114],
+                    fontSize: 9,
+                    fontStyle: 'bold'
+                },
+                columnStyles: {
+                    0: { fontStyle: 'bold' }, // Aircraft ID
+                    4: { halign: 'center' }, // Progress
+                    7: { halign: 'center' }  // Timeline
+                },
+                didParseCell: function(data) {
+                    // Color code overdue rows
+                    if (data.cell.text[0] === 'OVERDUE') {
+                        data.cell.styles.textColor = [220, 53, 69]; // Red
+                        data.cell.styles.fontStyle = 'bold';
+                    }
+                    // Color code priorities
+                    if (data.column.index === 5) { // Priority column
+                        if (data.cell.text[0] === 'Critical') {
+                            data.cell.styles.fillColor = [248, 215, 218]; // Light red
+                            data.cell.styles.textColor = [114, 28, 36];
+                        } else if (data.cell.text[0] === 'High') {
+                            data.cell.styles.fillColor = [255, 243, 205]; // Light orange
+                            data.cell.styles.textColor = [133, 100, 4];
+                        }
+                    }
+                }
+            });
+            
+            // Notes Summary Section
+            const notesData = aircraftData.filter(aircraft => 
+                aircraft.preFlightNotes || aircraft.preCertNotes || aircraft.ncmrNotes
+            );
+            
+            if (notesData.length > 0) {
+                doc.addPage();
+                yPosition = 25;
+                
+                doc.setFontSize(16);
+                doc.setTextColor(73, 80, 87);
+                doc.text('Notes & Comments Summary', 20, yPosition);
+                
+                yPosition += 15;
+                
+                notesData.forEach(aircraft => {
+                    if (yPosition > 250) { // Check if we need a new page
+                        doc.addPage();
+                        yPosition = 25;
+                    }
+                    
+                    doc.setFontSize(12);
+                    doc.setTextColor(30, 60, 114);
+                    doc.text(`${aircraft.aircraftId || 'Unassigned'} - ${aircraft.model || 'Unknown Model'}`, 20, yPosition);
+                    yPosition += 8;
+                    
+                    doc.setFontSize(9);
+                    doc.setTextColor(33, 37, 41);
+                    
+                    if (aircraft.preFlightNotes) {
+                        doc.text('Pre-Flight Notes:', 25, yPosition);
+                        yPosition += 5;
+                        const preFlightLines = doc.splitTextToSize(aircraft.preFlightNotes, 160);
+                        doc.text(preFlightLines, 30, yPosition);
+                        yPosition += preFlightLines.length * 4 + 3;
+                    }
+                    
+                    if (aircraft.preCertNotes) {
+                        doc.text('Pre-Certification Notes:', 25, yPosition);
+                        yPosition += 5;
+                        const preCertLines = doc.splitTextToSize(aircraft.preCertNotes, 160);
+                        doc.text(preCertLines, 30, yPosition);
+                        yPosition += preCertLines.length * 4 + 3;
+                    }
+                    
+                    if (aircraft.ncmrNotes) {
+                        doc.text('NCMR Notes:', 25, yPosition);
+                        yPosition += 5;
+                        const ncmrLines = doc.splitTextToSize(aircraft.ncmrNotes, 160);
+                        doc.text(ncmrLines, 30, yPosition);
+                        yPosition += ncmrLines.length * 4 + 3;
+                    }
+                    
+                    yPosition += 8; // Space between aircraft
+                });
+            }
+            
+            // Footer on each page
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFontSize(8);
+                doc.setTextColor(102, 117, 127);
+                doc.text(`Aircraft Production Dashboard - Page ${i} of ${pageCount}`, 20, 285);
+                doc.text(`Generated: ${new Date().toLocaleString()}`, 150, 285);
+            }
+            
+            // Save the PDF
+            const fileName = `Aircraft_Production_Report_${new Date().toISOString().split('T')[0]}.pdf`;
+            doc.save(fileName);
+        }
+
+        function gatherAircraftData() {
+            const rows = document.querySelectorAll('tbody tr:not(.hidden-row)');
+            const aircraftData = [];
+            
+            rows.forEach(row => {
+                const rowData = {
+                    aircraftId: row.querySelectorAll('.table-input')[0]?.value || '',
+                    model: row.querySelectorAll('.table-input')[1]?.value || '',
+                    status: row.querySelector('.status-select')?.value || '',
+                    operations: Array.from(row.querySelectorAll('.operation-checkbox')).map(cb => cb.checked),
+                    priority: row.querySelector('.priority-select')?.value || '',
+                    preFlightNotes: row.querySelectorAll('.notes-input')[0]?.value || '',
+                    preCertNotes: row.querySelectorAll('.notes-input')[1]?.value || '',
+                    ncmrNotes: row.querySelectorAll('.notes-input')[2]?.value || '',
+                    deliveryDate: row.querySelector('input[type="date"]')?.value || '',
+                    team: row.querySelectorAll('.table-input')[4]?.value || ''
+                };
+                aircraftData.push(rowData);
+            });
+            
+            return aircraftData;
+        }
+
+        function calculateReportMetrics(aircraftData) {
+            const metrics = {
+                totalAircraft: aircraftData.length,
+                completedAircraft: 0,
+                avgProgress: 0,
+                overdueCount: 0,
+                criticalCount: 0,
+                mostActiveTeam: 'None',
+                statusCounts: {
+                    'Production Ready': 0,
+                    'In Progress': 0,
+                    'On Hold': 0,
+                    'Quality Check': 0
+                }
+            };
+            
+            let totalProgress = 0;
+            const teamCounts = {};
+            
+            aircraftData.forEach(aircraft => {
+                // Calculate progress
+                const completedOps = aircraft.operations.filter(op => op).length;
+                const totalOps = aircraft.operations.length;
+                const progress = totalOps > 0 ? (completedOps / totalOps) : 0;
+                totalProgress += progress;
+                
+                if (progress === 1) metrics.completedAircraft++;
+                
+                // Check overdue
+                if (aircraft.deliveryDate) {
+                    const deliveryDate = new Date(aircraft.deliveryDate);
+                    const today = new Date();
+                    if (deliveryDate < today && progress < 1) {
+                        metrics.overdueCount++;
+                    }
+                }
+                
+                // Count priorities
+                if (aircraft.priority === 'Critical') {
+                    metrics.criticalCount++;
+                }
+                
+                // Count statuses
+                if (metrics.statusCounts.hasOwnProperty(aircraft.status)) {
+                    metrics.statusCounts[aircraft.status]++;
+                }
+                
+                // Count teams
+                const team = aircraft.team || 'Unassigned';
+                teamCounts[team] = (teamCounts[team] || 0) + 1;
+            });
+            
+            // Calculate averages
+            metrics.avgProgress = aircraftData.length > 0 ? 
+                Math.round((totalProgress / aircraftData.length) * 100) : 0;
+            metrics.completionRate = aircraftData.length > 0 ? 
+                Math.round((metrics.completedAircraft / aircraftData.length) * 100) : 0;
+            
+            // Find most active team
+            let maxCount = 0;
+            for (const [team, count] of Object.entries(teamCounts)) {
+                if (count > maxCount && team !== 'Unassigned') {
+                    maxCount = count;
+                    metrics.mostActiveTeam = team;
+                }
+            }
+            
+            return metrics;
         }
 
         // Selection functions
