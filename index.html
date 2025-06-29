@@ -92,6 +92,32 @@
             background: linear-gradient(135deg, #6f42c1, #5a2d91);
         }
         
+        .btn-small {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            margin: 2px;
+        }
+        
+        .btn-small:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,123,255,0.3);
+        }
+        
+        .btn-small.btn-danger {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+        }
+        
+        .btn-small.btn-danger:hover {
+            box-shadow: 0 2px 8px rgba(220,53,69,0.3);
+        }
+        
         .summary-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -161,7 +187,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 13px;
-            min-width: 1200px;
+            min-width: 1300px;
         }
         
         th {
@@ -363,14 +389,23 @@
             color: #6c757d;
             padding: 4px;
             margin-right: 8px;
+            user-select: none;
+            font-size: 14px;
+            transition: color 0.2s ease;
         }
         
         .drag-handle:hover {
             color: #007bff;
+            cursor: grab;
         }
         
         .drag-handle:active {
             cursor: grabbing;
+            color: #0056b3;
+        }
+        
+        tr[draggable="true"]:hover .drag-handle {
+            color: #007bff;
         }
         
         .dragging {
@@ -606,6 +641,7 @@
                     <th>NCMR Notes</th>
                     <th>Delivery Date</th>
                     <th>Team</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="aircraft-tbody">
@@ -654,6 +690,10 @@
                     <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
                     <td><input type="date" class="table-input" /></td>
                     <td><input type="text" class="table-input" placeholder="Team Name" /></td>
+                    <td>
+                        <button class="btn-small btn-danger" onclick="deleteAircraft(this)" title="Delete Aircraft">🗑️</button>
+                        <button class="btn-small" onclick="duplicateAircraft(this)" title="Duplicate Aircraft">📋</button>
+                    </td>
                 </tr>
                 <tr draggable="true">
                     <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
@@ -700,6 +740,10 @@
                     <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
                     <td><input type="date" class="table-input" /></td>
                     <td><input type="text" class="table-input" placeholder="Team Name" /></td>
+                    <td>
+                        <button class="btn-small btn-danger" onclick="deleteAircraft(this)" title="Delete Aircraft">🗑️</button>
+                        <button class="btn-small" onclick="duplicateAircraft(this)" title="Duplicate Aircraft">📋</button>
+                    </td>
                 </tr>
                 <tr draggable="true">
                     <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
@@ -746,6 +790,10 @@
                     <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
                     <td><input type="date" class="table-input" /></td>
                     <td><input type="text" class="table-input" placeholder="Team Name" /></td>
+                    <td>
+                        <button class="btn-small btn-danger" onclick="deleteAircraft(this)" title="Delete Aircraft">🗑️</button>
+                        <button class="btn-small" onclick="duplicateAircraft(this)" title="Duplicate Aircraft">📋</button>
+                    </td>
                 </tr>
                 <tr draggable="true">
                     <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
@@ -792,6 +840,10 @@
                     <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
                     <td><input type="date" class="table-input" /></td>
                     <td><input type="text" class="table-input" placeholder="Team Name" /></td>
+                    <td>
+                        <button class="btn-small btn-danger" onclick="deleteAircraft(this)" title="Delete Aircraft">🗑️</button>
+                        <button class="btn-small" onclick="duplicateAircraft(this)" title="Duplicate Aircraft">📋</button>
+                    </td>
                 </tr>
                 <tr draggable="true">
                     <td><span class="drag-handle">⋮⋮</span><input type="checkbox" class="row-checkbox" /></td>
@@ -838,6 +890,10 @@
                     <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
                     <td><input type="date" class="table-input" /></td>
                     <td><input type="text" class="table-input" placeholder="Team Name" /></td>
+                    <td>
+                        <button class="btn-small btn-danger" onclick="deleteAircraft(this)" title="Delete Aircraft">🗑️</button>
+                        <button class="btn-small" onclick="duplicateAircraft(this)" title="Duplicate Aircraft">📋</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -1291,6 +1347,53 @@
             updateSummaryCards();
         }
 
+        // Individual aircraft actions
+        function deleteAircraft(button) {
+            const row = button.closest('tr');
+            const aircraftInput = row.querySelectorAll('.table-input')[0];
+            const aircraftId = aircraftInput.value || 'this aircraft';
+            
+            if (confirm(`Are you sure you want to delete ${aircraftId}?`)) {
+                row.remove();
+                updateSummaryCards();
+                updateBulkControls();
+                saveDataToStorage();
+            }
+        }
+
+        function duplicateAircraft(button) {
+            const originalRow = button.closest('tr');
+            const tbody = document.getElementById('aircraft-tbody');
+            const newRow = originalRow.cloneNode(true);
+            
+            // Clear the aircraft ID and mark as copy
+            const aircraftInput = newRow.querySelectorAll('.table-input')[0];
+            aircraftInput.value = '';
+            aircraftInput.placeholder = 'AC-00X (Copy)';
+            
+            // Uncheck all checkboxes
+            const checkboxes = newRow.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = false);
+            
+            // Reset progress
+            const progressFill = newRow.querySelector('.progress-fill');
+            progressFill.style.width = '0%';
+            
+            // Clear date
+            const dateInput = newRow.querySelector('input[type="date"]');
+            dateInput.value = '';
+            
+            newRow.classList.remove('selected-row');
+            tbody.appendChild(newRow);
+            addEventListenersToRow(newRow);
+            setupDragAndDrop(newRow);
+            
+            updateSummaryCards();
+            saveDataToStorage();
+            
+            newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
         // Add new aircraft
         function addNewAircraft() {
             const tbody = document.getElementById('aircraft-tbody');
@@ -1342,6 +1445,10 @@
                 <td><textarea class="notes-input" placeholder="Enter NCMR notes..."></textarea></td>
                 <td><input type="date" class="table-input" /></td>
                 <td><input type="text" class="table-input" placeholder="Team Name" /></td>
+                <td>
+                    <button class="btn-small btn-danger" onclick="deleteAircraft(this)" title="Delete Aircraft">🗑️</button>
+                    <button class="btn-small" onclick="duplicateAircraft(this)" title="Duplicate Aircraft">📋</button>
+                </td>
             `;
             
             tbody.appendChild(newRow);
@@ -1529,6 +1636,10 @@
                 <td><textarea class="notes-input" placeholder="Enter NCMR notes...">${data.ncmrNotes}</textarea></td>
                 <td><input type="date" class="table-input" value="${data.deliveryDate}" /></td>
                 <td><input type="text" class="table-input" value="${data.team}" placeholder="Team Name" /></td>
+                <td>
+                    <button class="btn-small btn-danger" onclick="deleteAircraft(this)" title="Delete Aircraft">🗑️</button>
+                    <button class="btn-small" onclick="duplicateAircraft(this)" title="Duplicate Aircraft">📋</button>
+                </td>
             `;
             
             return newRow;
@@ -1811,6 +1922,8 @@
             row.addEventListener('dragover', handleDragOver);
             row.addEventListener('drop', handleDrop);
             row.addEventListener('dragend', handleDragEnd);
+            row.addEventListener('dragenter', handleDragEnter);
+            row.addEventListener('dragleave', handleDragLeave);
         }
 
         function handleDragStart(e) {
@@ -1818,6 +1931,22 @@
             this.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/html', this.outerHTML);
+            
+            // Change cursor to grabbing for drag handle
+            const dragHandle = this.querySelector('.drag-handle');
+            if (dragHandle) {
+                dragHandle.style.cursor = 'grabbing';
+            }
+        }
+
+        function handleDragEnter(e) {
+            if (draggedRow !== this) {
+                this.classList.add('drag-over');
+            }
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
         }
 
         function handleDragOver(e) {
@@ -1826,7 +1955,6 @@
             }
             
             e.dataTransfer.dropEffect = 'move';
-            this.classList.add('drag-over');
             return false;
         }
 
@@ -1847,16 +1975,26 @@
                 }
                 
                 saveDataToStorage();
+                
+                // Show success feedback
+                this.style.backgroundColor = '#d4edda';
+                setTimeout(() => {
+                    this.style.backgroundColor = '';
+                }, 1000);
             }
             
             return false;
         }
 
         function handleDragEnd(e) {
-            // Clean up
+            // Clean up all visual feedback
             const rows = document.querySelectorAll('tbody tr');
             rows.forEach(row => {
                 row.classList.remove('dragging', 'drag-over');
+                const dragHandle = row.querySelector('.drag-handle');
+                if (dragHandle) {
+                    dragHandle.style.cursor = 'grab';
+                }
             });
             
             draggedRow = null;
