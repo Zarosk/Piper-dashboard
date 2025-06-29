@@ -795,6 +795,9 @@
     <div class="dashboard-header">
         <h1>Aircraft Production Dashboard</h1>
         <p>Real-time production monitoring and build status overview</p>
+        <div style="position: absolute; top: 15px; right: 20px; font-size: 12px; opacity: 0.8;">
+            🛡️ Security: Active | Session: <span id="session-timer">30:00</span>
+        </div>
     </div>
     
     <div class="section">
@@ -1317,6 +1320,11 @@
                     hideContextMenu();
                 }
             });
+            
+            // Initialize session timeout (simplified)
+            if (typeof resetSessionTimeout === 'function') {
+                resetSessionTimeout();
+            }
             
             // Right-click context menu for rows
             document.querySelectorAll('tbody tr').forEach(row => {
