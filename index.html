@@ -132,6 +132,18 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             text-align: center;
             border-left: 4px solid;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .summary-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .summary-card.active {
+            background: #e3f2fd;
+            box-shadow: 0 4px 20px rgba(0,123,255,0.3);
         }
         
         .card-operational { border-left-color: #28a745; }
@@ -384,6 +396,256 @@
             display: none;
         }
         
+        /* Visual Status Indicators */
+        .overdue-row {
+            background-color: #fff5f5 !important;
+            border-left: 4px solid #dc3545 !important;
+            animation: pulse-red 2s infinite;
+        }
+        
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        }
+        
+        .completed-row {
+            background-color: #f8fff9 !important;
+            border-left: 4px solid #28a745 !important;
+        }
+        
+        .critical-priority {
+            border-left: 4px solid #dc3545 !important;
+            background: linear-gradient(90deg, rgba(220,53,69,0.05) 0%, transparent 100%);
+        }
+        
+        .high-priority {
+            border-left: 4px solid #fd7e14 !important;
+            background: linear-gradient(90deg, rgba(253,126,20,0.05) 0%, transparent 100%);
+        }
+        
+        .completion-badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: bold;
+            margin-left: 5px;
+            animation: bounce 0.5s ease-in-out;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        /* Sortable Column Headers */
+        .sortable-header {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            transition: background-color 0.2s ease;
+        }
+        
+        .sortable-header:hover {
+            background: linear-gradient(135deg, #495057, #6c757d) !important;
+        }
+        
+        .sort-indicator {
+            display: inline-block;
+            margin-left: 5px;
+            font-size: 10px;
+            opacity: 0.7;
+        }
+        
+        .sort-asc .sort-indicator:after {
+            content: "▲";
+            color: #ffc107;
+        }
+        
+        .sort-desc .sort-indicator:after {
+            content: "▼";
+            color: #ffc107;
+        }
+        
+        /* Quick Filter Chips */
+        .quick-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .filter-chip {
+            background: white;
+            border: 2px solid #e9ecef;
+            color: #495057;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        
+        .filter-chip:hover {
+            border-color: #007bff;
+            color: #007bff;
+        }
+        
+        .filter-chip.active {
+            background: #007bff;
+            border-color: #007bff;
+            color: white;
+        }
+        
+        .filter-chip.status-production-ready.active {
+            background: #28a745;
+            border-color: #28a745;
+        }
+        
+        .filter-chip.status-in-progress.active {
+            background: #ffc107;
+            border-color: #ffc107;
+            color: #000;
+        }
+        
+        .filter-chip.status-on-hold.active {
+            background: #dc3545;
+            border-color: #dc3545;
+        }
+        
+        .filter-chip.status-quality-check.active {
+            background: #17a2b8;
+            border-color: #17a2b8;
+        }
+        
+        /* Data Validation */
+        .required-field {
+            border: 2px solid #dc3545 !important;
+            background-color: #fff5f5 !important;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .duplicate-warning {
+            border: 2px solid #ffc107 !important;
+            background-color: #fff3cd !important;
+        }
+        
+        .validation-message {
+            position: absolute;
+            background: #dc3545;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            z-index: 1000;
+            white-space: nowrap;
+            margin-top: 2px;
+        }
+        
+        .validation-message::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 10px;
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-bottom: 4px solid #dc3545;
+        }
+        
+        /* Undo Notification */
+        .undo-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #343a40;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1001;
+            display: none;
+            animation: slide-up 0.3s ease-out;
+        }
+        
+        @keyframes slide-up {
+            from { transform: translateX(-50%) translateY(100%); }
+            to { transform: translateX(-50%) translateY(0); }
+        }
+        
+        .undo-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 4px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .undo-btn:hover {
+            background: #0056b3;
+        }
+        
+        /* Enhanced Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+            z-index: 1;
+        }
+        
+        .progress-complete {
+            background: linear-gradient(90deg, #28a745, #20c997) !important;
+            animation: glow 1s ease-in-out;
+        }
+        
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px rgba(40,167,69,0.5); }
+            50% { box-shadow: 0 0 20px rgba(40,167,69,0.8); }
+            100% { box-shadow: 0 0 5px rgba(40,167,69,0.5); }
+        }
+        
         .drag-handle {
             cursor: grab;
             color: #6c757d;
@@ -568,6 +830,34 @@
                 <option value="Low">Low</option>
             </select>
         </div>
+        
+        <div class="quick-filters">
+            <div class="filter-chip" onclick="toggleQuickFilter('status', 'Production Ready', this)">
+                🟢 Production Ready (<span id="quick-prod-ready">2</span>)
+            </div>
+            <div class="filter-chip" onclick="toggleQuickFilter('status', 'In Progress', this)">
+                🟡 In Progress (<span id="quick-in-progress">1</span>)
+            </div>
+            <div class="filter-chip" onclick="toggleQuickFilter('status', 'On Hold', this)">
+                🔴 On Hold (<span id="quick-on-hold">1</span>)
+            </div>
+            <div class="filter-chip" onclick="toggleQuickFilter('status', 'Quality Check', this)">
+                🔵 Quality Check (<span id="quick-quality-check">1</span>)
+            </div>
+            <div class="filter-chip" onclick="toggleQuickFilter('priority', 'Critical', this)">
+                ⚠️ Critical
+            </div>
+            <div class="filter-chip" onclick="toggleQuickFilter('priority', 'High', this)">
+                🔸 High Priority
+            </div>
+            <div class="filter-chip" onclick="toggleQuickFilter('date', 'overdue', this)">
+                ⏰ Overdue
+            </div>
+            <div class="filter-chip" onclick="toggleQuickFilter('date', 'thisweek', this)">
+                📅 Due This Week
+            </div>
+        </div>
+        
         <button onclick="clearFilters()" class="btn">Clear All Filters</button>
     </div>
     
@@ -627,21 +917,21 @@
             <thead>
                 <tr>
                     <th><span class="drag-handle">⋮⋮</span><input type="checkbox" id="select-all" class="select-all-checkbox" /> Select</th>
-                    <th>Aircraft ID</th>
-                    <th>Model</th>
-                    <th>Status</th>
+                    <th class="sortable-header" onclick="sortTable('aircraft-id')">Aircraft ID <span class="sort-indicator"></span></th>
+                    <th class="sortable-header" onclick="sortTable('model')">Model <span class="sort-indicator"></span></th>
+                    <th class="sortable-header" onclick="sortTable('status')">Status <span class="sort-indicator"></span></th>
                     <th>Operation 10</th>
                     <th>Operation 20</th>
                     <th>Operation 30</th>
                     <th>Operation 40</th>
                     <th>Operation 50</th>
-                    <th>Progress</th>
-                    <th>Priority</th>
+                    <th class="sortable-header" onclick="sortTable('progress')">Progress <span class="sort-indicator"></span></th>
+                    <th class="sortable-header" onclick="sortTable('priority')">Priority <span class="sort-indicator"></span></th>
                     <th>Pre-Flight Notes</th>
                     <th>Pre-Cert Notes</th>
                     <th>NCMR Notes</th>
-                    <th>Delivery Date</th>
-                    <th>Team</th>
+                    <th class="sortable-header" onclick="sortTable('delivery')">Delivery Date <span class="sort-indicator"></span></th>
+                    <th class="sortable-header" onclick="sortTable('team')">Team <span class="sort-indicator"></span></th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -675,7 +965,9 @@
                     <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                     <td>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%;"></div>
+                            <div class="progress-fill" style="width: 0%;">
+                                <div class="progress-text">0%</div>
+                            </div>
                         </div>
                     </td>
                     <td>
@@ -725,7 +1017,9 @@
                     <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                     <td>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%;"></div>
+                            <div class="progress-fill" style="width: 0%;">
+                                <div class="progress-text">0%</div>
+                            </div>
                         </div>
                     </td>
                     <td>
@@ -775,7 +1069,9 @@
                     <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                     <td>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%;"></div>
+                            <div class="progress-fill" style="width: 0%;">
+                                <div class="progress-text">0%</div>
+                            </div>
                         </div>
                     </td>
                     <td>
@@ -825,7 +1121,9 @@
                     <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                     <td>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%;"></div>
+                            <div class="progress-fill" style="width: 0%;">
+                                <div class="progress-text">0%</div>
+                            </div>
                         </div>
                     </td>
                     <td>
@@ -875,7 +1173,9 @@
                     <td class="operation-cell"><input type="checkbox" class="operation-checkbox" /></td>
                     <td>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%;"></div>
+                            <div class="progress-fill" style="width: 0%;">
+                                <div class="progress-text">0%</div>
+                            </div>
                         </div>
                     </td>
                     <td>
@@ -952,12 +1252,25 @@
         </div>
     </div>
 
+    <!-- Undo Notification -->
+    <div id="undo-notification" class="undo-notification">
+        <span id="undo-message">Aircraft deleted</span>
+        <button class="undo-btn" onclick="undoLastAction()">Undo</button>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <script>
         // Global variables
         let currentContextRow = null;
         let draggedRow = null;
+        let lastDeletedData = null;
+        let sortDirection = {};
+        let quickFilters = {
+            status: null,
+            priority: null,
+            date: null
+        };
 
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
@@ -965,6 +1278,8 @@
             setupEventListeners();
             loadDataFromStorage();
             updateSummaryCards();
+            updateQuickFilterCounts();
+            applyVisualIndicators();
             
             // Auto-save every 30 seconds
             setInterval(saveDataToStorage, 30000);
@@ -978,6 +1293,8 @@
             rows.forEach(row => {
                 addEventListenersToRow(row);
                 setupDragAndDrop(row);
+                updateProgress(row);
+                applyRowVisualIndicators(row);
             });
         }
 
@@ -1607,6 +1924,195 @@
             document.getElementById('on-hold-count').textContent = counts['On Hold'];
             document.getElementById('quality-check-count').textContent = counts['Quality Check'];
             document.getElementById('total-count').textContent = statusCells.length;
+            
+            // Update quick filter counts
+            updateQuickFilterCounts();
+        }
+
+        function updateQuickFilterCounts() {
+            const statusCells = document.querySelectorAll('tbody tr:not(.hidden-row) .status-select');
+            const counts = {
+                'Production Ready': 0,
+                'In Progress': 0,
+                'On Hold': 0,
+                'Quality Check': 0
+            };
+            
+            statusCells.forEach(select => {
+                const status = select.value;
+                if (counts.hasOwnProperty(status)) {
+                    counts[status]++;
+                }
+            });
+            
+            // Update quick filter chip counts
+            const quickProdReady = document.getElementById('quick-prod-ready');
+            const quickInProgress = document.getElementById('quick-in-progress');
+            const quickOnHold = document.getElementById('quick-on-hold');
+            const quickQualityCheck = document.getElementById('quick-quality-check');
+            
+            if (quickProdReady) quickProdReady.textContent = counts['Production Ready'];
+            if (quickInProgress) quickInProgress.textContent = counts['In Progress'];
+            if (quickOnHold) quickOnHold.textContent = counts['On Hold'];
+            if (quickQualityCheck) quickQualityCheck.textContent = counts['Quality Check'];
+        }
+
+        // Sortable columns functionality
+        function sortTable(column) {
+            const tbody = document.getElementById('aircraft-tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr:not(.hidden-row)'));
+            
+            // Toggle sort direction
+            if (!sortDirection[column]) sortDirection[column] = 'asc';
+            else sortDirection[column] = sortDirection[column] === 'asc' ? 'desc' : 'asc';
+            
+            // Clear other sort indicators
+            document.querySelectorAll('.sortable-header').forEach(header => {
+                header.classList.remove('sort-asc', 'sort-desc');
+            });
+            
+            // Add current sort indicator
+            const currentHeader = document.querySelector(`[onclick="sortTable('${column}')"]`);
+            currentHeader.classList.add(sortDirection[column] === 'asc' ? 'sort-asc' : 'sort-desc');
+            
+            // Sort rows
+            rows.sort((a, b) => {
+                let aVal, bVal;
+                
+                switch(column) {
+                    case 'aircraft-id':
+                        aVal = a.querySelectorAll('.table-input')[0].value;
+                        bVal = b.querySelectorAll('.table-input')[0].value;
+                        break;
+                    case 'model':
+                        aVal = a.querySelectorAll('.table-input')[1].value;
+                        bVal = b.querySelectorAll('.table-input')[1].value;
+                        break;
+                    case 'status':
+                        aVal = a.querySelector('.status-select').value;
+                        bVal = b.querySelector('.status-select').value;
+                        break;
+                    case 'priority':
+                        const priorities = { 'Critical': 4, 'High': 3, 'Medium': 2, 'Low': 1 };
+                        aVal = priorities[a.querySelector('.priority-select').value] || 0;
+                        bVal = priorities[b.querySelector('.priority-select').value] || 0;
+                        break;
+                    case 'progress':
+                        aVal = getRowProgress(a);
+                        bVal = getRowProgress(b);
+                        break;
+                    case 'delivery':
+                        aVal = new Date(a.querySelector('input[type="date"]').value || '2099-12-31');
+                        bVal = new Date(b.querySelector('input[type="date"]').value || '2099-12-31');
+                        break;
+                    case 'team':
+                        aVal = a.querySelectorAll('.table-input')[4].value;
+                        bVal = b.querySelectorAll('.table-input')[4].value;
+                        break;
+                }
+                
+                if (typeof aVal === 'string') {
+                    aVal = aVal.toLowerCase();
+                    bVal = bVal.toLowerCase();
+                }
+                
+                if (sortDirection[column] === 'asc') {
+                    return aVal > bVal ? 1 : -1;
+                } else {
+                    return aVal < bVal ? 1 : -1;
+                }
+            });
+            
+            // Reorder rows in DOM
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        // Quick filter functionality
+        function toggleQuickFilter(type, value, chipElement) {
+            // Clear other active chips of same type
+            if (type === 'status') {
+                document.querySelectorAll('.filter-chip').forEach(chip => {
+                    if (chip.textContent.includes('Production Ready') || 
+                        chip.textContent.includes('In Progress') || 
+                        chip.textContent.includes('On Hold') || 
+                        chip.textContent.includes('Quality Check')) {
+                        chip.classList.remove('active');
+                    }
+                });
+            } else if (type === 'priority') {
+                document.querySelectorAll('.filter-chip').forEach(chip => {
+                    if (chip.textContent.includes('Critical') || 
+                        chip.textContent.includes('High Priority')) {
+                        chip.classList.remove('active');
+                    }
+                });
+            } else if (type === 'date') {
+                document.querySelectorAll('.filter-chip').forEach(chip => {
+                    if (chip.textContent.includes('Overdue') || 
+                        chip.textContent.includes('Due This Week')) {
+                        chip.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Toggle current chip
+            const isActive = chipElement.classList.contains('active');
+            chipElement.classList.toggle('active');
+            
+            // Update filter state
+            if (isActive) {
+                quickFilters[type] = null;
+            } else {
+                quickFilters[type] = value;
+            }
+            
+            // Apply filters
+            applyQuickFilters();
+        }
+
+        function applyQuickFilters() {
+            const rows = document.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                let visible = true;
+                
+                // Status filter
+                if (quickFilters.status) {
+                    const status = row.querySelector('.status-select')?.value;
+                    if (status !== quickFilters.status) visible = false;
+                }
+                
+                // Priority filter
+                if (quickFilters.priority) {
+                    const priority = row.querySelector('.priority-select')?.value;
+                    if (priority !== quickFilters.priority) visible = false;
+                }
+                
+                // Date filter
+                if (quickFilters.date) {
+                    const deliveryInput = row.querySelector('input[type="date"]');
+                    const deliveryDate = new Date(deliveryInput?.value);
+                    const today = new Date();
+                    const progress = getRowProgress(row);
+                    
+                    if (quickFilters.date === 'overdue') {
+                        if (!(deliveryDate < today && progress < 100)) visible = false;
+                    } else if (quickFilters.date === 'thisweek') {
+                        const weekFromNow = new Date();
+                        weekFromNow.setDate(today.getDate() + 7);
+                        if (!(deliveryDate >= today && deliveryDate <= weekFromNow)) visible = false;
+                    }
+                }
+                
+                // Apply visibility
+                if (visible) {
+                    row.classList.remove('hidden-row');
+                } else {
+                    row.classList.add('hidden-row');
+                }
+            });
+            
+            updateSummaryCards();
         }
 
         // Search and filter
@@ -1654,6 +2160,12 @@
             document.getElementById('team-filter').value = '';
             document.getElementById('priority-filter').value = '';
             
+            // Clear quick filters
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+            quickFilters = { status: null, priority: null, date: null };
+            
             const rows = document.querySelectorAll('tbody tr');
             rows.forEach(row => {
                 row.classList.remove('hidden-row');
@@ -1669,10 +2181,27 @@
             const aircraftId = aircraftInput.value || 'this aircraft';
             
             if (confirm(`Are you sure you want to delete ${aircraftId}?`)) {
+                // Store data for undo
+                const rowData = {
+                    aircraftId: row.querySelectorAll('.table-input')[0]?.value || '',
+                    model: row.querySelectorAll('.table-input')[1]?.value || '',
+                    status: row.querySelector('.status-select')?.value || '',
+                    operations: Array.from(row.querySelectorAll('.operation-checkbox')).map(cb => cb.checked),
+                    priority: row.querySelector('.priority-select')?.value || '',
+                    preFlightNotes: row.querySelectorAll('.notes-input')[0]?.value || '',
+                    preCertNotes: row.querySelectorAll('.notes-input')[1]?.value || '',
+                    ncmrNotes: row.querySelectorAll('.notes-input')[2]?.value || '',
+                    deliveryDate: row.querySelector('input[type="date"]')?.value || '',
+                    team: row.querySelectorAll('.table-input')[4]?.value || ''
+                };
+                
                 row.remove();
                 updateSummaryCards();
                 updateBulkControls();
                 saveDataToStorage();
+                
+                // Show undo notification
+                showUndoNotification(`Deleted ${aircraftId}`, rowData);
             }
         }
 
@@ -1830,11 +2359,93 @@
             const checkboxes = row.querySelectorAll('.operation-checkbox');
             const checkedBoxes = row.querySelectorAll('.operation-checkbox:checked');
             const progressBar = row.querySelector('.progress-fill');
+            const progressText = row.querySelector('.progress-text');
             
             if (checkboxes.length > 0) {
-                const progressPercent = (checkedBoxes.length / checkboxes.length) * 100;
+                const progressPercent = Math.round((checkedBoxes.length / checkboxes.length) * 100);
                 progressBar.style.width = progressPercent + '%';
+                progressText.textContent = progressPercent + '%';
+                
+                // Add completion effects
+                if (progressPercent === 100) {
+                    progressBar.classList.add('progress-complete');
+                    row.classList.add('completed-row');
+                    
+                    // Show completion badge with animation
+                    const aircraftIdCell = row.querySelector('td:nth-child(2)');
+                    let badge = aircraftIdCell.querySelector('.completion-badge');
+                    if (!badge) {
+                        badge = document.createElement('span');
+                        badge.className = 'completion-badge';
+                        badge.textContent = '✓ Complete';
+                        aircraftIdCell.appendChild(badge);
+                    }
+                    
+                    // Celebration effect
+                    setTimeout(() => {
+                        progressBar.classList.remove('progress-complete');
+                    }, 1000);
+                } else {
+                    row.classList.remove('completed-row');
+                    const badge = row.querySelector('.completion-badge');
+                    if (badge) badge.remove();
+                }
             }
+            
+            // Update visual indicators
+            applyRowVisualIndicators(row);
+        }
+
+        // Smart auto-increment for aircraft IDs
+        function getNextAircraftId() {
+            const existingIds = Array.from(document.querySelectorAll('.table-input'))
+                .map(input => input.value)
+                .filter(id => id.startsWith('AC-'))
+                .map(id => parseInt(id.split('-')[1]))
+                .filter(num => !isNaN(num));
+            
+            const nextNum = Math.max(...existingIds, 0) + 1;
+            return `AC-${nextNum.toString().padStart(3, '0')}`;
+        }
+
+        // Visual indicators for rows
+        function applyRowVisualIndicators(row) {
+            // Clear existing classes
+            row.classList.remove('overdue-row', 'critical-priority', 'high-priority');
+            
+            // Priority indicators
+            const prioritySelect = row.querySelector('.priority-select');
+            if (prioritySelect) {
+                const priority = prioritySelect.value;
+                if (priority === 'Critical') {
+                    row.classList.add('critical-priority');
+                } else if (priority === 'High') {
+                    row.classList.add('high-priority');
+                }
+            }
+            
+            // Overdue indicators
+            const deliveryInput = row.querySelector('input[type="date"]');
+            if (deliveryInput && deliveryInput.value) {
+                const deliveryDate = new Date(deliveryInput.value);
+                const today = new Date();
+                const progress = getRowProgress(row);
+                
+                if (deliveryDate < today && progress < 100) {
+                    row.classList.add('overdue-row');
+                }
+            }
+        }
+
+        function applyVisualIndicators() {
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(applyRowVisualIndicators);
+        }
+
+        function getRowProgress(row) {
+            const checkboxes = row.querySelectorAll('.operation-checkbox');
+            const checkedBoxes = row.querySelectorAll('.operation-checkbox:checked');
+            return checkboxes.length > 0 ? (checkedBoxes.length / checkboxes.length) * 100 : 0;
         }
 
         // Local Storage Functions
@@ -1935,7 +2546,9 @@
                 <td class="operation-cell"><input type="checkbox" class="operation-checkbox" ${data.operations[4] ? 'checked' : ''} /></td>
                 <td>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${calculateProgress(data.operations)}%;"></div>
+                        <div class="progress-fill" style="width: ${calculateProgress(data.operations)}%;">
+                            <div class="progress-text">${Math.round(calculateProgress(data.operations))}%</div>
+                        </div>
                     </div>
                 </td>
                 <td>
